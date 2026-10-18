@@ -43,9 +43,8 @@ function init(){
    window.zixArrumarPaletaMobile=arrange;
  }
 
+ /* desktop-v4 */
  const apply=active=>{
-   active = active && window.matchMedia('(max-width:700px)').matches;
-   active = active && window.matchMedia('(max-width:700px)').matches;
    document.body.classList.toggle('zix-layout-v3',active);
    window.zixArrumarPaletaMobile?.();
    if(active){
