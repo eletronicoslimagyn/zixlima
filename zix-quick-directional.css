@@ -1,13 +1,26 @@
-/* Direcional local; não altera o layout vertical */
-.zix-directional{margin-top:12px;padding:12px;border:1px solid #c8daf7;border-radius:12px;background:#f3f8ff;color:#183254;font-size:13px;max-width:100%;box-sizing:border-box}
-.zix-directional .zix-quick-caption{font-size:14px;font-weight:800;margin-bottom:8px}
-.zix-directional label{display:block;margin:5px 0;font-weight:600}
-.zix-directional select,.zix-directional input{width:100%;max-width:100%;box-sizing:border-box;margin:4px 0 6px;padding:8px;font-size:14px;border:1px solid #cbd5e1;border-radius:8px;background:white}
-.zix-directional label[hidden]{display:none}
-.zix-q-direction{display:grid;justify-items:center;gap:4px;margin:5px auto}
-.zix-q-direction>div{display:flex;gap:45px}
-.zix-directional button{background:#1765d1;border-radius:8px;color:white;font-size:16px;min-width:44px;min-height:38px;margin:0;padding:5px 10px}
-.zix-q-scale{display:flex;align-items:center;justify-content:center;gap:14px;margin:8px 0}
-.zix-q-readout{display:block;text-align:center}
-.zix-preview-duo{grid-template-columns:1fr!important;max-width:520px!important}
-.zix-preview-duo .zix-shot-bar,.zix-preview-duo .zix-shot-box{min-width:0}
+/* ZixLima - Manche simplificado V2. Campos originais continuam no DOM para salvar tudo. */
+html.zix-manche-only #zzixbrConfig .zix-brand-grid>.zix-brand-box:not(.zix-brand-preview-wide){display:none!important}
+html.zix-manche-only #zzixbrConfig .zix-brand-grid{display:grid!important;grid-template-columns:minmax(0,1fr)!important}
+html.zix-manche-only #zzixbrConfig .zix-brand-preview-wide{grid-column:1/-1!important;grid-row:auto!important;width:100%;min-width:0}
+.zix-preview-duo{display:grid!important;grid-template-columns:1fr!important;max-width:560px!important;gap:14px!important}
+.zix-directional{margin-top:12px;padding:13px;border:1px solid #b9d2f9;border-radius:13px;background:#f4f8ff;color:#183254;box-sizing:border-box;width:100%;max-width:100%;font-size:14px}
+.zix-directional .zix-quick-caption{font-size:16px;font-weight:800;margin-bottom:10px}
+.zix-directional label{display:block;font-weight:600;margin:7px 0}
+.zix-directional label[hidden],.zix-directional [hidden]{display:none!important}
+.zix-directional select,.zix-directional input:not([type=range]){display:block;width:100%;max-width:100%;box-sizing:border-box;padding:10px;margin:5px 0 10px;font-size:16px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;color:#172e4c}
+.zix-directional input[type=range]{width:100%;margin:8px 0;accent-color:#1765d1}
+.zix-directional .zix-q-section-title{font-size:13px;font-weight:800;margin:12px 0 8px;text-align:center}
+.zix-directional .zix-q-direction{display:grid;justify-items:center;gap:4px;margin:5px auto 10px}
+.zix-directional .zix-q-direction>div{display:flex;gap:55px}
+.zix-directional button{border:0;border-radius:9px;background:#1765d1;color:#fff;font-size:17px;min-width:48px;min-height:43px;padding:8px;margin:0;cursor:pointer;touch-action:manipulation}
+.zix-directional button:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+.zix-directional .zix-q-scale{display:flex;justify-content:center;align-items:center;gap:16px;margin:8px 0}
+.zix-directional .zix-q-scale span{width:80px;text-align:center;font-size:13px}
+.zix-directional .zix-q-readout,.zix-directional .zix-q-help{display:block;text-align:center;color:#495f80;margin:10px 0;font-size:12px}
+.zix-directional .zix-q-save{display:block;width:100%;background:#14803d;font-size:14px;margin-top:12px}
+.zix-directional .zix-q-status{font-size:12px;min-height:12px;color:#166534;margin-top:6px}
+.zix-manche-v2 .zix-q-appearance{border-top:1px solid #d9e5f9;padding-top:5px;margin-top:8px}
+@media(max-width:600px){.zix-directional{padding:10px}.zix-directional .zix-q-direction>div{gap:40px}}
+@keyframes zixQPulse{0%,100%{filter:brightness(1);text-shadow:0 0 3px var(--zix-q-led,#dce9ff)}50%{filter:brightness(1.15);text-shadow:0 0 var(--zix-q-glow,8px) var(--zix-q-led,#dce9ff),0 0 22px var(--zix-q-led,#dce9ff)}}
+@keyframes zixQCycle{0%,100%{text-shadow:0 0 8px #45ff6a,0 0 13px #45ff6a}33%{text-shadow:0 0 10px #f7c948,0 0 17px #f7c948}66%{text-shadow:0 0 10px #dce9ff,0 0 17px #dce9ff}}
+@media(prefers-reduced-motion:reduce){.zix-manche-v2~*{scroll-behavior:auto}}
