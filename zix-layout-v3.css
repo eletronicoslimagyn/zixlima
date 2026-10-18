@@ -138,3 +138,25 @@ body.zix-layout-v3 .zix-featured-note{font-size:14px;color:var(--zz-muted,#63758
     padding-right:55px!important;
   }
 }
+
+/* ZIX_ORIGINAL_SEM_LED_1345 - sem flashes e efeitos, preservando a marca */
+@media(max-width:700px){
+ body.zix-original-no-led-mobile header .top>a.brand,
+ body.zix-original-no-led-mobile #siteBrand,
+ body.zix-original-no-led-mobile #siteHero {
+  animation:none!important; text-shadow:none!important; filter:none!important;
+ }
+ body.zix-original-no-led-mobile header .top>a.brand {
+  border-color:#f4d34b!important;background:#092644!important;box-shadow:none!important;
+ }
+}
+@media(min-width:701px){
+ body.zix-original-no-led-desktop header .top>a.brand,
+ body.zix-original-no-led-desktop #siteBrand,
+ body.zix-original-no-led-desktop #siteHero {
+  animation:none!important; text-shadow:none!important; filter:none!important;
+ }
+ body.zix-original-no-led-desktop header .top>a.brand {
+  border-color:#f4d34b!important;background:#092644!important;box-shadow:none!important;
+ }
+}

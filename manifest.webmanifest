@@ -1,0 +1,25 @@
+{
+  "name": "ZixLima Classificados",
+  "short_name": "ZixLima",
+  "description": "Classificados, produtos e oportunidades",
+  "lang": "pt-BR",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#072d55",
+  "theme_color": "#063e70",
+  "icons": [
+    {
+      "src": "./icons/zix-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/zix-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

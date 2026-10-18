@@ -79,7 +79,11 @@ function init(){
  const observer=new MutationObserver(refresh);observer.observe(listing,{childList:true});refresh();
  document.addEventListener('click',ev=>{const a=ev.target.closest('a[href="#inicio"]');if(a&&document.body.classList.contains('zix-layout-v3')){ev.preventDefault();window.scrollTo({top:0,behavior:'smooth'})}});
  fetch('./site-brand-settings.json?layout='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject(Error('Configuração indisponível')))
- .then(c=>apply(c.bannerExtended!==false)).catch(()=>apply(false));
+ .then(c=>{
+  document.body.classList.toggle('zix-original-no-led-mobile', c.effectsModeMobile==='original');
+  document.body.classList.toggle('zix-original-no-led-desktop', c.effectsModeDesktop==='original');
+  apply(c.bannerExtended!==false);
+ }).catch(()=>apply(false));
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
