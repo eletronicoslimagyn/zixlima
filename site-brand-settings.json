@@ -37,19 +37,19 @@
         "x": 31,
         "y": -2,
         "size": 15,
-        "color": ""
+        "color": "#e5e7eb"
       },
       "slogan": {
-        "x": 7,
+        "x": 24,
         "y": 1,
         "size": 5,
-        "color": "#111111",
+        "color": "#e5e7eb",
         "glow": 20,
-        "ledColor": "#f7c948",
+        "ledColor": "#dce9ff",
         "led": ""
       },
       "logo": {
-        "x": -8,
+        "x": -14,
         "y": -16,
         "size": 107,
         "color": "",
@@ -57,7 +57,7 @@
         "heightDelta": 14
       },
       "photo": {
-        "x": -2,
+        "x": -10,
         "y": -3,
         "size": 59,
         "color": "",
