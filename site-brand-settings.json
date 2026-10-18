@@ -21,7 +21,7 @@
   "sloganHm": 49,
   "sloganWd": 201,
   "sloganHd": 78,
-  "nameColor": "white",
+  "nameColor": "original",
   "nameLed": "cycle",
   "nameGlow": 13,
   "sloganColor": "original",
@@ -67,19 +67,19 @@
       },
       "slogan": {
         "x": -10,
-        "y": 16,
+        "y": 15,
         "size": 0,
         "color": ""
       },
       "logo": {
         "x": -2,
-        "y": 45,
+        "y": 29,
         "size": 0,
         "color": ""
       },
       "photo": {
-        "x": -27,
-        "y": 0,
+        "x": -25,
+        "y": -3,
         "size": 0,
         "color": ""
       }
