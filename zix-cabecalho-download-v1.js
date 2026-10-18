@@ -53,6 +53,7 @@
      });
      area.append(button);
      top.after(area);
+     window.zixArrumarPaletaMobile?.();
    }
  }
  if (document.readyState === 'loading') {

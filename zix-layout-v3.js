@@ -21,7 +21,10 @@ function init(){
    content.prepend(slot);
 
    const arrange=()=>{
-     if(media.matches&&document.body.classList.contains('zix-layout-v3')){
+     const area=document.querySelector('.zix-install-area');
+     if(area){
+       area.append(paletteBtn);
+     }else if(media.matches&&document.body.classList.contains('zix-layout-v3')){
        slot.append(paletteBtn);
      }else{
        controls.prepend(paletteBtn);
@@ -29,7 +32,7 @@ function init(){
    };
 
    const positionMenu=()=>{
-     if(!media.matches||!palette)return;
+     if(!palette)return;
      const b=paletteBtn.getBoundingClientRect();
      const h=header.getBoundingClientRect();
      palette.style.top=(b.bottom-h.top+7)+'px';
