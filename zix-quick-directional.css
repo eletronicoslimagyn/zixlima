@@ -24,3 +24,8 @@ html.zix-manche-only #zzixbrConfig .zix-brand-preview-wide{grid-column:1/-1!impo
 @keyframes zixQPulse{0%,100%{filter:brightness(1);text-shadow:0 0 3px var(--zix-q-led,#dce9ff)}50%{filter:brightness(1.15);text-shadow:0 0 var(--zix-q-glow,8px) var(--zix-q-led,#dce9ff),0 0 22px var(--zix-q-led,#dce9ff)}}
 @keyframes zixQCycle{0%,100%{text-shadow:0 0 8px #45ff6a,0 0 13px #45ff6a}33%{text-shadow:0 0 10px #f7c948,0 0 17px #f7c948}66%{text-shadow:0 0 10px #dce9ff,0 0 17px #dce9ff}}
 @media(prefers-reduced-motion:reduce){.zix-manche-v2~*{scroll-behavior:auto}}
+
+/* ZIX_IMAGE_ONLY_SAVE_20261018: um unico grupo de publicacao */
+.zix-manche-v2 .zix-q-save{display:none!important}
+#zzSalvarImagensGithub{background:#15803d!important;color:#fff!important;border:0!important;border-radius:10px!important;font-weight:800!important;min-height:48px!important;padding:12px 18px!important;cursor:pointer}
+#zzSalvarImagensGithub:disabled{opacity:.6!important;cursor:wait!important}

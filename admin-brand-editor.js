@@ -444,6 +444,66 @@ function renderPreview(){
     }
   }
 
+  // ZIX_IMAGE_ONLY_SAVE_20261018
+  // Mantem dados de texto/LED do repositorio; grava somente campos de imagem e novas fotos.
+  async function saveImagesOnly(){
+    const btn=$('zzSalvarImagensGithub');
+    if(!btn)return;
+    const logoFile=$('zzLogoFile')?.files?.[0]||null;
+    const photoFile=$('zzSloganFile')?.files?.[0]||null;
+    btn.disabled=true;
+    try{
+      msg('Salvando apenas fotos, tamanhos e posicoes no GitHub...');
+      const res=await request('/contents/site-brand-settings.json?ref=main&t='+Date.now());
+      if(!res.content)throw new Error('Arquivo de configuracao sem conteudo no GitHub');
+      const raw=Uint8Array.from(atob(res.content.replace(/\s/g,'')), c=>c.charCodeAt(0));
+      const remote=JSON.parse(new TextDecoder().decode(raw));
+      // Nao sobrescreve nome, slogan, cores ou LEDs ja publicados.
+      const local=collect();
+      const fields=['logoWm','logoHm','logoWd','logoHd','logoXm','logoYm','logoXd','logoYd',
+                    'sloganWm','sloganHm','sloganWd','sloganHd','sloganImgX','sloganImgY'];
+      for(const k of fields){if(Object.hasOwn(local,k))remote[k]=local[k];}
+      remote.quick=remote.quick||{};
+      const localQuick=local.quick||{};
+      for(const d of ['mobile','desktop']){
+        remote.quick[d]=remote.quick[d]||{};
+        for(const target of ['logo','photo']){
+          if(localQuick[d]?.[target]){
+            const prev=remote.quick[d][target]||{};
+            const next=localQuick[d][target];
+            remote.quick[d][target]={...prev,
+              x:Number(next.x)||0,y:Number(next.y)||0,size:Number(next.size)||0,
+              widthDelta:Number(next.widthDelta)||0,heightDelta:Number(next.heightDelta)||0};
+          }
+        }
+      }
+      // Confere tipos e tamanho antes de tentar atualizar imagens publicas.
+      for(const [file,descr] of [[logoFile,'logotipo'],[photoFile,'imagem do slogan']]){
+        if(!file)continue;
+        if(!['image/jpeg','image/png','image/webp'].includes(file.type))
+          throw new Error('A '+descr+' precisa ser JPG, PNG ou WebP');
+        if(file.size>8*1024*1024)throw new Error('A '+descr+' deve ter ate 8 MB');
+      }
+      if(logoFile){
+        const b64=(await fileToDataURL(logoFile)).split(',')[1];
+        await putBinaryFile('assets/zixlima-logo-topo-custom.png',b64,'Atualizar imagem da marca pelo Admin');
+        remote.logoPath='./assets/zixlima-logo-topo-custom.png';current.logoPath=remote.logoPath;
+      }
+      if(photoFile){
+        const b64=(await fileToDataURL(photoFile)).split(',')[1];
+        await putBinaryFile('assets/zixlima-slogan-icone-custom.png',b64,'Atualizar foto do slogan pelo Admin');
+        remote.sloganPath='./assets/zixlima-slogan-icone-custom.png';current.sloganPath=remote.sloganPath;
+      }
+      await putTextFile('site-brand-settings.json',JSON.stringify(remote,null,2)+'\n','Atualizar apenas imagens e medidas da marca');
+      const check=await request('/contents/site-brand-settings.json?ref=main&t='+Date.now());
+      const bin=Uint8Array.from(atob(check.content.replace(/\s/g,'')), c=>c.charCodeAt(0));
+      const confirmed=JSON.parse(new TextDecoder().decode(bin));
+      if(JSON.stringify(confirmed)!==JSON.stringify(remote))throw new Error('Gravacao enviada, mas diferiu na verificacao');
+      msg('Imagens e medidas confirmadas no GitHub. As letras e efeitos LED nao foram modificados. Aguarde o Pages atualizar.',true);
+    }catch(e){msg('Falha ao salvar imagens: '+e.message,false)}
+    finally{btn.disabled=false;}
+  }
+
   function setupFilePreviews(){
     const logoInput = $('zzLogoFile');
     const sloganInput = $('zzSloganFile');
@@ -543,6 +603,7 @@ function renderPreview(){
         renderPreview();
       }).catch(()=>{});
     $('zzSalvarMarcaGithub')?.addEventListener('click', saveVisualBrand);
+    $('zzSalvarImagensGithub')?.addEventListener('click', saveImagesOnly);
     loadSaved();
   });
 })();
