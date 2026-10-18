@@ -113,7 +113,7 @@
     "effect": "christmas",
     "schedule": {
       "enabled": true,
-      "loop": true,
+      "loop": false,
       "startsAt": "2026-10-18T21:18:00.000Z",
       "items": [
         {
