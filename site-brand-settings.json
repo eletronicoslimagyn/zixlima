@@ -34,10 +34,11 @@
   "quick": {
     "mobile": {
       "name": {
-        "x": 31,
+        "x": 19,
         "y": -2,
-        "size": 26,
-        "color": ""
+        "size": 1,
+        "color": "",
+        "glow": 20
       },
       "slogan": {
         "x": 27,
@@ -49,29 +50,28 @@
         "led": ""
       },
       "logo": {
-        "x": 6,
-        "y": 0,
-        "size": 107,
+        "x": -9,
+        "y": -6,
+        "size": 28,
         "color": "",
-        "widthDelta": 24,
-        "heightDelta": 14
+        "widthDelta": 16,
+        "heightDelta": 9
       },
       "photo": {
-        "x": -2,
+        "x": -6,
         "y": -3,
-        "size": 59,
+        "size": 50,
         "color": "",
-        "widthDelta": 23,
+        "widthDelta": 22,
         "heightDelta": 18
       }
     },
     "desktop": {
       "name": {
-        "x": 57,
+        "x": 3,
         "y": -1,
         "size": -1,
-        "color": "#111111",
-        "glow": 20
+        "color": "#e5e7eb"
       },
       "slogan": {
         "x": 0,
@@ -86,7 +86,7 @@
         "color": ""
       },
       "photo": {
-        "x": -27,
+        "x": -29,
         "y": -2,
         "size": -29,
         "color": "",
