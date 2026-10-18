@@ -1,0 +1,250 @@
+
+/* ZIX DESKTOP SUPREMO V1 */
+/* Mobile ate 700px permanece intocado */
+@media screen and (min-width:701px){
+
+body.zix-layout-v3 header {
+ background:linear-gradient(145deg,#021a43,#064c92)!important;
+ border-bottom:4px solid #f9dc28!important;
+}
+
+body.zix-layout-v3 header .top{
+ width:100%!important;
+ max-width:1450px!important;
+ gap:14px!important;
+ padding:16px 22px!important;
+}
+
+body.zix-layout-v3 header .top>a.brand{
+ width:100%!important;
+ max-width:100%!important;
+ padding:7px!important;
+ overflow:hidden!important;
+ border:4px solid transparent!important;
+ border-radius:23px!important;
+ background:
+  linear-gradient(#001a38,#001a38) padding-box,
+  conic-gradient(from var(--zix-led-angle),
+   #00ff58,#00bfff,#ffed25,#ff5fd8,#00ff58)
+  border-box!important;
+ box-shadow:
+  0 0 13px #02eaff,
+  0 0 23px #13ff7688,
+  inset 0 0 15px #0af9ff55!important;
+ animation:zix-border-led 4s linear infinite!important;
+}
+
+body.zix-layout-v3.zz-has-custom-logo
+header .top>a.brand>#zzCustomBrandLogo{
+ display:block!important;
+ position:relative!important;
+ width:100%!important;
+ height:auto!important;
+ aspect-ratio:2.75/1!important;
+ max-width:none!important;
+ max-height:none!important;
+ min-width:0!important;
+ margin:0!important;
+ padding:0!important;
+ object-fit:fill!important;
+ transform:none!important;
+ border-radius:16px!important;
+}
+
+body.zix-layout-v3 header .top>.actions{
+ order:1!important;
+ width:100%!important;
+ display:flex!important;
+ flex-flow:row nowrap!important;
+ justify-content:space-between!important;
+ align-items:stretch!important;
+ gap:12px!important;
+}
+
+body.zix-layout-v3 header .top>.actions
+:is(#zixCadastroTopo,#postBtn,#loginBtn){
+ display:inline-flex!important;
+ flex:1 1 0!important;
+ min-width:0!important;
+ min-height:62px!important;
+ width:auto!important;
+ padding:10px 14px!important;
+ justify-content:center!important;
+ align-items:center!important;
+ border-radius:14px!important;
+ font-size:clamp(14px,1.6vw,20px)!important;
+ font-weight:850!important;
+ box-shadow:0 4px 12px #001a3977!important;
+}
+
+body.zix-layout-v3 header .top>.actions #zixCadastroTopo{
+ background:linear-gradient(#248dff,#0752cb)!important;
+ color:#fff!important;
+ border:2px solid #5ebeff!important;
+}
+
+body.zix-layout-v3 header .top>.actions #postBtn{
+ background:linear-gradient(#04be70,#008b46)!important;
+ color:white!important;
+ border:2px solid #43eaa4!important;
+}
+
+body.zix-layout-v3 header .top>.actions #loginBtn{
+ background:linear-gradient(#ff4355,#c70029)!important;
+ color:white!important;
+ border:2px solid #ff7c87!important;
+}
+
+body.zix-layout-v3 header .top>.actions #zixRelogio{
+ order:3!important;
+ flex:1 1 0!important;
+ min-width:0!important;
+ width:auto!important;
+ height:auto!important;
+ min-height:62px!important;
+ padding:5px 12px!important;
+ border:2px solid #43ff76!important;
+ box-shadow:0 0 10px #46ff85aa!important;
+ border-radius:14px!important;
+}
+
+body.zix-layout-v3 header .top>.actions #zixHora{
+ font-size:clamp(17px,2vw,25px)!important;
+ color:#faff54!important;
+}
+
+body.zix-layout-v3 header .top>nav{
+ order:2!important;
+ grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ gap:12px!important;
+}
+
+body.zix-layout-v3 header .top>nav>a{
+ min-height:58px!important;
+ font-size:clamp(14px,1.6vw,19px)!important;
+ font-weight:850!important;
+ border:2px solid #63baff!important;
+ border-radius:12px!important;
+ background:linear-gradient(#218fff,#0349bd)!important;
+ box-shadow:0 4px 12px #001c4988!important;
+}
+
+body.zix-layout-v3 .zix-install-area{
+ padding:10px 15px 16px!important;
+}
+
+body.zix-layout-v3 #categories{
+ display:grid!important;
+ grid-template-columns:repeat(5,minmax(0,1fr))!important;
+ gap:14px!important;
+}
+
+body.zix-layout-v3 #categories .category{
+ min-width:0!important;
+ min-height:132px!important;
+ padding:17px 7px!important;
+ border-radius:18px!important;
+ font-size:clamp(13px,1.15vw,17px)!important;
+ box-shadow:0 4px 10px #163b631a!important;
+}
+
+body.zix-layout-v3 #categories .category b{
+ font-size:clamp(34px,3.7vw,51px)!important;
+}
+
+body.zix-layout-v3 .content{
+ max-width:1450px!important;
+ width:100%!important;
+ margin:0 auto!important;
+}
+
+body.zix-layout-v3 .hero#inicio{
+ max-width:1406px!important;
+ width:calc(100% - 44px)!important;
+ margin:22px auto 30px!important;
+ padding:25px!important;
+ border:2px solid #28aeff!important;
+ border-radius:24px!important;
+ background:linear-gradient(125deg,#021e3e,#07508b)!important;
+ color:#fff!important;
+ box-shadow:0 5px 18px #00295466!important;
+}
+
+body.zix-layout-v3 .hero#inicio>.wrap{
+ width:100%!important;
+ max-width:none!important;
+ padding:0!important;
+}
+
+body.zix-layout-v3 .hero#inicio .eyebrow{
+ font-size:clamp(15px,1.6vw,21px)!important;
+ color:#23bdff!important;
+ font-weight:850!important;
+ margin-bottom:13px!important;
+}
+
+body.zix-layout-v3 .hero#inicio h1{
+ margin:8px 0 13px!important;
+ line-height:1.25!important;
+ font-size:clamp(28px,3vw,43px)!important;
+ color:#fff!important;
+}
+
+body.zix-layout-v3 .hero#inicio #siteHero{
+ color:#fff!important;
+ transform:none!important;
+}
+
+body.zix-layout-v3 .hero#inicio>.wrap>p{
+ margin:8px 0 18px!important;
+ color:#e3efff!important;
+ font-size:clamp(17px,1.5vw,22px)!important;
+ line-height:1.45!important;
+}
+
+body.zix-layout-v3 .hero#inicio .search{
+ display:flex!important;
+ flex-direction:row!important;
+ align-items:stretch!important;
+ width:100%!important;
+ max-width:none!important;
+ margin-top:16px!important;
+ gap:10px!important;
+ padding:12px!important;
+}
+
+body.zix-layout-v3 .hero#inicio .search input{
+ flex:1 1 0!important;
+ min-width:0!important;
+ min-height:52px!important;
+ font-size:16px!important;
+}
+
+body.zix-layout-v3 .hero#inicio .search button{
+ min-width:145px!important;
+ font-weight:850!important;
+ font-size:17px!important;
+ background:linear-gradient(#04bc77,#008e56)!important;
+}
+
+}
+
+@media screen and (min-width:701px) and (max-width:950px){
+ body.zix-layout-v3 header .top>.actions{
+  gap:6px!important;
+ }
+ body.zix-layout-v3 header .top>.actions
+ :is(#zixCadastroTopo,#postBtn,#loginBtn){
+  min-height:46px!important;
+  padding:5px!important;
+  font-size:12px!important;
+ }
+ body.zix-layout-v3 header .top>.actions #zixRelogio{
+  min-height:46px!important;
+  padding:4px!important;
+ }
+ body.zix-layout-v3 header .top>nav>a{
+  min-height:43px!important;
+  font-size:12px!important;
+ }
+}
