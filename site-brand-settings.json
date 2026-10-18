@@ -4,7 +4,7 @@
   "logoWm": 150,
   "logoHm": 100,
   "logoWd": 150,
-  "logoHd": 200,
+  "logoHd": 140,
   "logoXm": 17,
   "logoYm": 16,
   "logoXd": 11,
@@ -20,7 +20,7 @@
   "sloganWm": 91,
   "sloganHm": 49,
   "sloganWd": 201,
-  "sloganHd": 78,
+  "sloganHd": 95,
   "nameColor": "original",
   "nameLed": "cycle",
   "nameGlow": 13,
@@ -60,9 +60,9 @@
     },
     "desktop": {
       "name": {
-        "x": -9,
-        "y": 65,
-        "size": 0,
+        "x": -2,
+        "y": 34,
+        "size": -1,
         "color": "#e5e7eb"
       },
       "slogan": {
@@ -73,13 +73,13 @@
       },
       "logo": {
         "x": -2,
-        "y": 29,
+        "y": -1,
         "size": 0,
         "color": ""
       },
       "photo": {
-        "x": -25,
-        "y": -3,
+        "x": -13,
+        "y": -2,
         "size": 0,
         "color": ""
       }
