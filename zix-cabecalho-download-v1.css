@@ -1,0 +1,100 @@
+
+/* ZIX CABECALHO DOWNLOAD V1 */
+.zix-install-area {
+  display:flex;
+  justify-content:center;
+  padding:7px 10px 12px;
+}
+#zixInstallApp {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:40px;
+  max-width:100%;
+  padding:9px 18px;
+  border-radius:12px;
+  border:1px solid #7fd8ff;
+  background:linear-gradient(#178fef,#0754b8);
+  box-shadow:0 3px 10px #001b4166;
+  color:white;
+  font-size:14px;
+  font-weight:750;
+  cursor:pointer;
+}
+@media(max-width:700px) {
+ body.zix-layout-v3 header .top>.actions {
+   order:1!important;
+   display:flex!important;
+   flex-direction:row!important;
+   flex-wrap:nowrap!important;
+   align-items:center!important;
+   justify-content:space-between!important;
+   gap:4px!important;
+   width:100%!important;
+   min-width:0!important;
+   margin:0!important;
+ }
+ body.zix-layout-v3 header .top>.actions > * {
+   flex:0 1 auto!important;
+   min-width:0!important;
+   max-width:none!important;
+   margin:0!important;
+   position:relative!important;
+ }
+ body.zix-layout-v3 header .top>.actions #zixCadastroTopo {
+   flex:1.3 1 0!important;
+   font-size:clamp(9px,2.7vw,13px)!important;
+   padding:6px 3px!important;
+   white-space:normal!important;
+   text-align:center!important;
+ }
+ body.zix-layout-v3 header .top>.actions #postBtn {
+   flex:1 1 0!important;
+   font-size:clamp(10px,2.7vw,13px)!important;
+   padding:6px 2px!important;
+   white-space:nowrap!important;
+ }
+ body.zix-layout-v3 header .top>.actions #zixRelogio {
+   display:flex!important;
+   flex:1.3 1 0!important;
+   min-width:0!important;
+   width:auto!important;
+   height:auto!important;
+   max-width:100%!important;
+   padding:4px 2px!important;
+   gap:3px!important;
+   transform:none!important;
+   align-items:center!important;
+   justify-content:center!important;
+   overflow:hidden!important;
+ }
+ body.zix-layout-v3 header .top>.actions #zixRelogio .zixFlag {
+   font-size:clamp(13px,3.7vw,21px)!important;
+ }
+ body.zix-layout-v3 header .top>.actions #zixRelogio .zixClockDisplay {
+   font-size:clamp(7px,2vw,10px)!important;
+   white-space:nowrap!important;
+ }
+ body.zix-layout-v3 header .top>.actions #zixHora {
+   font-size:clamp(10px,3vw,16px)!important;
+ }
+ body.zix-layout-v3 header .top>.actions #loginBtn {
+   flex:.65 1 0!important;
+   font-size:clamp(10px,2.7vw,13px)!important;
+   padding:6px 2px!important;
+   white-space:nowrap!important;
+ }
+ body.zix-layout-v3 header .top>.actions > button {
+   min-height:37px!important;
+ }
+ body.zix-layout-v3 header .top>.zz-controls {
+   display:none!important;
+ }
+ body.zix-layout-v3 header .top>nav {
+   order:2!important;
+ }
+ .zix-install-area {
+   padding-top:6px;
+ }
+}
