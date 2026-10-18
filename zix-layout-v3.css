@@ -65,3 +65,38 @@ body.zix-layout-v3 .zix-featured-note{font-size:14px;color:var(--zz-muted,#63758
  body.zix-layout-v3 .hero#inicio .search input{width:100%}
 }
 @media(prefers-reduced-motion:reduce){body.zix-layout-v3 header .top>a.brand{animation:none!important}}
+
+/* ZIX_PALETA_MOBILE_V1 */
+/* Apenas celular: botão de cores à direita sob o banner */
+.zix-paleta-celular{display:none}
+
+@media screen and (max-width:700px){
+ body.zix-layout-v3 header .top>.zix-paleta-celular{
+   display:flex!important;
+   order:1!important;
+   width:100%!important;
+   justify-content:flex-end!important;
+   align-items:center!important;
+   margin:0!important;
+   padding:0 5px!important;
+   min-height:42px;
+   box-sizing:border-box;
+ }
+ body.zix-layout-v3 .zix-paleta-celular #zzPaletteToggle{
+   display:grid!important;
+   place-items:center!important;
+   width:44px!important;
+   height:42px!important;
+   border:1px solid #a9cfff!important;
+   border-radius:12px!important;
+   background:#fff!important;
+   color:#143e76!important;
+   box-shadow:0 4px 10px #0003!important;
+   font-size:22px!important;
+   cursor:pointer;
+ }
+ body.zix-layout-v3 header .zz-palette{
+   z-index:100!important;
+   max-width:calc(100vw - 20px);
+ }
+}

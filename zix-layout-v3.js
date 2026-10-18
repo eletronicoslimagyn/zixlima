@@ -5,8 +5,47 @@ const $=s=>document.querySelector(s);
 function init(){
  const header=$('header'),hero=$('main > .hero#inicio'),content=$('main > .content'),categories=$('#categories'),sort=$('#anuncios'),listing=$('#listing');
  if(!header||!hero||!content||!categories||!sort||!listing)return;
+
+ /* ZIX_PALETA_MOBILE_V1 */
+ const top=header.querySelector('.top');
+ const brand=top?.querySelector(':scope > a.brand');
+ const controls=top?.querySelector(':scope > .zz-controls');
+ const paletteBtn=document.getElementById('zzPaletteToggle');
+ const palette=document.getElementById('zzPalette');
+ const media=window.matchMedia('(max-width:700px)');
+ let slot=null;
+
+ if(top&&brand&&controls&&paletteBtn){
+   slot=document.createElement('div');
+   slot.className='zix-paleta-celular';
+   brand.after(slot);
+
+   const arrange=()=>{
+     if(media.matches&&document.body.classList.contains('zix-layout-v3')){
+       slot.append(paletteBtn);
+     }else{
+       controls.prepend(paletteBtn);
+     }
+   };
+
+   const positionMenu=()=>{
+     if(!media.matches||!palette)return;
+     const b=paletteBtn.getBoundingClientRect();
+     const h=header.getBoundingClientRect();
+     palette.style.top=(b.bottom-h.top+7)+'px';
+     palette.style.right=Math.max(7,innerWidth-b.right)+'px';
+   };
+
+   paletteBtn.addEventListener('click',positionMenu,true);
+   media.addEventListener('change',arrange);
+   window.addEventListener('resize',positionMenu);
+   arrange();
+   window.zixArrumarPaletaMobile=arrange;
+ }
+
  const apply=active=>{
    document.body.classList.toggle('zix-layout-v3',active);
+   window.zixArrumarPaletaMobile?.();
    if(active){
       if(categories.parentNode===content){categories.after(hero);}
       header.id='zix-topo';
