@@ -279,6 +279,13 @@ body.zix-elite-active #categories .category b {
 <link rel="stylesheet" href="./zix-afiliados.css?v=1345a">
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="theme-color" content="#063e70">
+
+<style>
+/* ZIX_MEUS_ANUNCIOS_SOB_DEMANDA */
+body:not(.zix-abrir-meus) #meus {
+  display:none!important;
+}
+</style>
 </head><body class="zix-elite-active"><header><div class="wrap top"><a class="brand" href="#inicio"><span class="zix-brasil" aria-hidden="true">🇧🇷</span> <span id="siteBrand">ZixLima</span></a><nav><a href="#inicio">Início</a><a href="#anuncios">Anúncios</a><a href="#meus">Meus anúncios</a><a href="admin.html">Admin</a></nav><div class="zz-controls"><button type="button" id="zzPaletteToggle" title="Cor de fundo" aria-label="Cor de fundo">🎨</button><button type="button" id="zzThemeToggle" title="Modo escuro" aria-label="Modo escuro">🌙</button><div id="zixRelogio" aria-label="Data e hora do Brasil">
     <span class="zixFlag">🇧🇷</span>
     <span class="zixClockDisplay">
@@ -622,7 +629,7 @@ document.addEventListener('DOMContentLoaded',()=>{
    if (highlights) {
      const hasHighlights =
        !!highlights.querySelector('.zix-featured-grid .card');
-     visible(highlights, hasHighlights);
+     visible(highlights, true);
    }
 
    const hasAds = !!listing.querySelector('.card');
@@ -676,4 +683,21 @@ document.addEventListener('DOMContentLoaded',()=>{
 })();
 </script>
 
+
+<script>
+(() => {
+ const update=()=>{
+   document.body.classList.toggle(
+     'zix-abrir-meus',
+     location.hash==='#meus'
+   );
+ };
+ window.addEventListener('hashchange',update);
+ document.querySelectorAll('a[href="#meus"]')
+   .forEach(a=>a.addEventListener('click',()=>{
+     document.body.classList.add('zix-abrir-meus');
+   }));
+ update();
+})();
+</script>
 </body></html>
