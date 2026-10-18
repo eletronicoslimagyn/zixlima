@@ -18,7 +18,7 @@ function init(){
  if(top&&brand&&controls&&paletteBtn){
    slot=document.createElement('div');
    slot.className='zix-paleta-celular';
-   brand.after(slot);
+   content.prepend(slot);
 
    const arrange=()=>{
      if(media.matches&&document.body.classList.contains('zix-layout-v3')){

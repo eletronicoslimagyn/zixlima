@@ -100,3 +100,41 @@ body.zix-layout-v3 .zix-featured-note{font-size:14px;color:var(--zz-muted,#63758
    max-width:calc(100vw - 20px);
  }
 }
+
+/* ZIX_PALETA_CATEGORIAS_V2 */
+@media screen and (max-width:700px) {
+  body.zix-layout-v3 main > .content {
+    position:relative!important;
+  }
+
+  body.zix-layout-v3 main > .content > .zix-paleta-celular {
+    display:flex!important;
+    position:absolute!important;
+    top:10px!important;
+    right:10px!important;
+    z-index:20!important;
+    width:48px!important;
+    height:46px!important;
+    align-items:center!important;
+    justify-content:center!important;
+    margin:0!important;
+    padding:0!important;
+  }
+
+  body.zix-layout-v3 .zix-paleta-celular #zzPaletteToggle {
+    display:grid!important;
+    place-items:center!important;
+    width:44px!important;
+    height:44px!important;
+    font-size:22px!important;
+    background:#fff!important;
+    border:2px solid #27bfff!important;
+    border-radius:12px!important;
+    box-shadow:0 4px 14px #0003!important;
+    color:#174a82!important;
+  }
+
+  body.zix-layout-v3 main > .content > h2:first-of-type {
+    padding-right:55px!important;
+  }
+}
