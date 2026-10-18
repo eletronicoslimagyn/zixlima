@@ -1,0 +1,28 @@
+/* Layout independente da programação: não altera o cabeçalho do site. */
+#zixLedAdmin .zix-led-scheduler{margin:20px 0 8px;padding:14px;border:1px solid #b5cfeb;border-radius:13px;background:#fff;color:#183451;}
+#zixLedAdmin .zix-led-scheduler summary{font-size:17px;font-weight:800;cursor:pointer;line-height:1.5;}
+#zixLedAdmin .zix-led-scheduler p{line-height:1.5;}
+#zixLedAdmin .zix-led-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+#zixLedAdmin .zix-led-toolbar>label{flex:1 1 160px}
+#zixLedAdmin .zix-led-toolbar>label:has(input[type='datetime-local']){flex-basis:260px}
+#zixLedAdmin .zix-led-scheduler input:not([type=checkbox]),#zixLedAdmin .zix-led-scheduler select,#zixLedAdmin .zix-led-scheduler textarea{display:block;width:100%;max-width:100%;min-width:0;padding:10px;margin:5px 0;border:1px solid #bacce5;border-radius:8px;background:white;color:#163455;font-size:15px;font-family:inherit;}
+#zixLedAdmin .zix-led-scheduler label{display:block;margin:7px 0;font-size:13px;font-weight:600;min-width:0}
+#zixLedAdmin .zix-led-scheduler label:has(input[type=checkbox]){display:flex;align-items:center;gap:8px;font-size:14px;}
+#zixLedAdmin .zix-led-scheduler input[type=checkbox]{width:18px;height:18px;flex:none;margin:0;}
+#zixLedAdmin .zix-led-scheduler input[type=number]{inputmode:numeric}
+#zixLedAdmin .zix-led-new{margin:13px 0;border:1px solid #ccdff1;border-radius:12px;padding:12px;background:#f2f8ff}
+#zixLedAdmin .zix-led-new-grid{display:grid;grid-template-columns:minmax(80px,1fr) minmax(100px,1fr);gap:12px}
+#zixLedAdmin .zix-led-row{margin:10px 0;padding:12px;border:1px solid #c6d8ed;border-radius:12px;background:#f8fbff;min-width:0}
+#zixLedAdmin .zix-led-row-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+#zixLedAdmin .zix-led-row-fields{display:grid;grid-template-columns:minmax(90px,1fr) minmax(100px,1fr);gap:12px;}
+#zixLedAdmin .zix-led-row-actions{display:flex;align-items:end;gap:6px;flex-wrap:wrap;}
+#zixLedAdmin .zix-led-row-actions label{width:85px;margin:0}
+#zixLedAdmin .zix-led-row-actions button{margin:0}
+#zixLedAdmin .zix-led-action{font-size:13px;padding:10px 12px;border-radius:8px;background:#1968cf;color:white}
+#zixLedAdmin .zix-led-delete{background:#b91c1c}
+#zixLedAdmin .zix-led-action:disabled{opacity:.45;cursor:not-allowed}
+#zixLedAdmin .zix-led-scheduler button:focus-visible{outline:3px solid #eaae25}
+#zixLedAdmin .zix-led-scheduler .zix-led-schedule-info{padding:10px 12px;background:#e9f3ff;border-left:4px solid #2677d9;border-radius:7px;font-size:13px;overflow-wrap:anywhere}
+#zixLedAdmin #zixLedScheduleStatus{min-height:20px;font-size:13px;font-weight:700;overflow-wrap:anywhere}
+#zixLedAdmin .zix-led-empty{font-style:italic;color:#64748b}
+@media(max-width:480px){#zixLedAdmin .zix-led-scheduler{padding:10px}#zixLedAdmin .zix-led-new-grid,#zixLedAdmin .zix-led-row-fields{grid-template-columns:1fr 1fr;gap:8px}#zixLedAdmin .zix-led-row-actions{gap:5px}#zixLedAdmin .zix-led-action{font-size:12px;padding:10px 9px}}

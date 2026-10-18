@@ -53,7 +53,7 @@
   }
 
   function collect(){
-    return {
+    return {...current,
       logoPath: current.logoPath || '',
       sloganPath: current.sloganPath || '',
       logoWm: val('zzLogoWm',56),
@@ -408,6 +408,8 @@ function renderPreview(){
         current.sloganPath = './assets/zixlima-slogan-icone-custom.png';
       }
 
+      // Confere programação LED antes de publicar outros ajustes.
+      window.zixLedValidate?.();
       const settings = collect();
       settings.logoPath = current.logoPath || '';
       settings.sloganPath = current.sloganPath || '';

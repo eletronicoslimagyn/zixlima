@@ -1,5 +1,6 @@
 
-/* ZIX LETREIRO LED V1 */
+/* ZIX LETREIRO LED V2 */
+#zixLedTicker[hidden]{display:none!important;}
 #zixLedTicker{
  position:relative;
  overflow:hidden;
@@ -76,5 +77,17 @@
  }
  #zixLedTicker .zix-frase+ .zix-frase{
   display:none;
+ }
+}
+
+/* Desktop: letreiro 36px mais largo (18px para cada lado).
+   O ajuste não altera o celular e respeita a largura da janela. */
+@media screen and (min-width:701px){
+ #zixLedTicker{
+  box-sizing:border-box;
+  width:calc(100% + 36px);
+  max-width:calc(100vw - 4px);
+  margin-left:-18px;
+  margin-right:-18px;
  }
 }

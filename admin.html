@@ -466,7 +466,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 }
 </style>
 
-<link rel="stylesheet" href="./zix-led-ticker.css?v=1">
+<link rel="stylesheet" href="./zix-led-ticker.css?v=3">
+<link rel="stylesheet" href="./zix-led-schedule-admin.css?v=2">
 </head>
 <body>
 <header>
@@ -734,6 +735,37 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 </select></label>
 <p><strong>Prévia:</strong></p>
 <div id="zixLedPreview" style="background:#06172c;padding:15px;border-radius:9px;color:#ffe34c;font-weight:900"></div>
+<details class="zix-led-scheduler" open>
+<summary>📅 Central de frases e programação automática</summary>
+<p>Crie quantas mensagens precisar, escolha a ordem numérica e defina quantas horas ou dias cada uma ficará no painel.</p>
+<div class="zix-led-toolbar">
+<label><input type="checkbox" id="zixLedAutoEnabled"> Ativar sequência programada</label>
+<label><input type="checkbox" id="zixLedLoop" checked> Repetir sequência ao terminar</label>
+</div>
+<div class="zix-led-toolbar">
+<label>Data e hora do início
+<input type="datetime-local" id="zixLedStart" required></label>
+<button type="button" id="zixLedRestart" class="zix-led-action">⏱ Reiniciar ciclo agora</button>
+</div>
+<p class="zix-led-schedule-info" id="zixLedScheduleCurrent" role="status">Aguardando configuração.</p>
+<div class="zix-led-new">
+<strong>➕ Cadastrar uma nova frase</strong>
+<label>Mensagem a exibir
+<textarea id="zixLedNewText" rows="2" maxlength="400" placeholder="Exemplo: Aproveite as promoções do dia!"></textarea></label>
+<div class="zix-led-new-grid">
+<label>Duração da frase
+<input type="number" id="zixLedNewDuration" min="1" max="9999" step="1" value="1" inputmode="numeric"></label>
+<label>Escolha o período
+<select id="zixLedNewUnit"><option value="hours">Horas</option><option value="days">Dias (24 horas)</option></select></label>
+</div>
+<button type="button" id="zixLedAddPhrase" class="zix-led-action">＋ Adicionar frase</button>
+<button type="button" id="zixLedImportManual" class="zix-led-action">↳ Importar frases do campo acima</button>
+</div>
+<h4>📋 Frases salvas na lista <small id="zixLedPhraseCount">0 frases</small></h4>
+<div id="zixLedPhraseList"></div>
+<p id="zixLedScheduleStatus" role="status" aria-live="polite"></p>
+<small>As alterações só entram no ar após clicar no botão verde “Salvar tudo no GitHub”. Cada dia dura 24 horas. O agendamento se baseia no horário de início salvo e avança automaticamente, mesmo com o Admin fechado.</small>
+</details>
 <p><small>Salve pelo botão verde Salvar tudo no GitHub.</small></p>
 </section>
 
@@ -1374,6 +1406,7 @@ btn.addEventListener('click',async()=>{
 
 
 <script type="module" src="./zix-afiliados-admin.js?v=1345a"></script>
-<script src="./zix-led-admin.js?v=1" defer></script>
+<script src="./zix-led-schedule.js?v=2" defer></script>
+<script src="./zix-led-admin.js?v=2" defer></script>
 </body>
 </html>
