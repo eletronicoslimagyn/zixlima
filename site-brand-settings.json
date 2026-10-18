@@ -9,19 +9,19 @@
   "logoYm": 16,
   "logoXd": 11,
   "logoYd": 8,
-  "nameSm": 64,
+  "nameSm": 26,
   "nameSd": 87,
   "nameSx": 50,
   "nameSy": 20,
   "nameY": 6,
   "nameLs": 6,
-  "sloganTextSm": 12,
-  "sloganTextSd": 0,
+  "sloganTextSm": 18,
+  "sloganTextSd": 12,
   "sloganWm": 91,
   "sloganHm": 49,
   "sloganWd": 201,
   "sloganHd": 95,
-  "nameColor": "original",
+  "nameColor": "black",
   "nameLed": "cycle",
   "nameGlow": 13,
   "sloganColor": "original",
@@ -34,8 +34,8 @@
   "quick": {
     "mobile": {
       "name": {
-        "x": 15,
-        "y": 0,
+        "x": -7,
+        "y": -1,
         "size": 0,
         "color": ""
       },
@@ -46,14 +46,14 @@
         "color": "#111111"
       },
       "logo": {
-        "x": 0,
-        "y": 0,
+        "x": -7,
+        "y": -8,
         "size": 0,
         "color": ""
       },
       "photo": {
-        "x": -7,
-        "y": 0,
+        "x": -9,
+        "y": 1,
         "size": -1,
         "color": ""
       }
