@@ -98,3 +98,83 @@
    padding-top:6px;
  }
 }
+
+/* ZIX_CABECALHO_APROVACAO_V3 */
+
+/* Preserva a imagem superior e a navegacao. */
+body.zix-layout-v3 header .top>.actions {
+ display:flex!important;
+ flex-direction:row!important;
+ flex-wrap:nowrap!important;
+ align-items:center!important;
+ justify-content:center!important;
+ gap:8px!important;
+ width:100%!important;
+ min-width:0!important;
+}
+
+/* Relogio original, agora na linha dos botoes. */
+body.zix-layout-v3 header .top>.actions #zixRelogio {
+ display:inline-flex!important;
+ position:relative!important;
+ top:auto!important;
+ left:auto!important;
+ right:auto!important;
+ bottom:auto!important;
+ transform:none!important;
+ margin:0!important;
+ align-items:center!important;
+ justify-content:center!important;
+ flex:0 1 auto!important;
+ min-width:0!important;
+ max-width:100%!important;
+}
+
+@media(max-width:700px) {
+ body.zix-layout-v3 header .top>.actions {
+   justify-content:space-between!important;
+   gap:4px!important;
+ }
+
+ body.zix-layout-v3 header .top>.actions #zixCadastroTopo {
+   flex:1.2 1 0!important;
+   min-width:0!important;
+   padding:5px 2px!important;
+ }
+
+ body.zix-layout-v3 header .top>.actions #postBtn {
+   flex:1 1 0!important;
+   min-width:0!important;
+   padding:5px 2px!important;
+ }
+
+ body.zix-layout-v3 header .top>.actions #zixRelogio {
+   flex:1.25 1 0!important;
+   padding:4px 2px!important;
+   height:auto!important;
+   white-space:nowrap!important;
+ }
+
+ body.zix-layout-v3 header .top>.actions #loginBtn {
+   flex:.65 1 0!important;
+   min-width:0!important;
+   padding:5px 2px!important;
+ }
+}
+
+@media(min-width:701px) {
+ body.zix-layout-v3 header .top>.actions {
+   flex-wrap:nowrap!important;
+   gap:12px!important;
+ }
+
+ body.zix-layout-v3 header .top>.actions #zixRelogio {
+   min-width:125px!important;
+   height:48px!important;
+   padding:5px 10px!important;
+ }
+
+ body.zix-layout-v3 header .top>.actions #zixHora {
+   font-size:19px!important;
+ }
+}

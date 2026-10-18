@@ -17,12 +17,7 @@
    if (!actions || !clock || !post || !login || !nav) return;
 
    function organizar() {
-     const mobile = window.matchMedia('(max-width:700px)').matches;
-     if (mobile && document.body.classList.contains('zix-layout-v3')) {
-       post.after(clock);
-     } else {
-       top.querySelector(':scope > .zz-controls')?.append(clock);
-     }
+     post.after(clock);
    }
    organizar();
    window.matchMedia('(max-width:700px)').addEventListener('change', organizar);
