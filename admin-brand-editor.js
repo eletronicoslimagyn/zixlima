@@ -80,7 +80,8 @@
       bannerExtended: $('zzBannerEstendido')?.value !== 'false',
       effectsModeMobile: $('zixEffectsMobile')?.value || current.effectsModeMobile || 'led',
       effectsModeDesktop: $('zixEffectsDesktop')?.value || current.effectsModeDesktop || 'led',
-      quick: window.zixQuickData || current.quick || {}
+      quick: window.zixQuickData || current.quick || {},
+      ledTicker: window.zixLedCollect?.() || current.ledTicker || {}
     };
   }
 

@@ -466,6 +466,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 }
 </style>
 
+<link rel="stylesheet" href="./zix-led-ticker.css?v=1">
 </head>
 <body>
 <header>
@@ -707,6 +708,35 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 <label>Desktop<select id="zixEffectsDesktop"><option value="led">Efeitos LED</option><option value="original">Original — sem LED</option></select></label>
 <small>A escolha entra no botão verde “Salvar tudo no GitHub”. Não apaga outras configurações.</small>
 </div>
+
+<section id="zixLedAdmin" style="margin:16px 0;padding:16px;border:1px solid #bdd4f1;border-radius:14px;background:#eef6ff">
+<h3>✨ Painel LED interativo</h3>
+<p>Mensagens acima de Explore as categorias.</p>
+<label><input id="zixLedEnabled" type="checkbox" style="width:auto"> Ligar painel LED</label>
+<label>Frases personalizadas
+<textarea id="zixLedText" rows="3" maxlength="400" placeholder="Bem-vindo ao ZixLima!"></textarea></label>
+<small>Separe as frases com Enter.</small>
+<label>Velocidade: <strong id="zixLedSpeedValue">5</strong> / 10
+<input id="zixLedSpeed" type="range" min="1" max="10" value="5"></label>
+<label>Cor das letras
+<select id="zixLedColor">
+<option value="yellow">Amarelo</option>
+<option value="white">Branco</option>
+<option value="green">Verde</option>
+<option value="blue">Azul</option>
+<option value="pink">Rosa</option>
+</select></label>
+<label>Efeito
+<select id="zixLedEffect">
+<option value="fixed">LED fixo</option>
+<option value="pulse">LED pulsante</option>
+<option value="christmas">Natalino multicolorido</option>
+</select></label>
+<p><strong>Prévia:</strong></p>
+<div id="zixLedPreview" style="background:#06172c;padding:15px;border-radius:9px;color:#ffe34c;font-weight:900"></div>
+<p><small>Salve pelo botão verde Salvar tudo no GitHub.</small></p>
+</section>
+
 <div class="zix-quick-actions">
     <button type="button" id="zzAplicarMarcaPreview">Aplicar prévia</button>
     <button type="button" id="zzRestaurarMarca">Restaurar padrão</button>
@@ -1344,5 +1374,6 @@ btn.addEventListener('click',async()=>{
 
 
 <script type="module" src="./zix-afiliados-admin.js?v=1345a"></script>
+<script src="./zix-led-admin.js?v=1" defer></script>
 </body>
 </html>

@@ -1,0 +1,80 @@
+
+/* ZIX LETREIRO LED V1 */
+#zixLedTicker{
+ position:relative;
+ overflow:hidden;
+ margin:12px 0 20px;
+ padding:12px 0;
+ border:3px solid transparent;
+ border-radius:14px;
+ background:
+ linear-gradient(#041525,#041525) padding-box,
+ conic-gradient(from var(--ang),
+ #00fa55,#00caff,#ffdf25,#ff399d,#00fa55)
+ border-box;
+ box-shadow:0 0 14px #00e5ff99;
+ animation:zixBorda 5s linear infinite;
+}
+@property --ang {
+ syntax:'<angle>';
+ inherits:false;
+ initial-value:0deg;
+}
+@keyframes zixBorda{to{--ang:360deg}}
+#zixLedTicker .zix-track{
+ display:flex;
+ width:max-content;
+ min-width:100%;
+ animation:zixPassar var(--tempo,20s) linear infinite;
+}
+#zixLedTicker .zix-frase{
+ white-space:pre;
+ flex-shrink:0;
+ padding:0 35px;
+ color:var(--cor,#ffdf37);
+ font:900 clamp(15px,2.8vw,25px)/1.4 system-ui;
+ text-shadow:0 0 7px currentColor,0 0 16px currentColor;
+}
+@keyframes zixPassar{
+ from{transform:translateX(0)}
+ to{transform:translateX(-50%)}
+}
+#zixLedTicker[data-effect="pulse"] .zix-frase{
+ animation:zixPiscar 1.5s ease-in-out infinite alternate;
+}
+@keyframes zixPiscar{to{opacity:.55}}
+#zixLedTicker[data-effect="fixed"]{
+ animation:none;
+ border-color:#28e882;
+}
+#zixLedAdmin textarea,#zixLedAdmin select{
+ display:block;
+ width:100%;
+ padding:10px;
+ margin-top:6px;
+ box-sizing:border-box;
+ border:1px solid #bacce5;
+ border-radius:9px;
+ background:white;
+ color:#15345b;
+ font:inherit;
+}
+#zixLedAdmin label{
+ display:block;
+ margin:12px 0;
+}
+#zixLedAdmin input[type="range"]{width:100%}
+@media(prefers-reduced-motion:reduce){
+ #zixLedTicker,
+ #zixLedTicker .zix-track,
+ #zixLedTicker .zix-frase{
+  animation:none!important;
+ }
+ #zixLedTicker .zix-track{width:100%}
+ #zixLedTicker .zix-frase{
+  white-space:normal;
+ }
+ #zixLedTicker .zix-frase+ .zix-frase{
+  display:none;
+ }
+}
