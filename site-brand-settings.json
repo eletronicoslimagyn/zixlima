@@ -34,13 +34,16 @@
   "quick": {
     "mobile": {
       "name": {
-        "x": 31,
+        "x": -6,
         "y": -2,
-        "size": 15,
-        "color": "#e5e7eb"
+        "size": -3,
+        "color": "#ffffff",
+        "glow": 20,
+        "led": "cycle",
+        "ledColor": "#dce9ff"
       },
       "slogan": {
-        "x": 24,
+        "x": 3,
         "y": 1,
         "size": 5,
         "color": "#e5e7eb",
@@ -49,7 +52,7 @@
         "led": ""
       },
       "logo": {
-        "x": -14,
+        "x": -13,
         "y": -16,
         "size": 107,
         "color": "",
@@ -57,7 +60,7 @@
         "heightDelta": 14
       },
       "photo": {
-        "x": -10,
+        "x": -9,
         "y": -3,
         "size": 59,
         "color": "",
@@ -67,9 +70,9 @@
     },
     "desktop": {
       "name": {
-        "x": 47,
-        "y": -1,
-        "size": -12,
+        "x": -2,
+        "y": 3,
+        "size": -53,
         "color": "#111111",
         "glow": 20
       },
@@ -82,17 +85,17 @@
         "led": "cycle"
       },
       "logo": {
-        "x": 2,
-        "y": -1,
-        "size": 195,
+        "x": -8,
+        "y": -6,
+        "size": 135,
         "color": "",
         "widthDelta": 300,
         "heightDelta": 119
       },
       "photo": {
-        "x": -7,
+        "x": -12,
         "y": -2,
-        "size": -8,
+        "size": -27,
         "color": "",
         "widthDelta": 1,
         "heightDelta": 11
