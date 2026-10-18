@@ -108,8 +108,47 @@
   "ledTicker": {
     "enabled": true,
     "text": "Bem-vindo ao ZixLima!",
-    "speed": 5,
-    "color": "blue",
-    "effect": "pulse"
+    "speed": 7,
+    "color": "green",
+    "effect": "christmas",
+    "schedule": {
+      "enabled": true,
+      "loop": true,
+      "startsAt": "2026-10-18T21:18:00.000Z",
+      "items": [
+        {
+          "id": "led-1792358508529-dwy45212",
+          "order": 1,
+          "text": "Bem vindo aos classificados Zixlima, estamos muito felizes de ter você aqui",
+          "duration": 365,
+          "unit": "days",
+          "enabled": true
+        },
+        {
+          "id": "led-1792358740931-isx8gc3r",
+          "order": 2,
+          "text": "\"BEM VINDO AO SITE DE CLASSIFICADOS FEITO PENSANDO EM VOCÊ.\"",
+          "duration": 365,
+          "unit": "days",
+          "enabled": true
+        },
+        {
+          "id": "led-1792358853823-lomxj560",
+          "order": 3,
+          "text": "PRODUTOS ANUNCIADOS DE SITES COM GARANTIA E PROCEDÊNCIA, TODOS OS SITES COM PRODUTOS NESSA PLATAFORMA SÃO DE LOJAS DE REFERÊNCIA NACIONAL VENHA CONFERIR!!!",
+          "duration": 365,
+          "unit": "days",
+          "enabled": true
+        },
+        {
+          "id": "led-1792358917841-32aza56v",
+          "order": 4,
+          "text": "Bem-vindos ao zixLima.com.br",
+          "duration": 365,
+          "unit": "days",
+          "enabled": true
+        }
+      ]
+    }
   }
 }
