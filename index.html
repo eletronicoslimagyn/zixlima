@@ -589,4 +589,91 @@ document.addEventListener('DOMContentLoaded',()=>{
 <script src="zix-layout-v3.js?v=20261018fix4" defer></script>
 <script type="module" src="./zix-afiliados-publico.js?v=1345a"></script>
 <script src="./zix-pwa.js?v=1345a" defer></script>
+
+<script id="zix-empty-sections-v1">
+(() => {
+ 'use strict';
+
+ const $ = id => document.getElementById(id);
+ const affiliate = $('zixAffiliateShowcase');
+ const affiliateGrid = $('zixAffiliateGrid');
+ const listing = $('listing');
+ const recent = $('anuncios');
+ const featured = $('zixFeatured');
+ const more = document.querySelector('.more');
+
+ if (!affiliate || !affiliateGrid || !listing || !recent) return;
+
+ let userSearching = location.hash === '#anuncios';
+
+ const visible = (node, show) => {
+   if (!node) return;
+   if (show) node.style.removeProperty('display');
+   else node.style.setProperty('display','none','important');
+ };
+
+ function update() {
+   const hasAffiliates =
+     !!affiliateGrid.querySelector('.zix-affiliate-card');
+
+   visible(affiliate, hasAffiliates);
+
+   const highlights = $('zixFeatured');
+   if (highlights) {
+     const hasHighlights =
+       !!highlights.querySelector('.zix-featured-grid .card');
+     visible(highlights, hasHighlights);
+   }
+
+   const hasAds = !!listing.querySelector('.card');
+   const notice = $('notice');
+   const error = notice && !notice.hidden &&
+     notice.textContent.trim().length > 0;
+
+   const showRecent = hasAds || userSearching || error;
+   visible(recent, showRecent);
+   visible(listing, showRecent);
+   visible(more, showRecent);
+ }
+
+ $('searchForm')?.addEventListener('submit', () => {
+   userSearching = true;
+   update();
+ }, true);
+
+ $('categories')?.addEventListener('click', e => {
+   if (e.target.closest('button')) {
+     userSearching = true;
+     update();
+   }
+ }, true);
+
+ document.querySelectorAll('a[href="#anuncios"]')
+   .forEach(a => a.addEventListener('click', () => {
+     userSearching = true;
+     update();
+   }, true));
+
+ new MutationObserver(update).observe(
+   affiliateGrid, {childList:true}
+ );
+ new MutationObserver(update).observe(
+   listing, {childList:true}
+ );
+
+ function watchFeatured() {
+   const el = $('zixFeatured');
+   if (el) {
+     new MutationObserver(update).observe(
+       el, {childList:true, subtree:true}
+     );
+   }
+   update();
+ }
+
+ watchFeatured();
+ window.addEventListener('load', watchFeatured, {once:true});
+})();
+</script>
+
 </body></html>
