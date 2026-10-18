@@ -273,7 +273,7 @@ function renderPreview(){
     ].forEach(id => setText(id, nameText));
 
     [
-      'zzTopSloganText','zzMiniSloganTextM','zzMiniSloganTextD'
+      'zzTopSloganText','zzMiniSloganTextM','zzMiniSloganTextD','zzSloganStageText'
     ].forEach(id => setText(id, sloganTextValue));
 
     // estilos nome
@@ -286,6 +286,7 @@ function renderPreview(){
     applySloganStyle($('zzTopSloganText'), Math.max(18, c.sloganTextSd), c.sloganX, c.sloganY);
     applySloganStyle($('zzMiniSloganTextM'), Math.max(16, c.sloganTextSm), c.sloganX, c.sloganY);
     applySloganStyle($('zzMiniSloganTextD'), Math.max(18, c.sloganTextSd), c.sloganX, c.sloganY);
+    applySloganStyle($('zzSloganStageText'), Math.max(20, c.sloganTextSd), c.sloganX, c.sloganY);
 
     // imagens logo
     const logoSrc = pendingLogo || current.logoPath || '';
@@ -300,6 +301,7 @@ function renderPreview(){
     setImg('zzMobileSloganImg', sloganSrc, Math.max(72, c.sloganWm), Math.max(32, c.sloganHm));
     setImg('zzMiniSloganImgM', sloganSrc, c.sloganWm, c.sloganHm);
     setImg('zzMiniSloganImgD', sloganSrc, c.sloganWd, c.sloganHd);
+    setImg('zzSloganStageImg', sloganSrc, Math.max(46, c.sloganWd), Math.max(46, c.sloganHd));
 
     // deslocamentos imagem slogan
     const tsi = $('zzTopSloganImg');
@@ -310,6 +312,13 @@ function renderPreview(){
     if(sm) sm.style.transform = `translate(${c.sloganImgX}px,${c.sloganImgY}px)`;
     const sd = $('zzMiniSloganImgD');
     if(sd) sd.style.transform = `translate(${c.sloganImgX}px,${c.sloganImgY}px)`;
+    const ss = $('zzSloganStageImg');
+    if(ss) ss.style.transform = `translate(${c.sloganImgX}px,${c.sloganImgY}px)`;
+    const wrap = $('zzSloganStageWrap');
+    if(wrap){
+      wrap.classList.remove('is-none','is-steady','is-pulse','is-cycle');
+      wrap.classList.add('is-'+(c.sloganLed||'none'));
+    }
     window.zixQuickRender?.();
   }
 

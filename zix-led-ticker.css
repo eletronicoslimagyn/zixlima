@@ -91,3 +91,52 @@
   margin-right:-18px;
  }
 }
+
+#zixLedTicker[data-effect="christmas"]{
+ background:
+ linear-gradient(#041525,#041525) padding-box,
+ conic-gradient(from var(--ang),#ff3b3b,#3bff6d,#44c8ff,#ffd63b,#ff54d9,#ff3b3b) border-box;
+ box-shadow:0 0 14px #79ffb999,0 0 24px #4dc9ff55;
+}
+#zixLedTicker[data-effect="christmas"] .zix-frase{
+ animation:zixNatalPisca 1.2s linear infinite;
+ text-shadow:0 0 6px currentColor,0 0 12px currentColor,0 0 22px #fff6;
+}
+@keyframes zixNatalPisca{
+ 0%,100%{filter:brightness(1)}
+ 25%{filter:brightness(1.18)}
+ 50%{filter:brightness(.92)}
+ 75%{filter:brightness(1.12)}
+}
+#zixLedTicker[data-effect="rainbow"]{
+ background:
+ linear-gradient(#05162a,#05162a) padding-box,
+ linear-gradient(90deg,#ff375f,#ffa500,#ffe34c,#1eff86,#35c8ff,#8767ff,#ff4fd8,#ff375f) border-box;
+ box-shadow:0 0 16px #43c4ff66,0 0 22px #ff4fd855;
+ animation:zixRainbowBorder 4s linear infinite;
+}
+#zixLedTicker[data-effect="rainbow"] .zix-track{
+ animation:zixPassar var(--tempo,20s) linear infinite;
+}
+#zixLedTicker[data-effect="rainbow"] .zix-frase{
+ background-image:linear-gradient(90deg,#ff5470 0%,#ffb703 16%,#f8ff6b 32%,#4dff88 48%,#38d9ff 64%,#8b7dff 80%,#ff65e0 100%);
+ background-size:220% auto;
+ -webkit-background-clip:text;
+ background-clip:text;
+ color:transparent;
+ -webkit-text-fill-color:transparent;
+ text-shadow:none;
+ animation:zixRainbowText 2.6s linear infinite;
+}
+@keyframes zixRainbowBorder{
+ 0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}
+}
+@keyframes zixRainbowText{
+ 0%{background-position:0% 50%;filter:drop-shadow(0 0 6px #fff7)}
+ 100%{background-position:220% 50%;filter:drop-shadow(0 0 10px #fff8)}
+}
+#zixLedPreview[data-effect="pulse"]{animation:zixPreviewPulse 1.6s ease-in-out infinite alternate;}
+#zixLedPreview[data-effect="christmas"]{background:linear-gradient(90deg,#06172c,#0c2341,#06172c);box-shadow:0 0 0 2px #e6f1ff inset,0 0 16px #57ffc266;}
+#zixLedPreview[data-effect="rainbow"]{background:linear-gradient(90deg,#081a34,#0d294f,#081a34);box-shadow:0 0 0 2px #e6f1ff inset,0 0 18px #5bc2ff55; background-size:200% auto; animation:zixPreviewRainbow 3.5s linear infinite;}
+@keyframes zixPreviewPulse{from{filter:brightness(1)}to{filter:brightness(1.2)}}
+@keyframes zixPreviewRainbow{0%{background-position:0% 50%}100%{background-position:200% 50%}}

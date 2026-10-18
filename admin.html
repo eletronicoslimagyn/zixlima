@@ -466,8 +466,27 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 }
 </style>
 
-<link rel="stylesheet" href="./zix-led-ticker.css?v=3">
-<link rel="stylesheet" href="./zix-led-schedule-admin.css?v=2">
+<link rel="stylesheet" href="./zix-led-ticker.css?v=4">
+<link rel="stylesheet" href="./zix-led-schedule-admin.css?v=3">
+
+<style>
+.zix-slogan-stage-card{margin:14px 0 8px;padding:14px;border:1px solid #bed5fa;border-radius:16px;background:linear-gradient(180deg,#f7fbff,#edf5ff);box-shadow:0 6px 18px rgba(37,99,235,.08)}
+.zix-slogan-stage-head{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.zix-slogan-stage-head h5{margin:0;font-size:18px;color:#15345b}
+.zix-slogan-stage-head span{font-size:12px;font-weight:800;color:#1d4ed8;background:#dbeafe;border-radius:999px;padding:5px 10px}
+.zix-slogan-stage{position:relative;overflow:hidden;border-radius:20px;padding:18px;border:3px solid transparent;background:linear-gradient(#071a30,#071a30) padding-box,linear-gradient(90deg,#ff4f7f,#ffb400,#fff164,#32e787,#32c5ff,#7e7cff,#ff54d6,#ff4f7f) border-box;box-shadow:0 0 24px rgba(34,211,238,.22)}
+.zix-slogan-stage-lights{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.16) 0 9px,transparent 9px 42px),linear-gradient(120deg,rgba(56,189,248,.16),transparent 40%,rgba(255,255,255,.08) 60%,transparent 78%);mix-blend-mode:screen;pointer-events:none;animation:zixStageSweep 6s linear infinite}
+.zix-slogan-stage-content{position:relative;display:flex;align-items:center;justify-content:center;gap:14px;min-height:92px;text-align:center}
+.zix-slogan-stage-content img{display:none;max-width:82px;max-height:82px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 0 10px rgba(255,255,255,.35))}
+.zix-slogan-stage-content img[src]{display:block}
+#zzSloganStageText{display:inline-block;font-size:clamp(20px,3vw,40px);font-weight:900;line-height:1.12;letter-spacing:.2px;overflow-wrap:anywhere}
+#zzSloganStageWrap.is-steady #zzSloganStageText{filter:drop-shadow(0 0 10px rgba(255,255,255,.4))}
+#zzSloganStageWrap.is-pulse #zzSloganStageText{animation:zzLedPulse 2.2s ease-in-out infinite}
+#zzSloganStageWrap.is-cycle #zzSloganStageText{animation:zzMoveGlow 2.5s linear infinite}
+#zzSloganStageWrap.is-none .zix-slogan-stage-lights{opacity:.55}
+@keyframes zixStageSweep{0%{transform:translateX(-18%)}100%{transform:translateX(18%)}}
+@media(max-width:700px){.zix-slogan-stage{padding:14px;border-radius:16px}.zix-slogan-stage-content{min-height:76px;gap:10px}}
+</style>
 </head>
 <body>
 <header>
@@ -703,6 +722,21 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
     </div>
   </div>
 
+  <div class="zix-slogan-stage-card">
+    <div class="zix-slogan-stage-head">
+      <h5>🎆 Painel animado do slogan principal</h5>
+      <span>Prévia com mais destaque</span>
+    </div>
+    <p class="zix-help">Essa área mostra o slogan principal com um acabamento mais vivo, brilho e animação de painel.</p>
+    <div class="zix-slogan-stage" id="zzSloganStageWrap">
+      <div class="zix-slogan-stage-lights" aria-hidden="true"></div>
+      <div class="zix-slogan-stage-content">
+        <img id="zzSloganStageImg" alt="Prévia animada do ícone do slogan" style="width:52px;height:52px;display:none">
+        <span id="zzSloganStageText">ZixLima Anúncie Aqui</span>
+      </div>
+    </div>
+  </div>
+
   <div id="zixEfeitosOriginais" style="margin:12px 0;padding:12px;border:1px solid #b9d2f9;border-radius:12px;background:#f3f8ff">
 <strong>✨ Aparência do painel</strong>
 <label>Celular<select id="zixEffectsMobile"><option value="led">Efeitos LED</option><option value="original">Original — sem LED</option></select></label>
@@ -731,13 +765,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 <select id="zixLedEffect">
 <option value="fixed">LED fixo</option>
 <option value="pulse">LED pulsante</option>
-<option value="christmas">Natalino multicolorido</option>
+<option value="christmas">Natalino multicolorido</option><option value="rainbow">Multicolorido arco-íris</option>
 </select></label>
 <p><strong>Prévia:</strong></p>
 <div id="zixLedPreview" style="background:#06172c;padding:15px;border-radius:9px;color:#ffe34c;font-weight:900"></div>
 <details class="zix-led-scheduler" open>
 <summary>📅 Central de frases e programação automática</summary>
-<p>Crie quantas mensagens precisar, escolha a ordem numérica e defina quantas horas ou dias cada uma ficará no painel.</p>
+<p>Crie quantas mensagens precisar, escolha a ordem numérica e defina quantos minutos, horas ou dias cada uma ficará no painel.</p>
 <div class="zix-led-toolbar">
 <label><input type="checkbox" id="zixLedAutoEnabled"> Ativar sequência programada</label>
 <label><input type="checkbox" id="zixLedLoop" checked> Repetir sequência ao terminar</label>
@@ -756,7 +790,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 <label>Duração da frase
 <input type="number" id="zixLedNewDuration" min="1" max="9999" step="1" value="1" inputmode="numeric"></label>
 <label>Escolha o período
-<select id="zixLedNewUnit"><option value="hours">Horas</option><option value="days">Dias (24 horas)</option></select></label>
+<select id="zixLedNewUnit"><option value="minutes">Minutos</option><option value="hours">Horas</option><option value="days">Dias (24 horas)</option></select></label>
 </div>
 <button type="button" id="zixLedAddPhrase" class="zix-led-action">＋ Adicionar frase</button>
 <button type="button" id="zixLedImportManual" class="zix-led-action">↳ Importar frases do campo acima</button>
@@ -764,7 +798,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 <h4>📋 Frases salvas na lista <small id="zixLedPhraseCount">0 frases</small></h4>
 <div id="zixLedPhraseList"></div>
 <p id="zixLedScheduleStatus" role="status" aria-live="polite"></p>
-<small>As alterações só entram no ar após clicar no botão verde “Salvar tudo no GitHub”. Cada dia dura 24 horas. O agendamento se baseia no horário de início salvo e avança automaticamente, mesmo com o Admin fechado.</small>
+<small>As alterações só entram no ar após clicar no botão verde “Salvar tudo no GitHub”. Minutos, horas e dias são aceitos. Cada dia dura 24 horas. O agendamento se baseia no horário de início salvo e avança automaticamente, mesmo com o Admin fechado.</small>
 </details>
 <p><small>Salve pelo botão verde Salvar tudo no GitHub.</small></p>
 </section>
@@ -1406,7 +1440,7 @@ btn.addEventListener('click',async()=>{
 
 
 <script type="module" src="./zix-afiliados-admin.js?v=1345a"></script>
-<script src="./zix-led-schedule.js?v=2" defer></script>
-<script src="./zix-led-admin.js?v=2" defer></script>
+<script src="./zix-led-schedule.js?v=3" defer></script>
+<script src="./zix-led-admin.js?v=3" defer></script>
 </body>
 </html>

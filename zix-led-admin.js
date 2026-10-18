@@ -62,7 +62,7 @@
   for(const i of c.items){
    if(!i.text.trim())throw new Error('Painel LED: uma frase está vazia. Preencha ou exclua.');
    if(!(Number.isInteger(i.duration)&&i.duration>=1&&i.duration<=9999))
-    throw new Error('Painel LED: duração deve estar entre 1 e 9999 horas ou dias.');
+    throw new Error('Painel LED: duração deve estar entre 1 e 9999 minutos, horas ou dias.');
   }
  };
  function atualizar(){
@@ -81,6 +81,7 @@
   }
   previa.textContent=texto;
   previa.style.color=cores[c.color]||cores.yellow;
+  previa.dataset.effect=['fixed','pulse','christmas','rainbow'].includes(c.effect)?c.effect:'fixed';
   $('zixLedPhraseCount').textContent=agenda.items.length+' frase(s) cadastrada(s)';
   const situacao=$('zixLedScheduleCurrent');
   const s=window.ZixLedSchedule.calcular(c.schedule);
@@ -115,6 +116,7 @@
   const [item]=agenda.items.splice(n,1);
   const pos=Math.max(0,Math.min(agenda.items.length,alvo));
   agenda.items.splice(pos,0,item);normalizar();renderLista();mudar();
+  mensagem('Ordem atualizada. Clique em “Salvar tudo no GitHub” para publicar.');
  }
  function renderLista(){
   normalizar();const raiz=$('zixLedPhraseList');raiz.replaceChildren();
@@ -139,7 +141,7 @@
     else {num.value=String(item.duration);mensagem('Digite de 1 a 9999.',true);}
    });
    const unit=campo('select');
-   for(const [v,nome] of [['hours','Horas'],['days','Dias']]){
+   for(const [v,nome] of [['minutes','Minutos'],['hours','Horas'],['days','Dias (24 horas)']]){
     const option=document.createElement('option');option.value=v;option.textContent=nome;unit.append(option);
    }
    unit.value=item.unit;unit.addEventListener('change',()=>{item.unit=unit.value;mudar();});
@@ -169,7 +171,7 @@
   if(s.length>400){mensagem('Cada frase pode ter até 400 caracteres.',true);return false;}
   if(!Number.isInteger(n)||n<1||n>9999){mensagem('Informe uma duração de 1 a 9999.',true);return false;}
   agenda.items.push({id:'led-'+Date.now()+'-'+Math.random().toString(36).slice(2,10),
-   order:agenda.items.length+1,text:s,duration:n,unit:unidade==='days'?'days':'hours',enabled:true});
+   order:agenda.items.length+1,text:s,duration:n,unit:unidade==='minutes'?'minutes':(unidade==='days'?'days':'hours'),enabled:true});
   return true;
  }
  function configurar(c){
@@ -178,7 +180,7 @@
   $('zixLedText').value=c.text||'Bem-vindo ao ZixLima!';
   $('zixLedSpeed').value=Math.max(1,Math.min(10,Number(c.speed)||5));
   if(cores[c.color])$('zixLedColor').value=c.color;
-  if(['fixed','pulse','christmas'].includes(c.effect))$('zixLedEffect').value=c.effect;
+  if(['fixed','pulse','christmas','rainbow'].includes(c.effect))$('zixLedEffect').value=c.effect;
   const s=c.schedule||{};
   agenda={enabled:s.enabled===true,loop:s.loop!==false,startsAt:s.startsAt||'',
     items:window.ZixLedSchedule.organizar(s.items)};
