@@ -411,6 +411,61 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 
 </style>
 <link rel="stylesheet" href="zix-quick-directional.css">
+
+<style>
+/* ZIX_AFILIADOS_FORM_FIX_V1 */
+#zixAfiliadoForm {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+#zixAfiliadoForm label {
+  display:block;
+  width:100%;
+  min-width:0;
+  margin:0;
+  font-weight:600;
+}
+#zixAfiliadoForm input:not([type="checkbox"]),
+#zixAfiliadoForm select,
+#zixAfiliadoForm textarea {
+  display:block;
+  position:static;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  box-sizing:border-box;
+  margin:7px 0 0;
+}
+#zixAfiliadoForm textarea {
+  min-height:105px;
+  height:auto;
+  padding:12px;
+  resize:vertical;
+  border:1px solid #ccd5e2;
+  border-radius:9px;
+  background:white;
+  color:#172033;
+  font:inherit;
+  line-height:1.5;
+}
+#zixAfiliadoForm label:has(input[type="checkbox"]) {
+  display:flex;
+  align-items:center;
+}
+#zixAfiliadoForm button {
+  align-self:flex-start;
+}
+@media(max-width:600px) {
+  #zixAfiliadosAdmin {
+    padding:15px;
+  }
+  #zixAfiliadoForm {
+    gap:15px;
+  }
+}
+</style>
+
 </head>
 <body>
 <header>
