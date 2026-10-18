@@ -1,0 +1,81 @@
+
+/* ZixLima Desktop V2 - sem alterar celular ou Manche */
+@media screen and (min-width:901px) {
+  body.zix-elite-active {
+    font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+
+  body.zix-elite-active header nav a {
+    font-size:18px!important;
+    font-weight:800!important;
+  }
+
+  body.zix-elite-active header .actions button {
+    font-size:16px!important;
+  }
+
+  body.zix-elite-active .content h2,
+  body.zix-elite-active .sectionTitle h2,
+  body.zix-elite-active #zixPlanos>h2,
+  body.zix-elite-active .mine h2 {
+    font-size:30px!important;
+    line-height:1.3;
+    font-weight:850;
+  }
+
+  body.zix-elite-active #categories .category {
+    font-size:19px!important;
+    font-weight:800!important;
+    line-height:1.4;
+  }
+
+  body.zix-elite-active #listing .card h3,
+  body.zix-elite-active #myListing .card h3 {
+    font-size:21px!important;
+    line-height:1.35;
+  }
+
+  body.zix-elite-active .card .price {
+    font-size:26px!important;
+  }
+
+  body.zix-elite-active .card .muted,
+  body.zix-elite-active .sectionTitle p,
+  body.zix-elite-active .mine p,
+  body.zix-elite-active .card .status {
+    font-size:16px!important;
+    line-height:1.5;
+  }
+
+  body.zix-elite-active .search input,
+  body.zix-elite-active .search button,
+  body.zix-elite-active #sort,
+  body.zix-elite-active #moreBtn {
+    font-size:17px!important;
+  }
+
+  body.zix-elite-active #zixPlanos p,
+  body.zix-elite-active #zixPlanCards .zix-plano-dinamico {
+    font-size:17px!important;
+  }
+
+  body.zix-elite-active #zixPlanCards .zix-plano-dinamico strong {
+    font-size:19px!important;
+    font-weight:850;
+  }
+
+  body.zix-elite-active #zixPlanCards .zix-plano-dinamico b {
+    font-size:25px!important;
+    font-weight:900;
+  }
+
+  body.zix-elite-active footer,
+  body.zix-elite-active footer p,
+  body.zix-elite-active footer a,
+  body.zix-elite-active footer strong {
+    font-size:16px!important;
+    line-height:1.6;
+  }
+}
