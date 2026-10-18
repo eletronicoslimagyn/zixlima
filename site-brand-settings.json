@@ -16,7 +16,7 @@
   "nameY": 6,
   "nameLs": 6,
   "sloganTextSm": 18,
-  "sloganTextSd": 12,
+  "sloganTextSd": 33,
   "sloganWm": 91,
   "sloganHm": 49,
   "sloganWd": 201,
@@ -29,13 +29,13 @@
   "sloganGlow": 19,
   "sloganX": -11,
   "sloganY": 14,
-  "sloganImgX": -5,
+  "sloganImgX": -6,
   "sloganImgY": 2,
   "quick": {
     "mobile": {
       "name": {
-        "x": -7,
-        "y": -1,
+        "x": -2,
+        "y": -2,
         "size": 0,
         "color": ""
       },
@@ -46,34 +46,34 @@
         "color": "#111111"
       },
       "logo": {
-        "x": -7,
-        "y": -8,
+        "x": -6,
+        "y": -15,
         "size": 0,
         "color": ""
       },
       "photo": {
         "x": -9,
-        "y": 1,
+        "y": -1,
         "size": -1,
         "color": ""
       }
     },
     "desktop": {
       "name": {
-        "x": -2,
+        "x": 3,
         "y": -1,
         "size": -1,
         "color": "#e5e7eb"
       },
       "slogan": {
-        "x": -10,
-        "y": 8,
+        "x": 0,
+        "y": 6,
         "size": 0,
         "color": ""
       },
       "logo": {
         "x": -2,
-        "y": -1,
+        "y": -5,
         "size": 0,
         "color": ""
       },
