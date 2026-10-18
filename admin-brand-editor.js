@@ -424,7 +424,19 @@ function renderPreview(){
         'Atualizar editor visual da marca pelo Admin'
       );
 
-      msg('Marca visual publicada no GitHub! Aguarde a atualização do Pages.', true);
+      // ZIX_GITHUB_SAVE_VERIFICATION_V1
+      // GitHub Contents PUT retorna sucesso antes da implantacao do Pages.
+      // Confere o arquivo de configuracoes na API para distinguir gravacao de cache.
+      msg('Gravação enviada. Verificando configuração no GitHub...');
+      const confirmed = await request('/contents/site-brand-settings.json?ref=main&t=' + Date.now());
+      if(!confirmed.content){throw new Error('Gravado, mas resposta de verificação sem conteúdo. Verifique o GitHub.');}
+      const raw = Uint8Array.from(atob(confirmed.content.replace(/\s/g,'')), ch=>ch.charCodeAt(0));
+      const stored = JSON.parse(new TextDecoder().decode(raw));
+      const expected = JSON.stringify(settings);
+      if(JSON.stringify(stored) !== expected){
+        throw new Error('Gravação não confirmada: configuração diferente no GitHub. Atualize e tente novamente.');
+      }
+      msg('Confirmado no GitHub! As configurações foram gravadas. Aguarde o Pages atualizar.', true);
     }catch(e){
       msg('Falha: ' + e.message, false);
     }finally{
