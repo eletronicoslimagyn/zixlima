@@ -34,59 +34,63 @@
   "quick": {
     "mobile": {
       "name": {
-        "x": 19,
+        "x": 31,
         "y": -2,
-        "size": 1,
-        "color": "",
-        "glow": 20
+        "size": 15,
+        "color": ""
       },
       "slogan": {
-        "x": 27,
-        "y": 7,
-        "size": 10,
+        "x": 7,
+        "y": 1,
+        "size": 5,
         "color": "#111111",
         "glow": 20,
         "ledColor": "#f7c948",
         "led": ""
       },
       "logo": {
-        "x": -9,
-        "y": -6,
-        "size": 28,
+        "x": -8,
+        "y": -16,
+        "size": 107,
         "color": "",
-        "widthDelta": 16,
-        "heightDelta": 9
+        "widthDelta": 24,
+        "heightDelta": 14
       },
       "photo": {
-        "x": -6,
+        "x": -2,
         "y": -3,
-        "size": 50,
+        "size": 59,
         "color": "",
-        "widthDelta": 22,
+        "widthDelta": 23,
         "heightDelta": 18
       }
     },
     "desktop": {
       "name": {
-        "x": 3,
+        "x": 41,
         "y": -1,
-        "size": -1,
-        "color": "#e5e7eb"
+        "size": -12,
+        "color": "#111111",
+        "glow": 20
       },
       "slogan": {
         "x": 0,
         "y": 6,
         "size": 0,
-        "color": ""
+        "color": "",
+        "ledColor": "#ffffff",
+        "led": "cycle"
       },
       "logo": {
-        "x": -2,
-        "y": -5,
-        "size": 0,
-        "color": ""
+        "x": -7,
+        "y": -17,
+        "size": 120,
+        "color": "",
+        "widthDelta": 109,
+        "heightDelta": 117
       },
       "photo": {
-        "x": -29,
+        "x": -27,
         "y": -2,
         "size": -29,
         "color": "",
