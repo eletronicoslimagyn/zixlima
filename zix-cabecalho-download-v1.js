@@ -16,11 +16,24 @@
    const nav = top?.querySelector(':scope > nav');
    if (!actions || !clock || !post || !login || !nav) return;
 
+
+   // Reutiliza o relogio original, sem criar copia.
    function organizar() {
-     post.after(clock);
+     if (clock.previousElementSibling !== post ||
+         clock.nextElementSibling !== login) {
+       post.after(clock);
+       if (clock.nextElementSibling !== login) {
+         clock.after(login);
+       }
+     }
    }
+
    organizar();
-   window.matchMedia('(max-width:700px)').addEventListener('change', organizar);
+   window.addEventListener('load', organizar);
+
+   // Corrige movimentacoes posteriores dos scripts antigos.
+   const observer = new MutationObserver(() => organizar());
+   observer.observe(top, {childList:true, subtree:true});
 
    if (!document.getElementById('zixInstallApp')) {
      const area = document.createElement('div');
