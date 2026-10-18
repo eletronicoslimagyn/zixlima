@@ -31,6 +31,9 @@
   "sloganY": 14,
   "sloganImgX": -6,
   "sloganImgY": 2,
+  "bannerExtended": true,
+  "effectsModeMobile": "led",
+  "effectsModeDesktop": "led",
   "quick": {
     "mobile": {
       "name": {
@@ -102,5 +105,11 @@
       }
     }
   },
-  "bannerExtended": true
+  "ledTicker": {
+    "enabled": true,
+    "text": "Bem-vindo ao ZixLima!",
+    "speed": 5,
+    "color": "blue",
+    "effect": "pulse"
+  }
 }
