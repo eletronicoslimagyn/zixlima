@@ -77,12 +77,14 @@
       nameColor: $('zzNameColor').value, nameLed: $('zzNameLed').value, nameGlow: val('zzNameGlow',6),
       sloganColor: $('zzSloganColor').value, sloganLed: $('zzSloganLed').value, sloganGlow: val('zzSloganGlow',6),
       sloganX: val('zzSloganX'), sloganY: val('zzSloganY'), sloganImgX: val('zzSloganImgX'), sloganImgY: val('zzSloganImgY'),
+      bannerExtended: $('zzBannerEstendido')?.value !== 'false',
       quick: window.zixQuickData || current.quick || {}
     };
   }
 
   function fill(data={}){
     current = {...defaults, ...data};
+    if($('zzBannerEstendido')) $('zzBannerEstendido').value = String(current.bannerExtended !== false);
     window.zixQuickData = JSON.parse(JSON.stringify(current.quick || {}));
     $('zzLogoWm').value = current.logoWm;
     $('zzLogoHm').value = current.logoHm;
