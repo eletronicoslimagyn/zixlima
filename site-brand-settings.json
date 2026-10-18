@@ -1,26 +1,26 @@
 {
   "logoPath": "./assets/zixlima-logo-topo-custom.png",
   "sloganPath": "./assets/zixlima-slogan-icone-custom.png",
-  "logoWm": 173,
-  "logoHm": 140,
+  "logoWm": 150,
+  "logoHm": 100,
   "logoWd": 150,
-  "logoHd": 139,
+  "logoHd": 140,
   "logoXm": 17,
   "logoYm": 16,
   "logoXd": 11,
   "logoYd": 8,
   "nameSm": 64,
   "nameSd": 87,
-  "nameSx": 51,
+  "nameSx": 50,
   "nameSy": 20,
   "nameY": 6,
-  "nameLs": 8,
-  "sloganTextSm": 24,
-  "sloganTextSd": 27,
-  "sloganWm": 99,
-  "sloganHm": 57,
-  "sloganWd": 205,
-  "sloganHd": 101,
+  "nameLs": 6,
+  "sloganTextSm": 12,
+  "sloganTextSd": 0,
+  "sloganWm": 91,
+  "sloganHm": 49,
+  "sloganWd": 201,
+  "sloganHd": 95,
   "nameColor": "original",
   "nameLed": "cycle",
   "nameGlow": 13,
@@ -40,10 +40,10 @@
         "color": ""
       },
       "slogan": {
-        "x": 12,
-        "y": 3,
+        "x": -2,
+        "y": 8,
         "size": 0,
-        "color": ""
+        "color": "#111111"
       },
       "logo": {
         "x": 0,
@@ -52,7 +52,7 @@
         "color": ""
       },
       "photo": {
-        "x": -9,
+        "x": -7,
         "y": 0,
         "size": -1,
         "color": ""
@@ -61,13 +61,13 @@
     "desktop": {
       "name": {
         "x": -2,
-        "y": 34,
+        "y": -1,
         "size": -1,
         "color": "#e5e7eb"
       },
       "slogan": {
         "x": -10,
-        "y": 15,
+        "y": 8,
         "size": 0,
         "color": ""
       },
