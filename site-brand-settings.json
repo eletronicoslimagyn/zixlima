@@ -67,7 +67,7 @@
     },
     "desktop": {
       "name": {
-        "x": 41,
+        "x": 47,
         "y": -1,
         "size": -12,
         "color": "#111111",
@@ -77,24 +77,25 @@
         "x": 0,
         "y": 6,
         "size": 0,
-        "color": "",
+        "color": "#ffffff",
         "ledColor": "#ffffff",
         "led": "cycle"
       },
       "logo": {
-        "x": -7,
-        "y": -17,
-        "size": 120,
+        "x": 2,
+        "y": -1,
+        "size": 195,
         "color": "",
-        "widthDelta": 109,
-        "heightDelta": 117
+        "widthDelta": 300,
+        "heightDelta": 119
       },
       "photo": {
-        "x": -27,
+        "x": -7,
         "y": -2,
-        "size": -29,
+        "size": -8,
         "color": "",
-        "widthDelta": -2
+        "widthDelta": 1,
+        "heightDelta": 11
       }
     }
   }
