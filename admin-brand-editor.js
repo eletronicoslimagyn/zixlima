@@ -81,6 +81,7 @@
       effectsModeMobile: $('zixEffectsMobile')?.value || current.effectsModeMobile || 'led',
       effectsModeDesktop: $('zixEffectsDesktop')?.value || current.effectsModeDesktop || 'led',
       quick: window.zixQuickData || current.quick || {},
+      sloganGallery: window.zixGalleryCollect?.() || current.sloganGallery || {},
       ledTicker: window.zixLedCollect?.() || current.ledTicker || {}
     };
   }
@@ -419,6 +420,9 @@ function renderPreview(){
 
       // Confere programação LED antes de publicar outros ajustes.
       window.zixLedValidate?.();
+      // Valida e envia apenas as novas fotos antes de gravar a programação.
+      window.zixGalleryValidate?.();
+      await window.zixGalleryUploadPending?.(putBinaryFile);
       const settings = collect();
       settings.logoPath = current.logoPath || '';
       settings.sloganPath = current.sloganPath || '';
