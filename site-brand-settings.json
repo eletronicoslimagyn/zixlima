@@ -108,7 +108,7 @@
   "ledTicker": {
     "enabled": true,
     "text": "Bem-vindo ao ZixLima!",
-    "speed": 7,
+    "speed": 6,
     "color": "green",
     "effect": "pulse",
     "schedule": {
@@ -156,16 +156,16 @@
     "loop": true,
     "startsAt": "2026-10-19T00:43:00.000Z",
     "effect": "aurora",
-    "transition": "zoom",
-    "speed": 20,
-    "glow": 19,
+    "transition": "slide",
+    "speed": 42,
+    "glow": 29,
     "items": [
       {
-        "id": "zg-1792370704075-3lshd7a9",
+        "id": "zg-1792371312220-kfygwkf0",
         "order": 1,
-        "title": "Caixa de som Basike 80w",
-        "subtitle": "Goiânia",
-        "src": "./assets/zix-gallery/zg-1792370704075-3lshd7a9.jpg",
+        "title": "zixlima.com.br",
+        "subtitle": "Goiânia-GO",
+        "src": "./assets/zix-gallery/zg-1792371312220-kfygwkf0.jpg",
         "url": "",
         "duration": 3,
         "unit": "minutes",
