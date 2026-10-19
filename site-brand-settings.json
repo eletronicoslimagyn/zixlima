@@ -108,7 +108,7 @@
   "ledTicker": {
     "enabled": true,
     "text": "Bem-vindo ao ZixLima!",
-    "speed": 6,
+    "speed": 9,
     "color": "green",
     "effect": "pulse",
     "schedule": {
