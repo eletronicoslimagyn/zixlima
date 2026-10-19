@@ -108,7 +108,7 @@
   "ledTicker": {
     "enabled": true,
     "text": "Bem-vindo ao ZixLima!",
-    "speed": 9,
+    "speed": 7,
     "color": "green",
     "effect": "pulse",
     "schedule": {
@@ -154,15 +154,26 @@
   "sloganGallery": {
     "enabled": true,
     "loop": true,
-    "startsAt": "2026-10-19T00:43:00.000Z",
-    "effect": "aurora",
-    "transition": "slide",
-    "speed": 42,
-    "glow": 29,
+    "startsAt": "2026-10-19T02:31:23.580Z",
+    "effect": "electric",
+    "transition": "fade",
+    "speed": 31,
+    "glow": 26,
     "items": [
       {
-        "id": "zg-1792371312220-kfygwkf0",
+        "id": "zg-1792377050556-eodncjln",
         "order": 1,
+        "title": "Eletrônicos Lima Gyn",
+        "subtitle": "Goiânia-Go",
+        "src": "./assets/zix-gallery/zg-1792377050556-eodncjln.jpg",
+        "url": "",
+        "duration": 4,
+        "unit": "minutes",
+        "enabled": true
+      },
+      {
+        "id": "zg-1792371312220-kfygwkf0",
+        "order": 2,
         "title": "zixlima.com.br",
         "subtitle": "Goiânia-GO",
         "src": "./assets/zix-gallery/zg-1792371312220-kfygwkf0.jpg",
