@@ -108,7 +108,7 @@
   "ledTicker": {
     "enabled": true,
     "text": "Bem-vindo ao ZixLima!",
-    "speed": 9,
+    "speed": 7,
     "color": "green",
     "effect": "pulse",
     "schedule": {
@@ -119,7 +119,7 @@
         {
           "id": "led-1792358508529-dwy45212",
           "order": 1,
-          "text": "Bem vindo aos classificados Zixlima, estamos muito felizes de ter você aqui!!!",
+          "text": "Bem vindo aos classificados Zixlima, estamos muito felizes de ter você aqui",
           "duration": 3,
           "unit": "minutes",
           "enabled": true
@@ -127,7 +127,7 @@
         {
           "id": "led-1792358740931-isx8gc3r",
           "order": 2,
-          "text": "BEM VINDO AO SITE DE CLASSIFICADOS FEITO PENSANDO EM VOCÊ!!!",
+          "text": "\"BEM VINDO AO SITE DE CLASSIFICADOS FEITO PENSANDO EM VOCÊ.\"",
           "duration": 3,
           "unit": "minutes",
           "enabled": true
@@ -143,7 +143,7 @@
         {
           "id": "led-1792358917841-32aza56v",
           "order": 4,
-          "text": "Bem-vindos ao zixLima.com.br!!!",
+          "text": "Bem-vindos ao zixLima.com.br",
           "duration": 3,
           "unit": "minutes",
           "enabled": true
