@@ -150,5 +150,27 @@
         }
       ]
     }
+  },
+  "sloganGallery": {
+    "enabled": true,
+    "loop": true,
+    "startsAt": "2026-10-19T00:43:00.000Z",
+    "effect": "aurora",
+    "transition": "zoom",
+    "speed": 20,
+    "glow": 19,
+    "items": [
+      {
+        "id": "zg-1792370704075-3lshd7a9",
+        "order": 1,
+        "title": "Caixa de som Basike 80w",
+        "subtitle": "Goiânia",
+        "src": "./assets/zix-gallery/zg-1792370704075-3lshd7a9.jpg",
+        "url": "",
+        "duration": 3,
+        "unit": "minutes",
+        "enabled": true
+      }
+    ]
   }
 }
