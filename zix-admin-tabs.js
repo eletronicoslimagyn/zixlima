@@ -45,8 +45,27 @@
       title?.insertAdjacentElement('afterend',section);
       const save=document.createElement('button');save.type='button';
       save.textContent='💾 Salvar configurações no GitHub';save.className='ok';
-      save.addEventListener('click',()=>document.getElementById('zzSalvarMarcaGithub')?.click());
-      section.appendChild(save);
+      const result=document.createElement('p');
+      result.id='zixBackupGithubResultado';
+      result.setAttribute('role','status');
+      result.setAttribute('aria-live','polite');
+      result.style.cssText='white-space:pre-wrap;overflow-wrap:anywhere;font-weight:600;margin:12px 0';
+      const originalResult=document.getElementById('zzMarcaMensagem');
+      if(originalResult){
+        const showResult=()=>{
+          result.textContent=originalResult.textContent||'';
+          result.style.color=originalResult.style.color||'';
+        };
+        new MutationObserver(showResult).observe(originalResult,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['style']});
+      }
+      save.addEventListener('click',()=>{
+        result.style.color='';
+        result.textContent='Solicitando envio ao GitHub...';
+        const originalButton=document.getElementById('zzSalvarMarcaGithub');
+        if(!originalButton){result.textContent='Erro: botão original de publicação não encontrado.';return;}
+        originalButton.click();
+      });
+      section.append(save,result);
     }
     const groups={inicio:[inicio],anuncios:[moderation],marca:[marca],afiliados:[afil],planos:[plano],financeiro:[financeiro,...finChildren],perfil:[email,perfil],backup:[backup]};
     // A moderação foi originalmente colocada fora de #painel. Movê-la para dentro
