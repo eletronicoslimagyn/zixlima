@@ -1,0 +1,13 @@
+/* ZixLima - Fundo escolhido pelo usuario, mesmo com layout premium ativo. */
+html body[data-zz-color="blue"]   {--zix-bg:#eaf3ff;--zz-page:#eaf3ff}
+html body[data-zz-color="green"]  {--zix-bg:#d8f2dd;--zz-page:#d8f2dd}
+html body[data-zz-color="sand"]   {--zix-bg:#fff0c1;--zz-page:#fff0c1}
+html body[data-zz-color="purple"] {--zix-bg:#eadcff;--zz-page:#eadcff}
+html body[data-zz-color="navy"]   {--zix-bg:#182b51;--zz-page:#182b51}
+html body[data-zz-color="black"]  {--zix-bg:#151515;--zz-page:#151515}
+html body[data-zz-color="silver"] {--zix-bg:#dce1e6;--zz-page:#dce1e6}
+html body[data-zz-color] {background-color:var(--zix-bg)!important;background-image:none!important}
+html body[data-zz-color] main {background-color:transparent}
+/* Mantem o menu acima do layout, sem ser cortado pelo cabecalho. */
+body #zzPalette {position:fixed!important;z-index:99999!important;right:auto!important;max-width:min(250px,calc(100vw - 16px));max-height:calc(100dvh - 16px);overflow-y:auto;box-sizing:border-box}
+body #zzPalette:not(.open){display:none!important}
