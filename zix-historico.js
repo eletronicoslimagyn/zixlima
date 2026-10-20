@@ -43,7 +43,7 @@ function render(){
   const actions=node('div','zix-history-actions');
   const edit=node('button','','✏️ Editar');edit.type='button';edit.onclick=()=>openEdit(x);actions.append(edit);
   if(x.status==='approved'&&!x.zix_blocked&&status(x)!=='expired'){
-   const share=node('button','','🔗 Copiar link');share.type='button';share.onclick=async()=>{const u=new URL('https://oxhzzxnrpnmderaeypcs.supabase.co/functions/v1/zix-anuncio-preview');u.searchParams.set('anuncio',x.id);try{await navigator.clipboard.writeText(u.href);message('Link copiado para o anúncio '+(x.zix_code||x.id))}catch{window.prompt('Copie o link:',u.href)}};actions.append(share);
+   const share=node('button','','🔗 Copiar link');share.type='button';share.onclick=async()=>{const u=new URL('https://zixlima-previa-anuncios.suportezixlima.workers.dev/');u.searchParams.set('anuncio',x.id);try{await navigator.clipboard.writeText(u.href);message('Link copiado para o anúncio '+(x.zix_code||x.id))}catch{window.prompt('Copie o link:',u.href)}};actions.append(share);
   }
   for(const [title,next] of x.status==='pending'?[['Aprovar','approved'],['Rejeitar','rejected']]:[]){const b=node('button','',title);b.type='button';b.onclick=()=>setStatus(x,next);actions.append(b)}
   item.append(actions);area.append(item);
