@@ -1,0 +1,166 @@
+{
+  "schema": "zixlima-code-library-v1",
+  "version": 7,
+  "language": "pt-BR",
+  "source": "Pacote MONSTRO — exemplos de programação para Termux e ZixLima",
+  "entries": [
+    {
+      "id": "monstro-zixlima-001-01",
+      "title": "GitHub: atualizar sem perder modificações",
+      "category": "Termux / Git",
+      "language": "Bash",
+      "level": "Avançado",
+      "summary": "Atualiza a branch main apenas quando a pasta está limpa e a mudança é fast-forward.",
+      "filename": "atualizar-git.sh",
+      "code": "#!/usr/bin/env bash\nset -euo pipefail\nREPO=\"${1:-$HOME/zixlima}\"\n[[ -d \"$REPO/.git\" ]] || { echo 'Repositório não encontrado'; exit 1; }\ncd \"$REPO\"\nif [[ -n \"$(git status --porcelain)\" ]]; then\n  echo 'Há alterações locais; faça backup ou commit antes de atualizar.'; exit 1\nfi\ngit fetch origin main\ngit merge --ff-only origin/main\necho 'Atualizado sem merge forçado.'\n",
+      "tags": [
+        "termux",
+        "git",
+        "segurança"
+      ],
+      "caution": "Exemplo educativo sob medida para projetos de desenvolvimento. Revise, adapte, faça backup e teste antes de executar."
+    },
+    {
+      "id": "monstro-zixlima-001-02",
+      "title": "Criar backup datado do projeto no Termux",
+      "category": "Termux / Backups",
+      "language": "Bash",
+      "level": "Avançado",
+      "summary": "Cópia em arquivo .tar.gz, com exclusões de dependências e arquivos .env.",
+      "filename": "backup-projeto.sh",
+      "code": "#!/usr/bin/env bash\nset -euo pipefail\nPROJECT=\"${1:-$HOME/zixlima}\"\nDEST=\"$HOME/storage/downloads\"\n[[ -d \"$PROJECT\" && -d \"$DEST\" ]] || { echo 'Verifique caminho do projeto e acesso ao armazenamento'; exit 1; }\nSTAMP=\"$(date +%Y%m%d-%H%M%S)\"\nOUT=\"$DEST/backup-projeto-$STAMP.tar.gz\"\ntar --exclude=.git --exclude=node_modules --exclude=.env --exclude='.env.*' -czf \"$OUT\" -C \"$PROJECT\" .\necho \"Backup criado: $OUT\"\n",
+      "tags": [
+        "termux",
+        "backup"
+      ],
+      "caution": "Exemplo educativo sob medida para projetos de desenvolvimento. Revise, adapte, faça backup e teste antes de executar."
+    },
+    {
+      "id": "monstro-zixlima-001-03",
+      "title": "Verificar sintaxe antes de publicar",
+      "category": "Termux / Qualidade",
+      "language": "Bash",
+      "level": "Avançado",
+      "summary": "Verifica sintaxe de JavaScript, Shell e Python sem executar arquivos do projeto.",
+      "filename": "verificar-sintaxe.sh",
+      "code": "#!/usr/bin/env bash\nset -euo pipefail\nDIR=\"${1:-.}\"\ncd \"$DIR\"\nif command -v node >/dev/null; then\n  find . -name '*.js' -not -path '*/node_modules/*' -type f -print0 | while IFS= read -r -d '' f; do node --check \"$f\"; done\nfi\nfind . -name '*.sh' -type f -print0 | while IFS= read -r -d '' f; do bash -n \"$f\"; done\nif command -v python >/dev/null; then\n  python - <<'PY_VALIDATE_SCRIPT'\nimport ast,pathlib\nfor p in pathlib.Path('.').rglob('*.py'):\n    if 'node_modules' in p.parts:continue\n    ast.parse(p.read_text(encoding='utf-8'),filename=str(p))\nprint('Python sintaticamente válido')\nPY_VALIDATE_SCRIPT\nfi\necho 'Verificações concluídas.'\n",
+      "tags": [
+        "node",
+        "python",
+        "bash"
+      ],
+      "caution": "Exemplo educativo sob medida para projetos de desenvolvimento. Revise, adapte, faça backup e teste antes de executar."
+    },
+    {
+      "id": "monstro-zixlima-001-04",
+      "title": "Consultar endereço via ViaCEP",
+      "category": "Frontend / JavaScript",
+      "language": "JavaScript",
+      "level": "Avançado",
+      "summary": "Busca logradouro e localidade com validação e tratamento de erros.",
+      "filename": "consultar-cep.js",
+      "code": "async function consultarCEP(cep, signal) {\n  const digits = String(cep).replace(/\\D/g, '');\n  if (!/^\\d{8}$/.test(digits)) throw new Error('CEP deve ter 8 dígitos');\n  const res = await fetch(`https://viacep.com.br/ws/${digits}/json/`, {signal});\n  if (!res.ok) throw new Error('Serviço de CEP indisponível');\n  const d = await res.json();\n  if (d.erro) throw new Error('CEP não encontrado');\n  return {rua:d.logradouro||'', bairro:d.bairro||'', cidade:d.localidade||'', uf:d.uf||''};\n}\n// Mantenha campos editáveis e peça autorização antes de publicar endereço completo.\n",
+      "tags": [
+        "cep",
+        "cadastro",
+        "viaCEP"
+      ],
+      "caution": "Exemplo educativo sob medida para projetos de desenvolvimento. Revise, adapte, faça backup e teste antes de executar."
+    },
+    {
+      "id": "monstro-zixlima-001-05",
+      "title": "Modelo de controle de acesso RLS Supabase",
+      "category": "Supabase / SQL",
+      "language": "SQL",
+      "level": "Avançado",
+      "summary": "Exemplo de políticas que limitam acesso ao proprietário do registro.",
+      "filename": "rls-modelo.sql",
+      "code": "-- MODELO: exige uma tabela fictícia public.meus_documentos(owner_id uuid, ...).\n-- NÃO aplique diretamente sobre tabelas existentes sem analisar as políticas atuais.\nALTER TABLE public.meus_documentos ENABLE ROW LEVEL SECURITY;\nCREATE POLICY meus_docs_ler ON public.meus_documentos\n  FOR SELECT TO authenticated USING (owner_id = (SELECT auth.uid()));\nCREATE POLICY meus_docs_criar ON public.meus_documentos\n  FOR INSERT TO authenticated WITH CHECK (owner_id = (SELECT auth.uid()));\nCREATE POLICY meus_docs_editar ON public.meus_documentos\n  FOR UPDATE TO authenticated USING (owner_id = (SELECT auth.uid()))\n  WITH CHECK (owner_id = (SELECT auth.uid()));\n",
+      "tags": [
+        "supabase",
+        "rls",
+        "privacidade"
+      ],
+      "caution": "Exemplo educativo sob medida para projetos de desenvolvimento. Revise, adapte, faça backup e teste antes de executar."
+    },
+    {
+      "id": "monstro-zixlima-001-06",
+      "title": "Fazer backup transacional de SQLite",
+      "category": "Banco de dados / Python",
+      "language": "Python",
+      "level": "Avançado",
+      "summary": "Copia um banco SQLite consistentemente, sem interromper operações do aplicativo.",
+      "filename": "backup-sqlite.py",
+      "code": "import sqlite3\nfrom pathlib import Path\nfrom datetime import datetime\n\ndef salvar_copia(origem, pasta):\n    origem=Path(origem)\n    destino_dir=Path(pasta)\n    if not origem.is_file(): raise FileNotFoundError(origem)\n    destino_dir.mkdir(parents=True,exist_ok=True)\n    destino=destino_dir/f'backup-{datetime.now():%Y%m%d-%H%M%S}.sqlite3'\n    if destino.exists(): raise FileExistsError(destino)\n    with sqlite3.connect(origem) as db, sqlite3.connect(destino) as backup:\n        db.backup(backup)\n    return destino\n",
+      "tags": [
+        "python",
+        "sqlite",
+        "backup"
+      ],
+      "caution": "Exemplo educativo sob medida para projetos de desenvolvimento. Revise, adapte, faça backup e teste antes de executar."
+    },
+    {
+      "id": "monstro-zixlima-001-07",
+      "title": "Exibir anúncios sem interpretar HTML de usuários",
+      "category": "Segurança / JavaScript",
+      "language": "JavaScript",
+      "level": "Avançado",
+      "summary": "Evita executar marcação maliciosa presente em conteúdo de anúncios.",
+      "filename": "anuncio-seguro.js",
+      "code": "function mostrarAnuncio(container, anuncio) {\n  const artigo = document.createElement('article');\n  const titulo = document.createElement('h3');\n  const descricao = document.createElement('p');\n  titulo.textContent = String(anuncio.title || 'Sem título');\n  descricao.textContent = String(anuncio.description || '');\n  artigo.append(titulo,descricao);\n  container.replaceChildren(artigo);\n}\n",
+      "tags": [
+        "xss",
+        "javascript",
+        "classificados"
+      ],
+      "caution": "Exemplo educativo sob medida para projetos de desenvolvimento. Revise, adapte, faça backup e teste antes de executar."
+    },
+    {
+      "id": "monstro-zixlima-001-08",
+      "title": "Transformar vídeo WebM em MP4 pelo Termux",
+      "category": "Cinema / FFmpeg",
+      "language": "Bash",
+      "level": "Avançado",
+      "summary": "Converte vídeos gerados no navegador sem substituir o arquivo original.",
+      "filename": "converter-mp4.sh",
+      "code": "#!/usr/bin/env bash\nset -euo pipefail\n[[ $# -eq 1 && -f \"$1\" ]] || { echo 'Uso: bash converter.sh filme.webm'; exit 1; }\ncommand -v ffmpeg >/dev/null || { echo 'Instale o FFmpeg: pkg install ffmpeg'; exit 1; }\nORIGEM=\"$1\"; SAIDA=\"${ORIGEM%.*}.mp4\"\n[[ ! -e \"$SAIDA\" ]] || { echo 'Arquivo de destino já existe; não vou substituir.'; exit 1; }\nffmpeg -nostdin -i \"$ORIGEM\" -c:v libx264 -pix_fmt yuv420p -c:a aac -movflags +faststart \"$SAIDA\"\necho \"Salvo: $SAIDA\"\n",
+      "tags": [
+        "video",
+        "termux",
+        "ffmpeg"
+      ],
+      "caution": "Exemplo educativo sob medida para projetos de desenvolvimento. Revise, adapte, faça backup e teste antes de executar."
+    },
+    {
+      "id": "monstro-zixlima-001-09",
+      "title": "Servidor local Python sem abrir acesso à rede",
+      "category": "Backend / Python",
+      "language": "Python",
+      "level": "Avançado",
+      "summary": "Servidor de desenvolvimento que escuta apenas o dispositivo atual.",
+      "filename": "servidor-local.py",
+      "code": "from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler\nfrom pathlib import Path\nROOT=Path(__file__).resolve().parent\nclass LocalHandler(SimpleHTTPRequestHandler):\n    def __init__(self,*args,**kwargs):\n        super().__init__(*args,directory=str(ROOT),**kwargs)\nprint('Abra: http://127.0.0.1:8765')\nThreadingHTTPServer(('127.0.0.1',8765),LocalHandler).serve_forever()\n",
+      "tags": [
+        "localhost",
+        "python"
+      ],
+      "caution": "Exemplo educativo sob medida para projetos de desenvolvimento. Revise, adapte, faça backup e teste antes de executar."
+    },
+    {
+      "id": "monstro-zixlima-001-10",
+      "title": "Examinar alterações Git sem publicar nada",
+      "category": "Termux / Git",
+      "language": "Bash",
+      "level": "Avançado",
+      "summary": "Inspeciona o que será publicado e não executa alterações remotas.",
+      "filename": "auditar-git.sh",
+      "code": "#!/usr/bin/env bash\nset -euo pipefail\ncd \"${1:-$HOME/zixlima}\"\ngit rev-parse --is-inside-work-tree >/dev/null\nprintf '\\nArquivos alterados:\\n'; git status --short\nprintf '\\nResumo das mudanças:\\n'; git diff --stat\nprintf '\\nProblemas de espaçamento:\\n'; git diff --check\necho 'Somente auditoria: não houve commit ou push.'\n",
+      "tags": [
+        "github",
+        "segurança",
+        "auditoria"
+      ],
+      "caution": "Exemplo educativo sob medida para projetos de desenvolvimento. Revise, adapte, faça backup e teste antes de executar."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "ZixLima MONSTRO IA 3.0",
+  "short_name": "MONSTRO IA",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#10162a",
+  "icons": [
+    {
+      "src": "./icone.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
