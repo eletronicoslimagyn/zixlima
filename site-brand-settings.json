@@ -108,13 +108,13 @@
   "ledTicker": {
     "enabled": true,
     "text": "Bem-vindo ao ZixLima!",
-    "speed": 7,
+    "speed": 1,
     "color": "green",
     "effect": "pulse",
     "schedule": {
       "enabled": true,
       "loop": true,
-      "startsAt": "2026-10-18T21:18:00.000Z",
+      "startsAt": "2026-10-20T03:08:52.694Z",
       "items": [
         {
           "id": "led-1792358508529-dwy45212",
@@ -155,10 +155,10 @@
     "enabled": true,
     "loop": true,
     "startsAt": "2026-10-19T02:31:23.580Z",
-    "effect": "electric",
-    "transition": "fade",
+    "effect": "rainbow",
+    "transition": "zoom",
     "speed": 31,
-    "glow": 26,
+    "glow": 18,
     "items": [
       {
         "id": "zg-1792377050556-eodncjln",
