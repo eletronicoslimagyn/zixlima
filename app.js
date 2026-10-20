@@ -12,9 +12,8 @@ function dialog(id){const d=$(id);if(!d.open)d.showModal()}
 function safe(url){try{const u=new URL(url);return ['https:','http:'].includes(u.protocol)?u.href:null}catch{return null}}
 // Compartilhamento individual: o ID fica no banco e a URL funciona no GitHub Pages.
 const zixLinkFor=x=>{
-  const url=new URL('./',window.location.href);
-  url.search='';url.hash='';url.searchParams.set('anuncio',String(x.id));
-  return url.href;
+  // A Edge Function entrega titulo e foto aos aplicativos sociais.
+  return 'https://oxhzzxnrpnmderaeypcs.supabase.co/functions/v1/zix-anuncio-preview?anuncio='+encodeURIComponent(String(x.id));
 };
 const zixIsPublished=x=>x.status==='approved'&&(!x.zix_expires_at||new Date(x.zix_expires_at).getTime()>Date.now());
 let zixToastTimer;
