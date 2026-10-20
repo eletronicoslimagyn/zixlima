@@ -48,6 +48,12 @@ async function zixNativeShare(x){
   }
   await zixCopyLink(x);
 }
+function zixWhatsPhone(value){
+  let n=String(value||'').replace(/\D/g,'');
+  if(n.startsWith('00'))n=n.slice(2);
+  if((n.length===10||n.length===11)&&!n.startsWith('55'))n='55'+n;
+  return /^55\d{10,11}$/.test(n)?n:'';
+}
 function zixShareControls(x){
   const controls=el('div','zix-share-actions');
   const share=el('button','zix-share-button','🔗 Compartilhar');share.type='button';
@@ -55,8 +61,15 @@ function zixShareControls(x){
   const copy=el('button','zix-share-button zix-share-copy','📋 Copiar link');copy.type='button';
   copy.onclick=ev=>{ev.stopPropagation();void zixCopyLink(x)};
   const whatsapp=el('a','zix-share-button zix-share-whatsapp','🟢 WhatsApp');
-  whatsapp.href='https://api.whatsapp.com/send?text='+encodeURIComponent(`Veja este anúncio no ZixLima:\n${x.title} - ${money(x.price)}\n${zixLinkFor(x)}`);
-  whatsapp.target='_self';
+  const phone=zixWhatsPhone(x.phone);
+  if(phone){
+    whatsapp.href='https://wa.me/'+phone+'?text='+encodeURIComponent(`Olá! Tenho interesse neste anúncio no ZixLima:\n${x.title} - ${money(x.price)}\n${zixLinkFor(x)}`);
+    whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';
+  }else{
+    whatsapp.removeAttribute('href');whatsapp.title='Anunciante sem WhatsApp válido';
+    whatsapp.setAttribute('aria-disabled','true');
+    whatsapp.style.opacity='.5';whatsapp.style.pointerEvents='none';
+  }
   whatsapp.onclick=ev=>ev.stopPropagation();
   controls.append(share,copy,whatsapp);
   return controls;
@@ -71,8 +84,8 @@ function showDetail(x){
     r.append(strip);
   }
   r.append(el('h2','price',money(x.price)),el('p','muted',`${x.city} - ${x.state} · ${label[x.category]||'Outros'}`),el('p','detailDescription',x.description));
-  const phone=String(x.phone||'').replace(/\D/g,'');
-  if(phone.length>=10&&phone.length<=15){
+  const phone=zixWhatsPhone(x.phone);
+  if(phone){
     const a=el('a','primary','Conversar no WhatsApp');
     a.href='https://wa.me/'+phone+'?text='+encodeURIComponent('Olá! Tenho interesse no anúncio: '+x.title);
     a.target='_blank';a.rel='noopener noreferrer';r.append(a);
