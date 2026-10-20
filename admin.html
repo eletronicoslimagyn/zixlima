@@ -489,6 +489,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 </style>
 <link rel="stylesheet" href="./zix-gallery.css?v=zix20261018galeria2">
 <link rel="stylesheet" href="./zix-admin-tabs.css?v=20261019b">
+<link rel="stylesheet" href="./zix-historico.css?v=20261020">
 </head>
 <body>
 <header>
@@ -878,6 +879,16 @@ Baixar código completo ZIP
 <h3>Conceder créditos após confirmar Pix</h3><label>ID do usuário (UUID)<input id="zixClienteId" placeholder="UUID do usuário"></label><label>Plano<select id="zixConcederPlano"><option value="boasvindas">Boas-vindas — 1 anúncio, 7 dias</option><option value="avulso">Avulso — 1 anúncio, 7 dias</option><option value="iniciante">Iniciante — 5 anúncios, 30 dias</option><option value="negocio">Negócio — 15 anúncios, 30 dias</option><option value="profissional">Profissional — 40 anúncios, 30 dias</option></select></label><button id="zixConceder" class="ok">Confirmar e conceder créditos</button><p id="zixCreditoMsg" role="status"></p><h3>Controle individual de vencimento</h3><label>ID do anúncio<input id="zixAnuncioId" placeholder="UUID do anúncio"></label><label>Ação<select id="zixAcao"><option value="extend">Adicionar dias</option><option value="pause">Pausar</option><option value="resume">Retomar</option><option value="renew">Renovar prazo</option><option value="block">Bloquear</option><option value="release">Liberar</option></select></label><label>Dias<input id="zixDias" type="number" min="1" max="365" value="30"></label><label>Motivo<input id="zixMotivo" maxlength="200" placeholder="Motivo da alteração"></label><button id="zixAplicarPrazo">Aplicar alteração</button><p id="zixPrazoMsg" role="status"></p></div>
 <div class="card">
 <h2>Moderação de anúncios</h2>
+<section id="zixHistorico" class="zix-history" aria-labelledby="zixHistoryTitle">
+<h3 id="zixHistoryTitle">📚 Histórico de anúncios por número</h3>
+<p>Selecione uma ou várias categorias existentes. Ordenação padrão: menor número para o maior.</p>
+<div class="zix-history-controls"><label>Pesquisar código, título ou cidade<input id="zixHistorySearch" type="search" placeholder="Ex.: ZIX-000001, Moto ou Goiânia"></label><label>Ordenação<select id="zixHistoryOrder"><option value="asc">Número: menor → maior</option><option value="desc">Número: maior → menor</option><option value="new">Mais recentes</option><option value="old">Mais antigos</option></select></label><label>Situação<select id="zixHistoryStatus"><option value="all">Todas</option><option value="pending">Pendentes</option><option value="approved">Aprovadas</option><option value="rejected">Rejeitadas</option><option value="expired">Vencidas</option></select></label></div>
+<details class="zix-history-categories"><summary>☑️ Selecionar várias categorias <span id="zixCategoryCount">(todas)</span></summary><div id="zixHistoryCategories" class="zix-history-checks"></div><div class="zix-history-category-buttons"><button type="button" id="zixHistoryAll">Todas</button><button type="button" id="zixHistoryNone">Limpar seleção</button></div></details>
+<div class="zix-history-buttons"><button type="button" id="zixHistoryRefresh">🔄 Atualizar histórico</button></div>
+<p id="zixHistoryInfo" role="status" aria-live="polite">Abra a aba Anúncios para carregar o histórico.</p>
+<div id="zixHistoryList"></div><button type="button" id="zixHistoryMore" hidden>Mostrar mais anúncios</button>
+<dialog id="zixHistoryEditDialog"><form id="zixHistoryEditForm" class="zix-history-edit"><h3>✏️ Editar anúncio</h3><p id="zixHistoryEditCode"></p><label>Título<input name="title" required minlength="8" maxlength="100"></label><label>Categoria<select name="category" required></select></label><label>Preço (R$)<input name="price" type="number" min="0" max="999999999" step="0.01" required></label><label>Cidade<input name="city" required minlength="2" maxlength="80"></label><label>UF<input name="state" required maxlength="2" minlength="2"></label><label>WhatsApp (somente números)<input name="phone" inputmode="numeric" maxlength="15"></label><label>Descrição<textarea name="description" required minlength="20" maxlength="3000" rows="5"></textarea></label><p>Fotos, proprietário, código e prazo de publicação não serão alterados.</p><p id="zixHistoryEditMsg" role="status"></p><div class="zix-history-actions"><button type="button" id="zixHistoryEditCancel">Cancelar</button><button type="submit" class="ok">Salvar alterações</button></div></form></dialog>
+</section>
 <button id="atualizar">Atualizar lista</button>
 <label>Pesquisar anúncio pelo código
 <input id="zixBuscaCodigo" placeholder="Ex.: ZIX-000001">
@@ -1448,5 +1459,6 @@ btn.addEventListener('click',async()=>{
 <script src="./zix-gallery-engine.js?v=zix20261018galeria2" defer></script>
 <script src="./zix-gallery-admin.js?v=zix20261018galeria1" defer></script>
 <script src="./zix-admin-tabs.js?v=20261019b" defer></script>
+<script type="module" src="./zix-historico.js?v=20261020"></script>
 </body>
 </html>

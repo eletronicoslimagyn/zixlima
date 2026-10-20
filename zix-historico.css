@@ -1,0 +1,19 @@
+/* Histórico de anúncios — exclusivamente no painel Admin */
+.zix-history{margin:24px 0 12px;border-top:2px solid #dbeafe;padding-top:16px}
+.zix-history-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:10px}
+.zix-history-controls label,.zix-history-edit label{display:block;font-weight:700;font-size:13px}
+.zix-history-categories{padding:12px;background:#f0f6ff;border:1px solid #cbdcf5;border-radius:12px;margin:12px 0}
+.zix-history-categories summary{cursor:pointer;font-weight:800;color:#174b91}
+.zix-history-checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin:12px 0}
+.zix-history-checks label{display:flex;gap:8px;align-items:center;font-weight:600;font-size:14px;padding:7px;background:#fff;border-radius:8px}
+.zix-history-checks input{width:auto;min-width:auto;margin:0;accent-color:#1766db}
+.zix-history-category-buttons,.zix-history-buttons,.zix-history-actions{display:flex;gap:7px;flex-wrap:wrap}
+.zix-history-item{padding:13px 12px;border:1px solid #d9e4f3;margin:10px 0;border-radius:12px;background:#f9fbff;overflow-wrap:anywhere}
+.zix-history-item h4{margin:8px 0}.zix-history-item p{margin:6px 0;color:#46566e}
+.zix-history-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:5px}
+.zix-history-row strong{font-size:15px;color:#134881}
+.zix-history-actions button{font-size:13px;padding:9px 12px}
+#zixHistoryEditDialog{max-width:min(550px,94vw);max-height:88vh;overflow:auto;border:0;border-radius:16px;box-shadow:0 20px 80px #0005;padding:20px;width:100%}
+#zixHistoryEditDialog::backdrop{background:#0e203999}
+.zix-history-edit textarea{display:block;width:100%;margin:8px 0;padding:12px;border:1px solid #ccc;border-radius:8px}
+#zixHistoryInfo{font-size:13px;color:#53667f;overflow-wrap:anywhere}
