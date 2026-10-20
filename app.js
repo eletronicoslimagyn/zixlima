@@ -10,7 +10,102 @@ let db=null,user=null,cat='',page=0,more=false;const PAGE=12;
 function msg(t){$('notice').textContent=t||'';$('notice').hidden=!t}
 function dialog(id){const d=$(id);if(!d.open)d.showModal()}
 function safe(url){try{const u=new URL(url);return ['https:','http:'].includes(u.protocol)?u.href:null}catch{return null}}
-function showDetail(x){const r=$('detail');r.replaceChildren(el('h2','',x.title));const urls=(x.photos||[]).map(safe).filter(Boolean);if(urls.length){const img=el('img','detailPhoto');img.src=urls[0];img.alt='Foto do anúncio';r.append(img);const strip=el('div','detailPhotos');urls.forEach(url=>{const t=el('img');t.src=url;t.alt='Ver foto';t.onclick=()=>img.src=url;strip.append(t)});r.append(strip)}r.append(el('h2','price',money(x.price)),el('p','muted',`${x.city} - ${x.state} · ${label[x.category]||'Outros'}`),el('p','detailDescription',x.description));const phone=String(x.phone||'').replace(/\D/g,'');if(phone.length>=10&&phone.length<=15){const a=el('a','primary','Conversar no WhatsApp');a.href='https://wa.me/'+phone+'?text='+encodeURIComponent('Olá! Tenho interesse no anúncio: '+x.title);a.target='_blank';a.rel='noopener noreferrer';r.append(a)}dialog('detailDialog')}
+// Compartilhamento individual: o ID fica no banco e a URL funciona no GitHub Pages.
+const zixLinkFor=x=>{
+  const url=new URL('./',window.location.href);
+  url.search='';url.hash='';url.searchParams.set('anuncio',String(x.id));
+  return url.href;
+};
+const zixIsPublished=x=>x.status==='approved'&&(!x.zix_expires_at||new Date(x.zix_expires_at).getTime()>Date.now());
+let zixToastTimer;
+function zixShareNotice(text){
+  const area=$('zixShareNotice');if(!area){alert(text);return}
+  area.textContent=text;
+  clearTimeout(zixToastTimer);
+  zixToastTimer=setTimeout(()=>area.textContent='',4500);
+}
+async function zixCopyLink(x){
+  const link=zixLinkFor(x);
+  try{
+    if(!navigator.clipboard?.writeText)throw Error('Sem API Clipboard');
+    await navigator.clipboard.writeText(link);
+    zixShareNotice('Link do anúncio copiado!');
+  }catch{
+    const input=el('textarea');input.value=link;
+    input.style.position='fixed';input.style.opacity='0';document.body.append(input);
+    input.select();
+    const done=document.execCommand?.('copy');input.remove();
+    if(done)zixShareNotice('Link copiado!');
+    else window.prompt('Copie o link do anúncio:',link);
+  }
+}
+async function zixNativeShare(x){
+  const url=zixLinkFor(x);
+  if(navigator.share){
+    try{
+      await navigator.share({title:x.title,text:`${x.title} - ${money(x.price)} | ZixLima`,url});
+      return;
+    }catch(e){if(e?.name==='AbortError')return}
+  }
+  await zixCopyLink(x);
+}
+function zixShareControls(x){
+  const controls=el('div','zix-share-actions');
+  const share=el('button','zix-share-button','🔗 Compartilhar');share.type='button';
+  share.onclick=ev=>{ev.stopPropagation();void zixNativeShare(x)};
+  const copy=el('button','zix-share-button zix-share-copy','📋 Copiar link');copy.type='button';
+  copy.onclick=ev=>{ev.stopPropagation();void zixCopyLink(x)};
+  const whatsapp=el('a','zix-share-button zix-share-whatsapp','🟢 WhatsApp');
+  whatsapp.href='https://wa.me/?text='+encodeURIComponent(`Veja este anúncio no ZixLima:\n${x.title} - ${money(x.price)}\n${zixLinkFor(x)}`);
+  whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';
+  whatsapp.onclick=ev=>ev.stopPropagation();
+  controls.append(share,copy,whatsapp);
+  return controls;
+}
+function showDetail(x){
+  const r=$('detail');r.replaceChildren(el('h2','',x.title));
+  const urls=(x.photos||[]).map(safe).filter(Boolean);
+  if(urls.length){
+    const img=el('img','detailPhoto');img.src=urls[0];img.alt='Foto do anúncio';r.append(img);
+    const strip=el('div','detailPhotos');
+    urls.forEach(url=>{const t=el('img');t.src=url;t.alt='Ver foto';t.onclick=()=>img.src=url;strip.append(t)});
+    r.append(strip);
+  }
+  r.append(el('h2','price',money(x.price)),el('p','muted',`${x.city} - ${x.state} · ${label[x.category]||'Outros'}`),el('p','detailDescription',x.description));
+  const phone=String(x.phone||'').replace(/\D/g,'');
+  if(phone.length>=10&&phone.length<=15){
+    const a=el('a','primary','Conversar no WhatsApp');
+    a.href='https://wa.me/'+phone+'?text='+encodeURIComponent('Olá! Tenho interesse no anúncio: '+x.title);
+    a.target='_blank';a.rel='noopener noreferrer';r.append(a);
+  }
+  if(zixIsPublished(x))r.append(zixShareControls(x));
+  else r.append(el('p','zix-share-pending','Este anúncio ainda não pode ser compartilhado publicamente. Aguarde a aprovação ou renovação.'));
+  dialog('detailDialog');
+}
+async function zixOpenLinkedAd(){
+  const id=new URL(window.location.href).searchParams.get('anuncio');
+  if(!id)return;
+  // O identificador do Supabase e um UUID. Nao carregar anuncios privados.
+  if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)){
+    zixUnavailable('Link de anúncio inválido.');return;
+  }
+  if(!db){zixUnavailable('Não foi possível conectar ao ZixLima. Atualize a página para tentar novamente.');return;}
+  try{
+    const {data,error}=await db.from('listings').select('*')
+      .eq('id',id).eq('status','approved')
+      .or('zix_expires_at.is.null,zix_expires_at.gt.'+new Date().toISOString()).maybeSingle();
+    if(error)throw error;
+    if(!data){zixUnavailable('Este anúncio não está disponível. Pode estar aguardando aprovação, vencido ou ter sido excluído.');return;}
+    showDetail(data);
+  }catch(e){
+    console.error('Falha ao carregar link do anúncio:',e);
+    zixUnavailable('Não foi possível carregar este anúncio. Tente novamente em instantes.');
+  }
+}
+function zixUnavailable(text){
+  const area=$('detail');area.replaceChildren(el('h2','','Anúncio indisponível'),el('p','',text));
+  dialog('detailDialog');
+}
 
 function resetEditor(){
   editingId=null;
@@ -75,15 +170,29 @@ function editListing(x){
   dialog('postDialog');
 }
 
-function card(x,isMine=false){const c=el('article','card');const url=safe(x.photos?.[0]);if(url){const img=el('img','cover');img.src=url;img.alt='Foto do anúncio';img.loading='lazy';c.append(img)}else c.append(el('div','placeholder',icon[x.category]||'📦'));const body=el('div','cardbody');body.append(el('p','status','Código: '+(x.zix_code||x.id)),el('div','price',money(x.price)),el('h3','',x.title),el('p','muted',`${x.city} - ${x.state}`),el('span','chip',label[x.category]||'Outros'));if(isMine){const expired=x.zix_expires_at&&new Date(x.zix_expires_at).getTime()<=Date.now();body.append(el('p','status',expired?'Prazo vencido':x.status==='approved'?'Publicado':x.status==='pending'?'Aguardando aprovação':'Rejeitado'));if(x.zix_expires_at)body.append(el('p','muted','Vencimento: '+new Date(x.zix_expires_at).toLocaleString('pt-BR')));const del=el('button','danger','Excluir');del.onclick=async ev=>{ev.stopPropagation();if(!confirm('Excluir este anúncio?'))return;const {error}=await db.from('listings').delete().eq('id',x.id).eq('user_id',user.id);if(error)alert(error.message);else{await mine();await load()}};const edit=el('button','zix-edit-btn','✏️ Editar');
-edit.type='button';
-edit.onclick=ev=>{
-  ev.stopPropagation();
-  editListing(x);
-};
-const aviso=el('p','zix-edit-aviso',
-  'Ao editar, volta para aprovação.');
-body.append(aviso,del,edit)}c.append(body);c.onclick=()=>showDetail(x);return c}
+function card(x,isMine=false){
+  const c=el('article','card');
+  const url=safe(x.photos?.[0]);
+  if(url){const img=el('img','cover');img.src=url;img.alt='Foto do anúncio';img.loading='lazy';c.append(img)}
+  else c.append(el('div','placeholder',icon[x.category]||'📦'));
+  const body=el('div','cardbody');
+  body.append(el('p','status','Código: '+(x.zix_code||x.id)),el('div','price',money(x.price)),el('h3','',x.title),el('p','muted',`${x.city} - ${x.state}`),el('span','chip',label[x.category]||'Outros'));
+  if(isMine){
+    const expired=x.zix_expires_at&&new Date(x.zix_expires_at).getTime()<=Date.now();
+    body.append(el('p','status',expired?'Prazo vencido':x.status==='approved'?'Publicado':x.status==='pending'?'Aguardando aprovação':'Rejeitado'));
+    if(x.zix_expires_at)body.append(el('p','muted','Vencimento: '+new Date(x.zix_expires_at).toLocaleString('pt-BR')));
+    const del=el('button','danger','Excluir');del.type='button';
+    del.onclick=async ev=>{ev.stopPropagation();if(!confirm('Excluir este anúncio?'))return;const {error}=await db.from('listings').delete().eq('id',x.id).eq('user_id',user.id);if(error)alert(error.message);else{await mine();await load()}};
+    const edit=el('button','zix-edit-btn','✏️ Editar');edit.type='button';
+    edit.onclick=ev=>{ev.stopPropagation();editListing(x)};
+    const aviso=el('p','zix-edit-aviso','Ao editar, volta para aprovação.');
+    body.append(aviso,del,edit);
+  }
+  if(zixIsPublished(x))body.append(zixShareControls(x));
+  else if(isMine)body.append(el('p','zix-share-pending','🔒 Link disponível após aprovação e enquanto o anúncio estiver ativo.'));
+  c.append(body);c.onclick=()=>showDetail(x);return c;
+}
+
 async function load(append=false){const area=$('listing');if(!append){page=0;area.replaceChildren()}if(!db){msg('Conexão com Supabase indisponível. Verifique a internet e o arquivo config.js.');area.append(el('div','empty','Não foi possível carregar os anúncios.'));return}try{let q=db.from('listings').select('*').eq('status','approved').or('zix_expires_at.is.null,zix_expires_at.gt.'+new Date().toISOString());const term=$('term').value.trim().replace(/[%_,()]/g,''),city=$('city').value.trim().replace(/[%_,()]/g,'');if(term)q=q.ilike('title',`%${term}%`);if(city)q=q.ilike('city',`%${city}%`);if(cat)q=q.eq('category',cat);if(cat==='alugueis'&&$('rentalKindFilter')?.value)q=q.ilike('description','TIPO DE ALUGUEL: '+$('rentalKindFilter').value+'%');const sort=$('sort').value;q=q.order(sort==='new'?'created_at':'price',{ascending:sort==='low'}).range(page*PAGE,page*PAGE+PAGE);const {data,error}=await q;if(error)throw error;msg('');more=data.length>PAGE;data.slice(0,PAGE).filter((x,i,arr)=>arr.findIndex(y=>y.id===x.id)===i).forEach(x=>area.append(card(x)));if(!area.children.length)area.append(el('div','empty','Nenhum anúncio aprovado encontrado.'));$('moreBtn').hidden=!more}catch(e){msg('Erro ao carregar anúncios: '+e.message);$('moreBtn').hidden=true}}
 async function mine(){const area=$('myListing');area.replaceChildren();$('mineHint').textContent=user?'Seus anúncios e seus respectivos status.':'Entre na sua conta para gerenciar seus anúncios.';if(!user||!db)return;const {data,error}=await db.from('listings').select('*').eq('user_id',user.id).order('created_at',{ascending:false});if(error){$('mineHint').textContent=error.message;return}(data||[]).forEach(x=>area.append(card(x,true)))}
 function authUI(){ $('loginBtn').textContent=user?'Sair':'Entrar';mine() }
@@ -168,13 +277,16 @@ const photos=[];for(let i=0;i<optimized.length;i++){
   const {data:novo,error}=await db.from('listings')
     .insert(payload).select('id,zix_code').single();
   if(error)throw error;
-  $('postMsg').textContent=
-    'Anúncio enviado para aprovação. Código: '
-    +(novo.zix_code||novo.id)
-    +'. Guarde este código e informe-o ao suporte.';
+  const result=$('postMsg');
+  result.replaceChildren(document.createTextNode(
+    'Anúncio salvo! Código: '+(novo.zix_code||novo.id)
+    +'. Seu link já foi gerado e ficará público após a aprovação. '));
+  const copy=el('button','zix-share-button zix-share-copy','📋 Copiar link do anúncio');
+  copy.type='button';copy.onclick=()=>void zixCopyLink(novo);
+  result.append(copy);
   form.reset();
   await mine();
 }}catch(e){$('postMsg').textContent='Erro: '+e.message}finally{btn.disabled=false}};
 // UI inicial funciona mesmo quando o provedor de módulos estiver indisponível.
-async function init(){if(!SUPABASE_URL||!SUPABASE_ANON_KEY){await load();return}try{let lib;try{lib=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm')}catch{lib=await import('https://esm.sh/@supabase/supabase-js@2')}db=lib.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);db.auth.onAuthStateChange((_event,session)=>{user=session?.user||null;authUI()});const {data}=await db.auth.getUser();user=data.user;authUI()}catch(e){msg('Não foi possível iniciar a conexão: '+e.message)}await load()}
+async function init(){if(!SUPABASE_URL||!SUPABASE_ANON_KEY){await load();return}try{let lib;try{lib=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm')}catch{lib=await import('https://esm.sh/@supabase/supabase-js@2')}db=lib.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);db.auth.onAuthStateChange((_event,session)=>{user=session?.user||null;authUI()});const {data}=await db.auth.getUser();user=data.user;authUI()}catch(e){msg('Não foi possível iniciar a conexão: '+e.message)}await load();await zixOpenLinkedAd()}
 init();
