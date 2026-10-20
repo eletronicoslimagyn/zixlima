@@ -56,8 +56,8 @@ function zixShareControls(x){
   const copy=el('button','zix-share-button zix-share-copy','📋 Copiar link');copy.type='button';
   copy.onclick=ev=>{ev.stopPropagation();void zixCopyLink(x)};
   const whatsapp=el('a','zix-share-button zix-share-whatsapp','🟢 WhatsApp');
-  whatsapp.href='https://wa.me/?text='+encodeURIComponent(`Veja este anúncio no ZixLima:\n${x.title} - ${money(x.price)}\n${zixLinkFor(x)}`);
-  whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';
+  whatsapp.href='https://api.whatsapp.com/send?text='+encodeURIComponent(`Veja este anúncio no ZixLima:\n${x.title} - ${money(x.price)}\n${zixLinkFor(x)}`);
+  whatsapp.target='_self';
   whatsapp.onclick=ev=>ev.stopPropagation();
   controls.append(share,copy,whatsapp);
   return controls;
