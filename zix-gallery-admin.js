@@ -68,30 +68,15 @@
  }
  window.zixGalleryCollect=valorPublico;
  window.zixGalleryValidate=validar;
- function compressJpeg(file){
-  return new Promise((resolve,reject)=>{
-   if(!['image/jpeg','image/png','image/webp'].includes(file.type))return reject(new Error('Escolha JPG, PNG ou WebP.'));
-   if(file.size>10*1024*1024)return reject(new Error('Imagem acima de 10 MB. Selecione uma foto menor.'));
-   const ref=URL.createObjectURL(file);const img=new Image();
-   img.onerror=()=>{URL.revokeObjectURL(ref);reject(new Error('Não foi possível abrir a imagem.'));};
-   img.onload=()=>{
-    URL.revokeObjectURL(ref);
-    try{
-     const ratio=Math.min(1,1400/Math.max(img.naturalWidth,img.naturalHeight));
-     const canvas=document.createElement('canvas');
-     canvas.width=Math.max(1,Math.round(img.naturalWidth*ratio));
-     canvas.height=Math.max(1,Math.round(img.naturalHeight*ratio));
-     const ctx=canvas.getContext('2d');
-     ctx.fillStyle='#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);
-     ctx.drawImage(img,0,0,canvas.width,canvas.height);
-     const b64=canvas.toDataURL('image/jpeg',.76).split(',')[1];
-     if(!b64||b64.length>2200000)throw new Error('Foto ficou grande. Tente uma imagem menor.');
-     resolve(b64);
-    }catch(e){reject(e);}
-   };
-   img.src=ref;
+ async function compressJpeg(file){
+  if(!window.ZixImageOptimizer)throw new Error('Conversor de fotos indisponível. Atualize a página.');
+  const output=await window.ZixImageOptimizer.cached(file,{
+    maxBytes:3*1024*1024,maxInputBytes:30*1024*1024,
+    maxDimension:2400,mime:'image/jpeg',forceConvert:true
   });
+  return (await window.ZixImageOptimizer.dataURL(output)).split(',')[1];
  }
+
  window.zixGalleryUploadPending=async putBinaryFile=>{
   validar();if(busy)throw new Error('Vitrine: já existe um envio em andamento.');
   busy=true;
@@ -191,7 +176,7 @@
   const file=$('zgNewFile').files?.[0];
   const title=safeText($('zgNewTitle').value,120);
   if(!file||!title)return mensagem('Selecione uma foto e escreva o título antes de adicionar.',true);
-  if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>10*1024*1024)return mensagem('Use JPG, PNG ou WebP de até 10 MB.',true);
+  if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>30*1024*1024)return mensagem('Use JPG, PNG ou WebP de até 30 MB de origem (conversão automática para até 3 MB).',true);
   const url=$('zgNewUrl').value.trim();
   if(url&&!E().urlValida(url))return mensagem('O link deve usar https://zixlima.com.br.',true);
   const item={id:idNovo(),order:config.items.length+1,title,subtitle:safeText($('zgNewSubtitle').value,160),
@@ -213,7 +198,7 @@
   <div class="zg-admin-grid"><label>Efeito LED<select id="zgEffect"><option value="rainbow">🌈 Arco-íris premium</option><option value="electric">⚡ Neon elétrico azul</option><option value="gold">✨ Dourado premium</option><option value="aurora">🌌 Aurora multicolorida</option><option value="none">Sem contorno LED</option></select></label><label>Transição da foto<select id="zgTransition"><option value="slide">Deslizar lateral</option><option value="zoom">Zoom cinematográfico</option><option value="fade">Dissolver suavemente</option></select></label></div>
   <div class="zg-admin-grid"><label>Velocidade do LED (1-50)<input type="range" id="zgSpeed" min="1" max="50" value="20"></label><label>Intensidade do brilho (0-50)<input type="range" id="zgGlow" min="0" max="50" value="35"></label></div>
   <div class="zg-info" id="zgNow">Aguardando fotos...</div>
-  <h4 style="margin-top:18px">➕ Adicionar foto à vitrine</h4><div class="zg-admin-card"><label>Imagem do anúncio (JPG, PNG ou WebP, até 10 MB)<input type="file" id="zgNewFile" accept="image/jpeg,image/png,image/webp"></label>
+  <h4 style="margin-top:18px">➕ Adicionar foto à vitrine</h4><div class="zg-admin-card"><label>Imagem do anúncio (JPG, PNG ou WebP, até 30 MB de origem (conversão automática para até 3 MB))<input type="file" id="zgNewFile" accept="image/jpeg,image/png,image/webp"></label>
   <label>Título<input id="zgNewTitle" type="text" maxlength="120" placeholder="Ex.: Apartamento 2 quartos para alugar"></label>
   <label>Descrição curta (opcional)<input id="zgNewSubtitle" type="text" maxlength="160" placeholder="Ex.: Setor Bueno, Goiânia"></label>
   <label>Link do anúncio (opcional)<input id="zgNewUrl" type="url" maxlength="1200" placeholder="https://zixlima.com.br/"></label>

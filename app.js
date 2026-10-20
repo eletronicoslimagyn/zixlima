@@ -97,7 +97,56 @@ $('loginBtn').onclick=async()=>{if(user&&db){await db.auth.signOut();user=null;a
 $('postBtn').onclick=()=>{if(!db){alert('Conexão com Supabase indisponível.');return}if(!user){dialog('authDialog');return}resetEditor();syncRental();dialog('postDialog')};
 $('authForm').onsubmit=async e=>{e.preventDefault();if(!db)return;const {error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});$('authMsg').textContent=error?error.message:'Login realizado.';if(!error){$('authDialog').close();const {data}=await db.auth.getUser();user=data.user;authUI()}};
 $('signupBtn').onclick=async()=>{if(!db)return;const {error}=await db.auth.signUp({email:$('email').value.trim(),password:$('password').value});$('authMsg').textContent=error?error.message:'Cadastro solicitado. Verifique seu e-mail se necessário.'};
-$('postForm').onsubmit=async e=>{e.preventDefault();if(!db||!user)return;const form=e.target,btn=form.querySelector('[type=submit]');btn.disabled=true;$('postMsg').textContent='Enviando...';try{const f=new FormData(form),files=Array.from(form.querySelector('[name=photos]').files);if(files.length>5)throw Error('Máximo de cinco fotos.');const photos=[];for(const file of files){if(file.size>3145728||!['image/jpeg','image/png','image/webp'].includes(file.type))throw Error('Cada foto deve ser JPG, PNG ou WebP de até 3 MB.');const ext=file.type.split('/')[1]==='jpeg'?'jpg':file.type.split('/')[1];const path=`${user.id}/${crypto.randomUUID()}.${ext}`;const {error}=await db.storage.from('listing-images').upload(path,file,{contentType:file.type,upsert:false});if(error)throw error;photos.push(db.storage.from('listing-images').getPublicUrl(path).data.publicUrl)}const phone=String(f.get('phone')||'').replace(/\D/g,'');if(phone&&(phone.length<10||phone.length>15))throw Error('WhatsApp inválido.');let description=String(f.get('description')||'').trim();if(f.get('category')==='alugueis'){const type=String(f.get('rental_type')||''),period=String(f.get('rental_period')||'');if(!type||!period)throw Error('Informe o tipo e período do aluguel.');description=`TIPO DE ALUGUEL: ${type}\nPERÍODO: ${period}\nQUARTOS: ${f.get('rental_rooms')||'Não informado'}\nCAUÇÃO: ${f.get('rental_deposit')||'A combinar'}\n\n${description}`}const payload={user_id:user.id,title:String(f.get('title')).trim(),description,category:String(f.get('category')),price:Number(f.get('price')),city:String(f.get('city')).trim(),state:String(f.get('state')).trim().toUpperCase(),phone:phone||null,photos,status:'pending'};if(editingId){
+// Conversão e prévia ANTES do upload; só a versão <= 3 MB vai ao Supabase.
+const zixPhotoInput=$('postForm').querySelector('[name=photos]');
+const zixPhotoInfo=$('postPhotoStatus'),zixPhotoPreview=$('postPhotoPreviews');
+let zixPhotoRevision=0,zixPreviewUrls=[];
+function zixClearPreviews(){zixPreviewUrls.forEach(u=>URL.revokeObjectURL(u));zixPreviewUrls=[];zixPhotoPreview?.replaceChildren();}
+async function zixConvertFotos(files,revision){
+ if(files.length>5)throw Error('Escolha no máximo 5 fotos.');
+ const out=[];
+ for(let i=0;i<files.length;i++){
+  if(revision!==zixPhotoRevision)throw Error('Seleção de fotos alterada.');
+  const file=files[i];
+  if(zixPhotoInfo)zixPhotoInfo.textContent=`Otimizando foto ${i+1} de ${files.length}...`;
+  const smaller=await window.ZixImageOptimizer.cached(file,{maxBytes:3*1024*1024,maxInputBytes:30*1024*1024,maxDimension:2600});
+  if(smaller.size>3*1024*1024)throw Error('Foto '+(i+1)+' excede 3 MB.');
+  out.push(smaller);
+ }
+ return out;
+}
+let zixPrepared=null;
+zixPhotoInput?.addEventListener('change',async()=>{
+ const revision=++zixPhotoRevision,files=Array.from(zixPhotoInput.files||[]);
+ zixClearPreviews();
+ if(!files.length){zixPhotoInfo.textContent='Selecione até 5 fotos. O site reduz automaticamente para até 3 MB cada.';zixPrepared=null;return;}
+ const promise=zixConvertFotos(files,revision);zixPrepared={revision,promise};
+ try{
+  const photos=await promise;if(revision!==zixPhotoRevision)return;
+  for(let i=0;i<photos.length;i++){
+   const url=URL.createObjectURL(photos[i]);zixPreviewUrls.push(url);
+   const fig=document.createElement('figure'),img=document.createElement('img'),cap=document.createElement('figcaption');
+   img.src=url;img.alt='Prévia da foto '+(i+1);
+   cap.textContent=window.ZixImageOptimizer.formatSize(files[i].size)+' → '+window.ZixImageOptimizer.formatSize(photos[i].size);
+   fig.append(img,cap);zixPhotoPreview?.append(fig);
+  }
+  zixPhotoInfo.textContent=`${photos.length} foto(s) pronta(s), até 3 MB cada. Só as otimizadas serão enviadas.`;
+ }catch(err){if(revision===zixPhotoRevision)zixPhotoInfo.textContent='Erro na conversão: '+err.message;}
+});
+$('postForm').addEventListener('reset',()=>{
+ ++zixPhotoRevision;zixPrepared=null;zixClearPreviews();
+ if(zixPhotoInfo)zixPhotoInfo.textContent='Selecione até 5 fotos; conversão automática para até 3 MB cada.';
+});
+$('postForm').onsubmit=async e=>{e.preventDefault();if(!db||!user)return;const form=e.target,btn=form.querySelector('[type=submit]');btn.disabled=true;$('postMsg').textContent='Enviando...';try{const f=new FormData(form),files=Array.from(form.querySelector('[name=photos]').files);if(files.length>5)throw Error('Máximo de cinco fotos.');const optimized=(zixPrepared?.revision===zixPhotoRevision)?await zixPrepared.promise:await zixConvertFotos(files,zixPhotoRevision);
+const photos=[];for(let i=0;i<optimized.length;i++){
+ const file=optimized[i];
+ if(zixPhotoInfo)zixPhotoInfo.textContent=`Enviando foto ${i+1} de ${optimized.length} (${window.ZixImageOptimizer.formatSize(file.size)})...`;
+ const ext=file.type==='image/webp'?'webp':file.type==='image/png'?'png':'jpg';
+ const path=`${user.id}/${crypto.randomUUID()}.${ext}`;
+ const {error}=await db.storage.from('listing-images').upload(path,file,{contentType:file.type,upsert:false});
+ if(error)throw error;
+ photos.push(db.storage.from('listing-images').getPublicUrl(path).data.publicUrl);
+}const phone=String(f.get('phone')||'').replace(/\D/g,'');if(phone&&(phone.length<10||phone.length>15))throw Error('WhatsApp inválido.');let description=String(f.get('description')||'').trim();if(f.get('category')==='alugueis'){const type=String(f.get('rental_type')||''),period=String(f.get('rental_period')||'');if(!type||!period)throw Error('Informe o tipo e período do aluguel.');description=`TIPO DE ALUGUEL: ${type}\nPERÍODO: ${period}\nQUARTOS: ${f.get('rental_rooms')||'Não informado'}\nCAUÇÃO: ${f.get('rental_deposit')||'A combinar'}\n\n${description}`}const payload={user_id:user.id,title:String(f.get('title')).trim(),description,category:String(f.get('category')),price:Number(f.get('price')),city:String(f.get('city')).trim(),state:String(f.get('state')).trim().toUpperCase(),phone:phone||null,photos,status:'pending'};if(editingId){
   const {error}=await db.rpc('zix_edit_own_listing',{
     p_id:editingId,
     p_title:payload.title,

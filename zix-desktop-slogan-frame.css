@@ -1,0 +1,45 @@
+/* ZixLima 2026: enquadramento do slogan APENAS no desktop.
+   Não fixa medidas: editor Manche/Quick Directional continua no controle. */
+@media screen and (min-width:701px) {
+  /* A foto do cabeçalho era distorcida por aspect-ratio:2.75/1 + object-fit:fill. */
+  body.zix-layout-v3.zz-has-custom-logo header .top > a.brand > #zzCustomBrandLogo {
+    object-fit:contain!important;
+    object-position:center center!important;
+    aspect-ratio:auto!important;
+    flex-shrink:0;
+  }
+  body.zix-layout-v3 header .top > a.brand {
+    text-align:center!important;
+  }
+  /* Foto do slogan: centraliza sem recortar logomarca ou texto inseridos na foto. */
+  body.zz-has-slogan-icon #zzSloganIcon {
+    object-fit:contain!important;
+    object-position:center center!important;
+    aspect-ratio:auto!important;
+  }
+  /* Banner com arte escrita: ajustar o quadro à proporção real da imagem. */
+  body.zix-elite-active .hero#inicio #zixElite img {
+    display:block!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    aspect-ratio:1200/630;
+    object-fit:contain!important;
+    object-position:center center!important;
+  }
+}
+/* Carrossel de fotos do slogan: mostrar a imagem inteira no desktop;
+   preservar movimento, LED, transições e regras do celular. */
+@media screen and (min-width:701px) {
+  .zix-gallery-slide .zix-gallery-photo {
+    object-fit:contain!important;
+    object-position:center center!important;
+    background:#08182b!important;
+  }
+  #zixGalleryAdmin .zg-admin-photo,
+  #zixGalleryAdmin .zg-admin-preview img {
+    object-fit:contain!important;
+    object-position:center center!important;
+  }
+}

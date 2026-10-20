@@ -126,14 +126,16 @@
     window.zixQuickSync?.();
   }
 
-  function fileToDataURL(file){
-    return new Promise((resolve,reject)=>{
-      const r = new FileReader();
-      r.onload = () => resolve(String(r.result||''));
-      r.onerror = reject;
-      r.readAsDataURL(file);
+  async function fileToDataURL(file){
+    if(!window.ZixImageOptimizer)throw new Error('Conversor de fotos indisponível. Atualize a página.');
+    const optimized=await window.ZixImageOptimizer.cached(file,{
+      maxBytes:3*1024*1024,maxInputBytes:30*1024*1024,maxDimension:2600,
+      mime:'image/webp',forceConvert:true
     });
+    return window.ZixImageOptimizer.dataURL(optimized);
   }
+  function extOfDataURL(dataUrl){return dataUrl.startsWith('data:image/webp;')?'webp':
+    dataUrl.startsWith('data:image/png;')?'png':'jpg';}
 
   function showPreviewImage(boxId, src){
     const box = $(boxId);
@@ -407,15 +409,17 @@ function renderPreview(){
       if(logoFile){
         const dataUrl = await fileToDataURL(logoFile);
         const base64 = dataUrl.split(',')[1];
-        await putBinaryFile('assets/zixlima-logo-topo-custom.png', base64, 'Atualizar logo do topo pelo Admin');
-        current.logoPath = './assets/zixlima-logo-topo-custom.png';
+        const photoPath = 'assets/zixlima-logo-topo-custom.'+extOfDataURL(dataUrl);
+        await putBinaryFile(photoPath, base64, 'Atualizar logo do topo pelo Admin');
+        current.logoPath = './'+photoPath;
       }
 
       if(sloganFile){
         const dataUrl = await fileToDataURL(sloganFile);
         const base64 = dataUrl.split(',')[1];
-        await putBinaryFile('assets/zixlima-slogan-icone-custom.png', base64, 'Atualizar icone do slogan pelo Admin');
-        current.sloganPath = './assets/zixlima-slogan-icone-custom.png';
+        const photoPath = 'assets/zixlima-slogan-icone-custom.'+extOfDataURL(dataUrl);
+        await putBinaryFile(photoPath, base64, 'Atualizar icone do slogan pelo Admin');
+        current.sloganPath = './'+photoPath;
       }
 
       // Confere programação LED antes de publicar outros ajustes.
@@ -504,17 +508,19 @@ function renderPreview(){
         if(!file)continue;
         if(!['image/jpeg','image/png','image/webp'].includes(file.type))
           throw new Error('A '+descr+' precisa ser JPG, PNG ou WebP');
-        if(file.size>8*1024*1024)throw new Error('A '+descr+' deve ter ate 8 MB');
+        if(file.size>30*1024*1024)throw new Error('A '+descr+' deve ter ate 30 MB de origem');
       }
       if(logoFile){
-        const b64=(await fileToDataURL(logoFile)).split(',')[1];
-        await putBinaryFile('assets/zixlima-logo-topo-custom.png',b64,'Atualizar imagem da marca pelo Admin');
-        remote.logoPath='./assets/zixlima-logo-topo-custom.png';current.logoPath=remote.logoPath;
+        const dataUrl=await fileToDataURL(logoFile);
+        const b64=dataUrl.split(',')[1],photoPath='assets/zixlima-logo-topo-custom.'+extOfDataURL(dataUrl);
+        await putBinaryFile(photoPath,b64,'Atualizar imagem da marca pelo Admin');
+        remote.logoPath='./'+photoPath;current.logoPath=remote.logoPath;
       }
       if(photoFile){
-        const b64=(await fileToDataURL(photoFile)).split(',')[1];
-        await putBinaryFile('assets/zixlima-slogan-icone-custom.png',b64,'Atualizar foto do slogan pelo Admin');
-        remote.sloganPath='./assets/zixlima-slogan-icone-custom.png';current.sloganPath=remote.sloganPath;
+        const dataUrl=await fileToDataURL(photoFile);
+        const b64=dataUrl.split(',')[1],photoPath='assets/zixlima-slogan-icone-custom.'+extOfDataURL(dataUrl);
+        await putBinaryFile(photoPath,b64,'Atualizar foto do slogan pelo Admin');
+        remote.sloganPath='./'+photoPath;current.sloganPath=remote.sloganPath;
       }
       await putTextFile('site-brand-settings.json',JSON.stringify(remote,null,2)+'\n','Atualizar apenas imagens e medidas da marca');
       const check=await request('/contents/site-brand-settings.json?ref=main&t='+Date.now());
@@ -533,19 +539,23 @@ function renderPreview(){
     logoInput?.addEventListener('change', async e => {
       const f = e.target.files?.[0];
       if(!f) return;
-      const dataUrl = await fileToDataURL(f);
-      showPreviewImage('zzLogoPreviewBox', dataUrl);
-      pendingLogo = dataUrl;
-      renderPreview();
+      try{
+        msg('Convertendo logotipo para até 3 MB...',true);
+        const dataUrl = await fileToDataURL(f);
+        showPreviewImage('zzLogoPreviewBox', dataUrl);pendingLogo=dataUrl;renderPreview();
+        msg('Logotipo otimizado: pronto para salvar.',true);
+      }catch(err){msg('Falha ao converter logotipo: '+err.message,false);e.target.value='';}
     });
 
     sloganInput?.addEventListener('change', async e => {
       const f = e.target.files?.[0];
       if(!f) return;
-      const dataUrl = await fileToDataURL(f);
-      showPreviewImage('zzSloganPreviewBox', dataUrl);
-      pendingSlogan = dataUrl;
-      renderPreview();
+      try{
+        msg('Convertendo a foto do slogan para até 3 MB...',true);
+        const dataUrl = await fileToDataURL(f);
+        showPreviewImage('zzSloganPreviewBox', dataUrl);pendingSlogan=dataUrl;renderPreview();
+        msg('Foto do slogan otimizada: pronta para salvar.',true);
+      }catch(err){msg('Falha ao converter slogan: '+err.message,false);e.target.value='';}
     });
   }
 

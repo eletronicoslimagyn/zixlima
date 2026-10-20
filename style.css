@@ -1569,3 +1569,10 @@ header nav a {
 }
 
 /* ZIX PREMIUM V6 FIM */
+
+/* Prévia de fotos convertidas no navegador */
+.zix-photo-status{font-size:12px!important;color:#39617f!important;margin:5px 0 9px!important;font-weight:500!important;line-height:1.45}
+.zix-photo-previews{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 14px}
+.zix-photo-previews figure{width:86px;max-width:calc(33% - 8px);padding:4px;margin:0;border-radius:8px;background:#ecf4ff;border:1px solid #c4d9ef}
+.zix-photo-previews img{width:100%;height:64px;object-fit:contain;background:#e3eaf3;border-radius:5px}
+.zix-photo-previews figcaption{font-size:10px;line-height:1.25;color:#26466b;text-align:center}
