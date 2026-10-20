@@ -46,6 +46,11 @@ function render(){
    const share=node('button','','🔗 Copiar link');share.type='button';share.onclick=async()=>{const u=new URL('https://zixlima-previa-anuncios.suportezixlima.workers.dev/');u.searchParams.set('anuncio',x.id);try{await navigator.clipboard.writeText(u.href);message('Link copiado para o anúncio '+(x.zix_code||x.id))}catch{window.prompt('Copie o link:',u.href)}};actions.append(share);
   }
   for(const [title,next] of x.status==='pending'?[['Aprovar','approved'],['Rejeitar','rejected']]:[]){const b=node('button','',title);b.type='button';b.onclick=()=>setStatus(x,next);actions.append(b)}
+  const del=node('button','zix-history-delete','🗑️ Excluir');
+  del.type='button';
+  del.style.cssText='background:#b42318;color:white';
+  del.onclick=()=>deleteListing(x,del);
+  actions.append(del);
   item.append(actions);area.append(item);
  }
  if(!arr.length)area.append(node('p','','Nenhum anúncio corresponde aos filtros.'));
@@ -53,6 +58,21 @@ function render(){
  message(`${arr.length} anúncio(s) encontrado(s) entre ${rows.length} cadastrado(s). Exibindo ${Math.min(visible,arr.length)}.`);
 }
 async function setStatus(x,status){if(!confirm(`Deseja ${status==='approved'?'aprovar':'rejeitar'} o anúncio ${x.zix_code||x.id}?`))return;if(!(await permitted()))return alert('Sessão administrativa expirada.');const {error}=await db.from('listings').update({status}).eq('id',x.id);if(error)alert(error.message);else await refresh()}
+async function deleteListing(x,button){
+ const codigo=String(x.zix_code||x.id);
+ if(!confirm('Excluir DEFINITIVAMENTE o anúncio '+codigo+'? Essa ação remove o registro do Supabase.'))return;
+ const typed=prompt('Confirme digitando o código EXATO do anúncio: '+codigo);
+ if(typed!==codigo){if(typed!==null)alert('Código incorreto. Exclusão cancelada.');return;}
+ if(!(await permitted())){alert('Apenas o administrador pode excluir.');return;}
+ button.disabled=true;
+ try{
+  const {data,error}=await db.from('listings').delete().eq('id',x.id).select('id');
+  if(error)throw error;
+  if(!data?.length)throw Error('Sem permissão para excluir ou anúncio já removido.');
+  await refresh();
+  alert('Anúncio '+codigo+' excluído do histórico.');
+ }catch(e){alert('Não foi possível excluir: '+e.message);button.disabled=false;}
+}
 function openEdit(x){editing=x;const f=$('zixHistoryEditForm');for(const k of ['title','category','price','city','state','phone','description'])f.elements.namedItem(k).value=x[k]??'';$('zixHistoryEditCode').textContent='Código: '+(x.zix_code||x.id);$('zixHistoryEditMsg').textContent='';$('zixHistoryEditDialog').showModal()}
 async function saveEdit(ev){ev.preventDefault();if(!editing||!(await permitted()))return;const f=ev.currentTarget,btn=f.querySelector('[type=submit]');btn.disabled=true;$('zixHistoryEditMsg').textContent='Salvando...';try{
  const data={title:f.elements.namedItem('title').value.trim(),category:f.elements.namedItem('category').value,price:Number(f.elements.namedItem('price').value),city:f.elements.namedItem('city').value.trim(),state:f.elements.namedItem('state').value.trim().toUpperCase(),phone:f.elements.namedItem('phone').value.replace(/\D/g,'')||null,description:f.elements.namedItem('description').value.trim()};

@@ -37,8 +37,12 @@ a{color:#125bd3}
 </div>
 <div id="trocar">
 <p>Digite sua nova senha.</p>
-<input id="senha" type="password"
- placeholder="Nova senha" minlength="8">
+<div style="display:flex;align-items:center;gap:8px">
+<input id="senha" type="password" autocomplete="new-password"
+ placeholder="Nova senha" minlength="8" style="flex:1;min-width:0">
+<button id="zixSenhaEye" type="button" aria-label="Mostrar senha"
+ aria-pressed="false" style="width:auto;flex:none;cursor:pointer">👁️</button>
+</div>
 <button id="salvar">Salvar nova senha</button>
 </div>
 <p id="msg" role="status"></p>
@@ -56,6 +60,13 @@ const db=createClient(
  SUPABASE_URL,SUPABASE_ANON_KEY
 );
 const $=id=>document.getElementById(id);
+$('zixSenhaEye').onclick=()=>{
+ const campo=$('senha');const revelar=campo.type==='password';
+ campo.type=revelar?'text':'password';
+ $('zixSenhaEye').setAttribute('aria-pressed',String(revelar));
+ $('zixSenhaEye').setAttribute('aria-label',revelar?'Ocultar senha':'Mostrar senha');
+ $('zixSenhaEye').textContent=revelar?'🙈':'👁️';
+};
 let autorizado=false;
 
 function mostrarTroca(){

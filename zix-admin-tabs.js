@@ -29,6 +29,25 @@
     }
     // Conjunto de créditos e prazos permanece no lugar original, sem alterar os handlers.
     const finChildren=[...painel.children].slice(cards.indexOf(financeiro)+1);
+    // Mover controles GitHub/JSON para Backup preservando os mesmos elementos e ouvintes.
+    const connectionHeading=[...marca.querySelectorAll('h3')].find(e=>e.textContent.includes('Conexão GitHub'));
+    if(connectionHeading && !document.getElementById('zixGitHubBackupSection')){
+      const section=document.createElement('section');section.id='zixGitHubBackupSection';
+      section.style.cssText='padding:15px;margin:14px 0;border:1px solid #c9d8eb;border-radius:12px';
+      const items=[];let n=connectionHeading;
+      while(n && n.parentNode===connectionHeading.parentNode){
+        const next=n.nextElementSibling;items.push(n);
+        if(n.id==='zzMensagem' || (n.tagName==='P' && n.textContent.includes('backup inclui apenas')))break;
+        n=next;
+      }
+      for(const e of items)section.appendChild(e);
+      const title=backup.querySelector('h2');
+      title?.insertAdjacentElement('afterend',section);
+      const save=document.createElement('button');save.type='button';
+      save.textContent='💾 Salvar configurações no GitHub';save.className='ok';
+      save.addEventListener('click',()=>document.getElementById('zzSalvarMarcaGithub')?.click());
+      section.appendChild(save);
+    }
     const groups={inicio:[inicio],anuncios:[moderation],marca:[marca],afiliados:[afil],planos:[plano],financeiro:[financeiro,...finChildren],perfil:[email,perfil],backup:[backup]};
     // A moderação foi originalmente colocada fora de #painel. Movê-la para dentro
     // restringe sua visibilidade à sessão autenticada e mantém seus IDs intactos.
