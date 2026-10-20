@@ -1,0 +1,47 @@
+/* Corrige somente telas desktop e "site para computador" do Chrome.
+   Não interfere em celulares no modo normal nem nas medidas do editor Admin. */
+@media screen and (min-width:701px) {
+  html,body {max-width:100%;overflow-x:clip;}
+  body.zix-elite-active header,
+  body.zix-elite-active header .top,
+  body.zix-elite-active header .top > a.brand {
+    box-sizing:border-box!important;
+    min-width:0!important;
+    max-width:100%!important;
+  }
+  body.zix-layout-v3 header .top > a.brand {
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    overflow:hidden!important;
+    margin-inline:auto!important;
+  }
+  /* Impede foto do cabeçalho em tamanho intrínseco exagerado. */
+  body.zix-layout-v3 header .top > a.brand > img,
+  body.zix-layout-v3 header .top > a.brand > #zzCustomBrandLogo {
+    display:block!important;
+    box-sizing:border-box!important;
+    width:100%!important;
+    max-width:100%!important;
+    max-height:min(48vw,520px)!important;
+    height:auto!important;
+    object-fit:contain!important;
+    object-position:center center!important;
+    transform:none!important;
+    aspect-ratio:auto!important;
+  }
+  /* Hero gráfico, se utilizado no lugar da marca */
+  body.zix-elite-active .hero#inicio,
+  body.zix-elite-active .hero#inicio #zixElite {
+    box-sizing:border-box!important;
+    min-width:0!important;
+    max-width:100%!important;
+  }
+  body.zix-elite-active .hero#inicio #zixElite img {
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    height:auto!important;
+    object-fit:contain!important;
+  }
+}
