@@ -9,8 +9,7 @@
     ['planos','🏷️','Planos','Planos e promoções'],
     ['financeiro','💳','Financeiro','Cobrança, créditos e prazos'],
     ['perfil','👤','Minha conta','Perfil e segurança'],
-    ['backup','💾','Backup','Cópias do código e GitHub'],
-    ['monstro','👾','MONSTRO IA','Programação, cinema e biblioteca']
+    ['backup','💾','Backup','Cópias do código e GitHub']
   ];
   function init(){
     const painel=document.getElementById('painel');
@@ -68,17 +67,16 @@
       });
       section.append(save,result);
     }
-    /* ZIX_MONSTRO_ADMIN_TAB_V1 */
-    const monstro=document.createElement('section');
-    monstro.className='card';monstro.id='zixMonstroAdminCard';
-    const h=document.createElement('h2');h.textContent='👾 MONSTRO IA — Laboratório';
-    const info=document.createElement('p');info.textContent='Biblioteca e ferramentas da IA. Este módulo não altera o Supabase nem executa scripts. Para conversar com modelos remotos, configure sua própria API. Não digite tokens GitHub ou credenciais administrativas.';
-    const frame=document.createElement('iframe');frame.title='MONSTRO IA';frame.setAttribute('loading','lazy');frame.style.cssText='width:100%;height:min(78vh,900px);min-height:580px;border:1px solid #ced8e7;border-radius:12px;background:#101820';
-    frame.dataset.src='./monstro-ia/index.html';
-    const open=document.createElement('a');open.textContent='Abrir MONSTRO em tela inteira';open.href='./monstro-ia/index.html';open.target='_blank';open.rel='noopener noreferrer';
-    monstro.append(h,info,frame,open);
-    painel.appendChild(monstro);
-    const groups={inicio:[inicio],anuncios:[moderation],marca:[marca],afiliados:[afil],planos:[plano],financeiro:[financeiro,...finChildren],perfil:[email,perfil],backup:[backup],monstro:[monstro]};
+    const groups={
+      inicio:[inicio],
+      anuncios:[moderation],
+      marca:[marca],
+      afiliados:[afil],
+      planos:[plano],
+      financeiro:[financeiro,...finChildren],
+      perfil:[email,perfil],
+      backup:[backup]
+    };
     // A moderação foi originalmente colocada fora de #painel. Movê-la para dentro
     // restringe sua visibilidade à sessão autenticada e mantém seus IDs intactos.
     painel.appendChild(moderation);
