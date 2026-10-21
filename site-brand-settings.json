@@ -138,7 +138,7 @@
           "text": "PRODUTOS ANUNCIADOS DE SITES COM GARANTIA E PROCEDÊNCIA, TODOS OS SITES COM PRODUTOS NESSA PLATAFORMA SÃO DE LOJAS DE REFERÊNCIA NACIONAL VENHA CONFERIR!!!",
           "duration": 1,
           "unit": "minutes",
-          "enabled": true
+          "enabled": false
         },
         {
           "id": "led-1792358917841-32aza56v",
@@ -146,7 +146,7 @@
           "text": "Bem-vindos ao zixLima.com.br",
           "duration": 1,
           "unit": "minutes",
-          "enabled": true
+          "enabled": false
         }
       ]
     }
@@ -178,18 +178,18 @@
         "subtitle": "Goiânia-GO",
         "src": "./assets/zix-gallery/zg-1792371312220-kfygwkf0.jpg",
         "url": "",
-        "duration": 3,
+        "duration": 1,
         "unit": "minutes",
         "enabled": true
       },
       {
         "id": "zg-1792625270368-rwrjl3d9",
         "order": 3,
-        "title": "INSTALAÇÃO ELÉTRICA ANTES E DEPOIS ",
+        "title": "INSTALAÇÃO ELÉTRICA É COM A \"AM⚡️PM ANTES E DEPOIS\"! Whatsapp (62) 99918-6824.",
         "subtitle": "Goiânia-Go",
         "src": "./assets/zix-gallery/zg-1792625270368-rwrjl3d9.jpg",
         "url": "",
-        "duration": 6,
+        "duration": 5,
         "unit": "minutes",
         "enabled": true
       }
