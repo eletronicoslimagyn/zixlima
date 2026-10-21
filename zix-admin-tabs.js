@@ -109,7 +109,7 @@
         b.setAttribute('aria-pressed',String(on));
         if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');
       }
-      if(key==='monstro' && !frame.src)frame.src=frame.dataset.src;
+      /* Conversor APK substitui o carregamento da antiga IA. */
       note.textContent=defs.find(d=>d[0]===key)[3]+'. As configurações continuam sendo salvas pelos botões originais.';
       try{sessionStorage.setItem('zix-admin-active-tab',key);}catch(e){}
       if(userAction){nav.scrollIntoView({block:'start',behavior:'smooth'});}
