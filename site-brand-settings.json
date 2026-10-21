@@ -161,8 +161,19 @@
     "glow": 18,
     "items": [
       {
-        "id": "zg-1792377050556-eodncjln",
+        "id": "zg-1792625270368-rwrjl3d9",
         "order": 1,
+        "title": "INSTALAÇÃO ELÉTRICA É COM A \"AM⚡️PM ANTES E DEPOIS\"! Whatsapp (62) 99918-6824.",
+        "subtitle": "Goiânia-Go",
+        "src": "./assets/zix-gallery/zg-1792625270368-rwrjl3d9.jpg",
+        "url": "",
+        "duration": 5,
+        "unit": "minutes",
+        "enabled": true
+      },
+      {
+        "id": "zg-1792377050556-eodncjln",
+        "order": 2,
         "title": "Eletrônicos Lima Gyn",
         "subtitle": "Goiânia-Go",
         "src": "./assets/zix-gallery/zg-1792377050556-eodncjln.jpg",
@@ -173,23 +184,12 @@
       },
       {
         "id": "zg-1792371312220-kfygwkf0",
-        "order": 2,
+        "order": 3,
         "title": "zixlima.com.br",
         "subtitle": "Goiânia-GO",
         "src": "./assets/zix-gallery/zg-1792371312220-kfygwkf0.jpg",
         "url": "",
         "duration": 1,
-        "unit": "minutes",
-        "enabled": true
-      },
-      {
-        "id": "zg-1792625270368-rwrjl3d9",
-        "order": 3,
-        "title": "INSTALAÇÃO ELÉTRICA É COM A \"AM⚡️PM ANTES E DEPOIS\"! Whatsapp (62) 99918-6824.",
-        "subtitle": "Goiânia-Go",
-        "src": "./assets/zix-gallery/zg-1792625270368-rwrjl3d9.jpg",
-        "url": "",
-        "duration": 5,
         "unit": "minutes",
         "enabled": true
       }
