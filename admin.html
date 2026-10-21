@@ -489,7 +489,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 </style>
 <link rel="stylesheet" href="./zix-gallery.css?v=zix20261018galeria2">
 <link rel="stylesheet" href="./zix-admin-tabs.css?v=20261019b">
-<link rel="stylesheet" href="./zix-historico.css?v=20261020">
+<link rel="stylesheet" href="./zix-historico.css?v=20261021lixeira3">
   <link rel="stylesheet" href="./zix-desktop-total-v3.css?v=20261020-total">
 <link rel="stylesheet" href="./zix-boost.css?v=2">
 <link rel="stylesheet" href="./zix-promo.css?v=2"></head>
@@ -884,7 +884,7 @@ Baixar código completo ZIP
 <section id="zixHistorico" class="zix-history" aria-labelledby="zixHistoryTitle">
 <h3 id="zixHistoryTitle">📚 Histórico de anúncios por número</h3>
 <p>Selecione uma ou várias categorias existentes. Ordenação padrão: menor número para o maior.</p>
-<div class="zix-history-controls"><label>Pesquisar código, título ou cidade<input id="zixHistorySearch" type="search" placeholder="Ex.: ZIX-000001, Moto ou Goiânia"></label><label>Ordenação<select id="zixHistoryOrder"><option value="asc">Número: menor → maior</option><option value="desc">Número: maior → menor</option><option value="new">Mais recentes</option><option value="old">Mais antigos</option></select></label><label>Situação<select id="zixHistoryStatus"><option value="all">Todas</option><option value="pending">Pendentes</option><option value="approved">Aprovadas</option><option value="rejected">Rejeitadas</option><option value="expired">Vencidas</option></select></label></div>
+<div class="zix-history-controls"><label>Pesquisar código, título ou cidade<input id="zixHistorySearch" type="search" placeholder="Ex.: ZIX-000001, Moto ou Goiânia"></label><label>Ordenação<select id="zixHistoryOrder"><option value="asc">Número: menor → maior</option><option value="desc">Número: maior → menor</option><option value="new">Mais recentes</option><option value="old">Mais antigos</option></select></label><label>Situação<select id="zixHistoryStatus"><option value="all">Todas</option><option value="pending">Pendentes</option><option value="approved">Aprovadas</option><option value="rejected">Rejeitadas</option><option value="expired">Vencidas</option><option value="disabled">Desativadas</option><option value="trash">🗑️ Lixeira</option></select></label></div>
 <details class="zix-history-categories"><summary>☑️ Selecionar várias categorias <span id="zixCategoryCount">(todas)</span></summary><div id="zixHistoryCategories" class="zix-history-checks"></div><div class="zix-history-category-buttons"><button type="button" id="zixHistoryAll">Todas</button><button type="button" id="zixHistoryNone">Limpar seleção</button></div></details>
 <div class="zix-history-buttons"><button type="button" id="zixHistoryRefresh">🔄 Atualizar histórico</button></div>
 <p id="zixHistoryInfo" role="status" aria-live="polite">Abra a aba Anúncios para carregar o histórico.</p>
@@ -1461,7 +1461,7 @@ btn.addEventListener('click',async()=>{
 <script src="./zix-gallery-engine.js?v=zix20261018galeria2" defer></script>
 <script src="./zix-gallery-admin.js?v=zix20261018galeria1" defer></script>
 <script src="./zix-admin-tabs.js?v=20261021semapk" defer></script>
-<script type="module" src="./zix-historico.js?v=20261020worker1"></script>
+<script type="module" src="./zix-historico.js?v=20261021lixeira3"></script>
 
 <script type="module" src="./zix-promo-admin.js?v=2"></script></body>
 </html>

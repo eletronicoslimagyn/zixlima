@@ -1,3 +1,4 @@
+/* ZIX-LIXEIRA-V3: histórico com lixeira administrativa recuperável. */
 import {createClient} from 'https://esm.sh/@supabase/supabase-js@2';
 import {SUPABASE_URL,SUPABASE_ANON_KEY} from './config.js';
 const $=id=>document.getElementById(id);
@@ -22,37 +23,51 @@ async function refresh(){
  try{
   const all=[];let offset=0;
   for(;;){
-    const {data,error}=await db.from('listings').select('id,zix_code,title,category,city,state,price,status,created_at,zix_expires_at,description,phone,zix_blocked,zix_history_archived_at').order('created_at',{ascending:false}).range(offset,offset+499);
+    const {data,error}=await db.from('listings').select('id,zix_code,title,category,city,state,price,status,created_at,zix_expires_at,description,phone,zix_blocked,zix_paused_at,zix_history_archived_at').order('created_at',{ascending:false}).range(offset,offset+499);
     if(error)throw error; all.push(...(data||[]));if(!data||data.length<500)break;offset+=500;
     if(offset>=10000){message('Exibindo até 10.000 anúncios. Refine os filtros para localizar outros.');break}
   }
   rows=all;visible=25;loaded=true;render();
  }catch(e){message('Falha ao carregar histórico: '+e.message)}
 }
-function status(x){const expired=x.zix_expires_at&&new Date(x.zix_expires_at).getTime()<=Date.now();return expired||x.zix_blocked?'expired':x.status}
+function disabled(x){return x.status==='rejected'||x.zix_blocked||!!x.zix_paused_at||!!(x.zix_expires_at&&new Date(x.zix_expires_at).getTime()<=Date.now())}
+function status(x){if(x.zix_history_archived_at)return 'trash';if(x.zix_blocked||x.zix_paused_at)return 'disabled';if(x.zix_expires_at&&new Date(x.zix_expires_at).getTime()<=Date.now())return 'expired';return x.status}
 function render(){
  if(!loaded)return;const q=$('zixHistorySearch').value.trim().toLocaleLowerCase('pt-BR');const st=$('zixHistoryStatus').value;
- const arr=rows.filter(x=>selected.has(x.category)&&(st==='all'||status(x)===st)&&(!q||[x.zix_code,x.id,x.title,x.city].some(v=>String(v||'').toLocaleLowerCase('pt-BR').includes(q))));
+ const arr=rows.filter(x=>selected.has(x.category)&&(st==='trash'?!!x.zix_history_archived_at:!x.zix_history_archived_at&&(st==='all'||(st==='disabled'?disabled(x):status(x)===st)))&&(!q||[x.zix_code,x.id,x.title,x.city].some(v=>String(v||'').toLocaleLowerCase('pt-BR').includes(q))));
  const dir=$('zixHistoryOrder').value;
  arr.sort((a,b)=>dir==='new'?Date.parse(b.created_at)-Date.parse(a.created_at):dir==='old'?Date.parse(a.created_at)-Date.parse(b.created_at):(numeric(a)-numeric(b))*(dir==='desc'?-1:1)||String(a.zix_code||a.id).localeCompare(String(b.zix_code||b.id),'pt-BR',{numeric:true})*(dir==='desc'?-1:1));
  const area=$('zixHistoryList');area.replaceChildren();
  for(const x of arr.slice(0,visible)){
   const item=node('article','zix-history-item');const heading=node('div','zix-history-row');
-  heading.append(node('strong','',`Nº ${x.zix_code||x.id}`),node('span','',status(x)==='expired'?'Vencido':({approved:'Aprovado',pending:'Pendente',rejected:'Rejeitado'}[status(x)]||status(x))));
+  heading.append(node('strong','zix-history-original-id',`Nº ${x.zix_code||x.id}`),node('span','',({expired:'Vencido',disabled:'Desativado',trash:'Na lixeira',approved:'Aprovado',pending:'Pendente',rejected:'Rejeitado'}[status(x)]||status(x))));
   item.append(heading,node('h4','',x.title),node('p','',`${categories.find(y=>y[0]===x.category)?.[1]||x.category} · ${x.city}/${x.state} · ${fmtPrice(x.price)}`),node('p','',`Cadastro: ${new Date(x.created_at).toLocaleString('pt-BR')}`));
   const actions=node('div','zix-history-actions');
-  const edit=node('button','','✏️ Editar');edit.type='button';edit.onclick=()=>openEdit(x);actions.append(edit);
-  if(x.status==='approved'&&!x.zix_blocked&&status(x)!=='expired'){
-   const share=node('button','','🔗 Copiar link');share.type='button';share.onclick=async()=>{const u=new URL('https://zixlima-previa-anuncios.suportezixlima.workers.dev/');u.searchParams.set('anuncio',x.id);try{await navigator.clipboard.writeText(u.href);message('Link copiado para o anúncio '+(x.zix_code||x.id))}catch{window.prompt('Copie o link:',u.href)}};actions.append(share);
-  }
-  for(const [title,next] of x.status==='pending'?[['Aprovar','approved'],['Rejeitar','rejected']]:[]){const b=node('button','',title);b.type='button';b.onclick=()=>setStatus(x,next);actions.append(b)}
-  const del=node('button','zix-history-delete','🗃️ Arquivar');
-  del.type='button';
-  del.style.cssText='background:#b42318;color:white';
-  del.onclick=()=>deleteListing(x,del);
-  actions.append(del);
-  for(const [title,action] of [['🔄 Reativar','reativar'],['🎁 Bônus de dias','bonus'],['⛔ Cancelar','cancelar'],['📂 Restaurar','restaurar']]){
-   const b=node('button','',title);b.type='button';b.onclick=()=>listingControl(x,action);actions.append(b);
+  function actionButton(title,handler,cls=''){const b=node('button',cls,title);b.type='button';b.onclick=handler;actions.append(b);return b}
+  if(x.zix_history_archived_at){
+   actionButton('📂 Recuperar da lixeira',()=>listingControl(x,'restaurar'),'zix-history-restore');
+  }else{
+   actionButton('✏️ Editar',()=>openEdit(x));
+   if(x.status==='approved'&&!disabled(x)){
+    actionButton('🔗 Copiar link',async()=>{
+     const u=new URL('https://zixlima-previa-anuncios.suportezixlima.workers.dev/');
+     u.searchParams.set('anuncio',x.id);
+     try{await navigator.clipboard.writeText(u.href);message('Link copiado para o anúncio '+(x.zix_code||x.id))}
+     catch{window.prompt('Copie o link:',u.href)}
+    });
+   }
+   if(x.status==='pending'){
+    actionButton('Aprovar',()=>setStatus(x,'approved'));
+    actionButton('Rejeitar',()=>setStatus(x,'rejected'));
+   }
+   if(disabled(x)){
+    const del=actionButton('🗑️ Excluir desativado',()=>deleteListing(x,del),'zix-history-delete');
+    del.title='Mover para a lixeira, sem apagar registros de pagamentos';
+    actionButton('🔄 Reativar',()=>listingControl(x,'reativar'));
+   }else if(x.status==='approved'){
+    actionButton('🎁 Bônus de dias',()=>listingControl(x,'bonus'));
+    actionButton('⛔ Cancelar',()=>listingControl(x,'cancelar'));
+   }
   }
   item.append(actions);area.append(item);
  }
@@ -62,13 +77,21 @@ function render(){
 }
 async function setStatus(x,status){if(!confirm(`Deseja ${status==='approved'?'aprovar':'rejeitar'} o anúncio ${x.zix_code||x.id}?`))return;if(!(await permitted()))return alert('Sessão administrativa expirada.');const {error}=await db.from('listings').update({status}).eq('id',x.id);if(error)alert(error.message);else await refresh()}
 async function deleteListing(x,button){
- if(!confirm('Arquivar o anúncio '+(x.zix_code||x.id)+'? Ele será ocultado, sem apagar dados ou pagamentos.'))return;
- if(!(await permitted()))return alert('Somente ADMIN.');
+ const code=String(x.zix_code||x.id);
+ if(x.zix_history_archived_at||!disabled(x))return alert('Somente anúncios desativados podem ser enviados à lixeira.');
+ if(!confirm('EXCLUIR O ANÚNCIO DESATIVADO '+code+'? Ele sairá do histórico principal e ficará recuperável na Lixeira. Campanhas ativas vinculadas serão canceladas.'))return;
+ const typed=prompt('Digite o código EXATO para confirmar a exclusão:');
+ if(typed!==code){if(typed!==null)alert('Código incorreto. Exclusão cancelada.');return}
+ if(!(await permitted()))return alert('Somente o administrador pode excluir.');
+ const note=prompt('Motivo para enviar à lixeira:','Exclusão administrativa de anúncio desativado');
+ if(note===null)return;
  button.disabled=true;
- const note=prompt('Motivo do arquivamento:','Arquivamento administrativo');
- if(note===null){button.disabled=false;return}
- const {error}=await db.rpc('zix_listing_admin',{p_listing:x.id,p_action:'arquivar',p_days:0,p_note:note});
- if(error)alert(error.message);else await refresh();button.disabled=false;
+ try{
+  const {error}=await db.rpc('zix_listing_admin',{p_listing:x.id,p_action:'arquivar',p_days:0,p_note:note});
+  if(error)throw error;
+  await refresh();
+  alert('Anúncio '+code+' movido para a Lixeira. Você pode recuperá-lo pelo filtro Situação.');
+ }catch(err){alert('Exclusão não realizada: '+err.message);button.disabled=false;}
 }
 async function listingControl(x,action){
  if(!(await permitted()))return alert('Somente ADMIN.');
@@ -78,7 +101,7 @@ async function listingControl(x,action){
    if(ask===null)return; days=Number(ask);
    if(!Number.isInteger(days)||days<1||days>365)return alert('Prazo inválido.');
  }
- const note=prompt('Motivo da ação:','Controle administrativo');if(note===null)return;
+ const note=prompt(action==='reativar'?'Motivo da reativação (confirme autorização e pagamento quando aplicável):':'Motivo da ação:','Controle administrativo');if(note===null)return;
  if(!confirm('Confirmar '+action+' para '+(x.zix_code||x.id)+'?'))return;
  const {error}=await db.rpc('zix_listing_admin',{p_listing:x.id,p_action:action,p_days:days,p_note:note});
  if(error)alert(error.message);else await refresh();
