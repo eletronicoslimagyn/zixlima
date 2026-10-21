@@ -25,4 +25,20 @@ async function start(){
  const prices={destaque_7:9.90,premium_15:24.90,supremo_30:49.90,google_personalizado:0};const {error}=await db.from('zix_boost_requests').insert({listing_id:listing.id,user_id:user.id,channel,package:plan,price_brl:prices[plan]});status.textContent=error?error.message:'Solicitação criada. Aguarde a conferência do pagamento.';if(!error)reload();});
  reload();
 }
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+function iniciarAposLogin(){
+ const painel=document.getElementById('painel');
+ if(!painel)return;
+ let iniciado=false;
+ const tentar=()=>{
+  if(iniciado||painel.style.display!=='block')return;
+  iniciado=true;
+  observador.disconnect();
+  start();
+ };
+ const observador=new MutationObserver(tentar);
+ observador.observe(painel,{attributes:true,attributeFilter:['style']});
+ tentar();
+}
+if(document.readyState==='loading')
+ document.addEventListener('DOMContentLoaded',iniciarAposLogin);
+else iniciarAposLogin();
