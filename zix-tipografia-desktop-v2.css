@@ -1,0 +1,54 @@
+/* ZixLima: tipografia legível no desktop e no "Site para computador".
+   Não altera dimensões de banners nem amplia imagens. */
+@media screen and (min-width:701px) {
+  body.zix-elite-active {font-size:21px;line-height:1.55;}
+  body.zix-elite-active .content h2,
+  body.zix-elite-active .sectionTitle h2,
+  body.zix-elite-active #zixFeatured h2,
+  body.zix-elite-active .mine h2 {font-size:clamp(29px,2.6vw,37px)!important;line-height:1.3!important;}
+  body.zix-elite-active .content p,
+  body.zix-elite-active .sectionTitle p,
+  body.zix-elite-active #zixFeatured p,
+  body.zix-elite-active .mine p {font-size:20px!important;line-height:1.5!important;}
+  body.zix-elite-active .card .cardbody,
+  body.zix-elite-active .zix-featured-grid .cardbody {font-size:20px!important;line-height:1.5!important;}
+  body.zix-elite-active .card h3,
+  body.zix-elite-active .zix-featured-grid h3 {font-size:23px!important;line-height:1.35!important;overflow-wrap:anywhere!important;}
+  body.zix-elite-active .card .price,
+  body.zix-elite-active .zix-featured-grid .price {font-size:29px!important;line-height:1.3!important;}
+  body.zix-elite-active .card .muted,
+  body.zix-elite-active .zix-featured-grid .muted,
+  body.zix-elite-active .chip {font-size:18px!important;line-height:1.45!important;}
+  body.zix-elite-active .category {font-size:21px!important;line-height:1.35!important;}
+  body.zix-elite-active .category b {font-size:40px!important;}
+  body.zix-elite-active .zix-share-actions .zix-share-button,
+  body.zix-elite-active .card button,
+  body.zix-elite-active .card a.zix-share-button {font-size:17px!important;line-height:1.3!important;white-space:normal!important;}
+  body.zix-elite-active .sectionTitle select,
+  body.zix-elite-active #anuncios select {font-size:19px!important;min-height:46px;}
+  body.zix-elite-active header nav a,
+  body.zix-elite-active header .actions button,
+  body.zix-elite-active .zix-install-area button {font-size:19px!important;}
+  body.zix-elite-active footer,
+  body.zix-elite-active footer p,
+  body.zix-elite-active footer a,
+  body.zix-elite-active footer small,
+  body.zix-elite-active .zz-footer,
+  body.zix-elite-active .zz-footer p,
+  body.zix-elite-active .zz-footer a {font-size:19px!important;line-height:1.5!important;}
+  body.zix-elite-active .modal label,
+  body.zix-elite-active .modal p,
+  body.zix-elite-active .modal input,
+  body.zix-elite-active .modal select,
+  body.zix-elite-active .modal textarea,
+  body.zix-elite-active .modal button {font-size:19px!important;}
+  /* Cards de planos: ampliar textos, sem modificar imagens/banner. */
+  body.zix-elite-active #zixPlanos,
+  body.zix-elite-active #zixPlanos *,
+  body.zix-elite-active .zix-plans,
+  body.zix-elite-active .zix-plans * {line-height:1.4;}
+  body.zix-elite-active #zixPlanos :is(p,span,small,li),
+  body.zix-elite-active .zix-plans :is(p,span,small,li) {font-size:19px!important;}
+  body.zix-elite-active #zixPlanos :is(h3,h4,strong),
+  body.zix-elite-active .zix-plans :is(h3,h4,strong) {font-size:21px!important;}
+}
