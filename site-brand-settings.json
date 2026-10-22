@@ -163,10 +163,10 @@
     "enabled": true,
     "loop": true,
     "startsAt": "2026-10-19T02:31:23.580Z",
-    "effect": "rainbow",
+    "effect": "electric",
     "transition": "zoom",
     "speed": 31,
-    "glow": 18,
+    "glow": 29,
     "items": [
       {
         "id": "zg-1792625270368-rwrjl3d9",
