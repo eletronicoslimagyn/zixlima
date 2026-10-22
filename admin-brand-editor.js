@@ -329,6 +329,9 @@ function renderPreview(){
   async function request(path, opts={}){
     const token = $('zzToken')?.value?.trim();
     if(!token) throw new Error('Informe o token GitHub.');
+    if(!/^[\x21-\x7e]+$/.test(token)){
+      throw new Error('Token GitHub invalido: cole somente o token, sem emojis, espacos ou outros caracteres.');
+    }
     const r = await fetch('https://api.github.com/repos/' + repo + path, {
       ...opts,
       headers: {

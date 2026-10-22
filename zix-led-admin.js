@@ -115,7 +115,11 @@
   if(n<0)return;
   const [item]=agenda.items.splice(n,1);
   const pos=Math.max(0,Math.min(agenda.items.length,alvo));
-  agenda.items.splice(pos,0,item);normalizar();renderLista();mudar();
+  agenda.items.splice(pos,0,item);
+  agenda.items.forEach((frase,posicao)=>{
+    frase.order=posicao+1;
+  });
+  normalizar();renderLista();mudar();
   mensagem('Ordem atualizada. Clique em “Salvar tudo no GitHub” para publicar.');
  }
  function renderLista(){
