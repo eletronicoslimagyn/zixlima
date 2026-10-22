@@ -4,6 +4,10 @@ const cats=[['carros','🚗','Carros'],['motos','🏍️','Motos'],['caminhoes',
 const label=Object.fromEntries(cats.map(x=>[x[0],x[2]]));
 const icon=Object.fromEntries(cats.map(x=>[x[0],x[1]]));
 const money=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const priceText=x=>
+  x.category==='servicos' && Number(x.price)===0
+    ? 'A combinar'
+    : money(x.price);
 const el=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e};
 let editingId=null;
 let db=null,user=null,cat='',page=0,more=false;const PAGE=12;
@@ -42,7 +46,7 @@ async function zixNativeShare(x){
   const url=zixLinkFor(x);
   if(navigator.share){
     try{
-      await navigator.share({title:x.title,text:`${x.title} - ${money(x.price)} | ZixLima`,url});
+      await navigator.share({title:x.title,text:`${x.title} - ${priceText(x)} | ZixLima`,url});
       return;
     }catch(e){if(e?.name==='AbortError')return}
   }
@@ -63,7 +67,7 @@ function zixShareControls(x){
   const whatsapp=el('a','zix-share-button zix-share-whatsapp','🟢 WhatsApp');
   const phone=zixWhatsPhone(x.phone);
   if(phone){
-    whatsapp.href='https://wa.me/'+phone+'?text='+encodeURIComponent(`Olá! Tenho interesse neste anúncio no ZixLima:\n${x.title} - ${money(x.price)}\n${zixLinkFor(x)}`);
+    whatsapp.href='https://wa.me/'+phone+'?text='+encodeURIComponent(`Olá! Tenho interesse neste anúncio no ZixLima:\n${x.title} - ${priceText(x)}\n${zixLinkFor(x)}`);
     whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';
   }else{
     whatsapp.removeAttribute('href');whatsapp.title='Anunciante sem WhatsApp válido';
@@ -83,7 +87,7 @@ function showDetail(x){
     urls.forEach(url=>{const t=el('img');t.src=url;t.alt='Ver foto';t.onclick=()=>img.src=url;strip.append(t)});
     r.append(strip);
   }
-  r.append(el('h2','price',money(x.price)),el('p','muted',`${x.city} - ${x.state} · ${label[x.category]||'Outros'}`),el('p','detailDescription',x.description));
+  r.append(el('h2','price',priceText(x)),el('p','muted',`${x.city} - ${x.state} · ${label[x.category]||'Outros'}`),el('p','detailDescription',x.description));
   const phone=zixWhatsPhone(x.phone);
   if(phone){
     const a=el('a','primary','Conversar no WhatsApp');
@@ -145,6 +149,9 @@ function editListing(x){
   set('title',x.title);
   set('category',x.category);
   set('price',x.price);
+  zixPriceCheck.checked=
+    x.category==='servicos' && Number(x.price)===0;
+  syncPriceMode();
   set('city',x.city);
   set('state',x.state);
   set('phone',x.phone);
@@ -188,7 +195,7 @@ function card(x,isMine=false){
   if(url){const img=el('img','cover');img.src=url;img.alt='Foto do anúncio';img.loading='lazy';c.append(img)}
   else c.append(el('div','placeholder',icon[x.category]||'📦'));
   const body=el('div','cardbody');
-  body.append(el('p','status','Código: '+(x.zix_code||x.id)),el('div','price',money(x.price)),el('h3','',x.title),el('p','muted',`${x.city} - ${x.state}`),el('span','chip',label[x.category]||'Outros'));
+  body.append(el('p','status','Código: '+(x.zix_code||x.id)),el('div','price',priceText(x)),el('h3','',x.title),el('p','muted',`${x.city} - ${x.state}`),el('span','chip',label[x.category]||'Outros'));
   if(isMine){
     const expired=x.zix_expires_at&&new Date(x.zix_expires_at).getTime()<=Date.now();
     body.append(el('p','status',expired?'Prazo vencido':x.status==='approved'?'Publicado':x.status==='pending'?'Aguardando aprovação':'Rejeitado'));
@@ -210,6 +217,38 @@ async function mine(){const area=$('myListing');area.replaceChildren();$('mineHi
 function authUI(){ $('loginBtn').textContent=user?'Sair':'Entrar';mine() }
 $('categories').replaceChildren(...cats.map(([key,emoji,name])=>{const b=el('button','category');b.type='button';b.append(el('b','',emoji),document.createTextNode(name));b.onclick=()=>{cat=cat===key?'':key;document.querySelectorAll('.category').forEach(n=>n.classList.remove('active'));if(cat)b.classList.add('active');$('rentalFilter').hidden=cat!=='alugueis';$('rentalKindFilter').value='';load();$('anuncios').scrollIntoView({behavior:'smooth'})};return b}));
 $('postCategory').replaceChildren(...cats.map(([key,,name])=>{const o=el('option','',name);o.value=key;return o}));
+const zixPriceInput=$('postForm').elements.namedItem('price');
+const zixPriceLabel=document.createElement('label');
+zixPriceLabel.style.cssText=
+  'display:flex;align-items:center;gap:9px;font-weight:700;';
+const zixPriceCheck=document.createElement('input');
+zixPriceCheck.type='checkbox';
+zixPriceCheck.style.cssText=
+  'width:22px;height:22px;flex-shrink:0;';
+zixPriceLabel.append(
+  zixPriceCheck,
+  document.createTextNode(' Preco a combinar')
+);
+zixPriceInput.closest('label').after(zixPriceLabel);
+function syncPriceMode(){
+  const servico=$('postCategory').value==='servicos';
+  zixPriceLabel.hidden=!servico;
+  if(!servico)zixPriceCheck.checked=false;
+  const combinar=servico&&zixPriceCheck.checked;
+  zixPriceInput.disabled=combinar;
+  zixPriceInput.required=!combinar;
+  if(combinar)zixPriceInput.value='';
+  zixPriceInput.placeholder=combinar?'A combinar':'Valor em reais';
+}
+zixPriceCheck.addEventListener('change',syncPriceMode);
+$('postCategory').addEventListener('change',syncPriceMode);
+$('postForm').addEventListener(
+  'reset',()=>setTimeout(()=>{
+    zixPriceCheck.checked=false;
+    syncPriceMode();
+  },0)
+);
+syncPriceMode();
 const rentalFields=$('zzRentalFields');function syncRental(){if(rentalFields)rentalFields.hidden=$('postCategory').value!=='alugueis'}$('postCategory').addEventListener('change',syncRental);$('postForm').addEventListener('reset',()=>setTimeout(syncRental,0));syncRental();
 $('year').textContent=new Date().getFullYear();document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$(b.dataset.close).close());
 $('searchForm').onsubmit=e=>{e.preventDefault();load();location.hash='anuncios'};

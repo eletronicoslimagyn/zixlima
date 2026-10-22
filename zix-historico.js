@@ -8,6 +8,10 @@ let rows=[],loaded=false,selected=new Set(categories.map(c=>c[0])),visible=25,ed
 const message=s=>$('zixHistoryInfo').textContent=s;
 const node=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e};
 function numeric(x){const code=String(x.zix_code||'');const match=code.match(/(\d+)(?!.*\d)/);return match?Number(match[1]):Number.MAX_SAFE_INTEGER}
+const fmtListingPrice=x=>
+  x.category==='servicos' && Number(x.price)===0
+    ? 'A combinar'
+    : fmtPrice(x.price);
 const fmtPrice=p=>Number(p||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 function categoryRender(){
  const wrap=$('zixHistoryCategories');
@@ -41,7 +45,7 @@ function render(){
  for(const x of arr.slice(0,visible)){
   const item=node('article','zix-history-item');const heading=node('div','zix-history-row');
   heading.append(node('strong','zix-history-original-id',`Nº ${x.zix_code||x.id}`),node('span','',({expired:'Vencido',disabled:'Desativado',trash:'Na lixeira',approved:'Aprovado',pending:'Pendente',rejected:'Rejeitado'}[status(x)]||status(x))));
-  item.append(heading,node('h4','',x.title),node('p','',`${categories.find(y=>y[0]===x.category)?.[1]||x.category} · ${x.city}/${x.state} · ${fmtPrice(x.price)}`),node('p','',`Cadastro: ${new Date(x.created_at).toLocaleString('pt-BR')}`));
+  item.append(heading,node('h4','',x.title),node('p','',`${categories.find(y=>y[0]===x.category)?.[1]||x.category} · ${x.city}/${x.state} · ${fmtListingPrice(x)}`),node('p','',`Cadastro: ${new Date(x.created_at).toLocaleString('pt-BR')}`));
   const actions=node('div','zix-history-actions');
   function actionButton(title,handler,cls=''){const b=node('button',cls,title);b.type='button';b.onclick=handler;actions.append(b);return b}
   if(x.zix_history_archived_at){
@@ -106,7 +110,23 @@ async function listingControl(x,action){
  const {error}=await db.rpc('zix_listing_admin',{p_listing:x.id,p_action:action,p_days:days,p_note:note});
  if(error)alert(error.message);else await refresh();
 }
-function openEdit(x){editing=x;const f=$('zixHistoryEditForm');for(const k of ['title','category','price','city','state','phone','description'])f.elements.namedItem(k).value=x[k]??'';$('zixHistoryEditCode').textContent='Código: '+(x.zix_code||x.id);$('zixHistoryEditMsg').textContent='';$('zixHistoryEditDialog').showModal()}
+let zixAdminPriceCheck=null;
+function syncAdminPrice(){
+  const f=$('zixHistoryEditForm');
+  const price=f.elements.namedItem('price');
+  const servico=f.elements.namedItem('category').value==='servicos';
+  const label=zixAdminPriceCheck.closest('label');
+  label.hidden=!servico;
+  if(!servico)zixAdminPriceCheck.checked=false;
+  const combinar=servico&&zixAdminPriceCheck.checked;
+  price.disabled=combinar;
+  price.required=!combinar;
+  if(combinar)price.value='';
+}
+function openEdit(x){editing=x;const f=$('zixHistoryEditForm');for(const k of ['title','category','price','city','state','phone','description'])f.elements.namedItem(k).value=x[k]??'';zixAdminPriceCheck.checked=
+  x.category==='servicos' && Number(x.price)===0;
+ syncAdminPrice();
+ $('zixHistoryEditCode').textContent='Código: '+(x.zix_code||x.id);$('zixHistoryEditMsg').textContent='';$('zixHistoryEditDialog').showModal()}
 async function saveEdit(ev){ev.preventDefault();if(!editing||!(await permitted()))return;const f=ev.currentTarget,btn=f.querySelector('[type=submit]');btn.disabled=true;$('zixHistoryEditMsg').textContent='Salvando...';try{
  const data={title:f.elements.namedItem('title').value.trim(),category:f.elements.namedItem('category').value,price:Number(f.elements.namedItem('price').value),city:f.elements.namedItem('city').value.trim(),state:f.elements.namedItem('state').value.trim().toUpperCase(),phone:f.elements.namedItem('phone').value.replace(/\D/g,'')||null,description:f.elements.namedItem('description').value.trim()};
  if(data.phone&&!(data.phone.length>=10&&data.phone.length<=15))throw Error('WhatsApp deve conter de 10 a 15 números.');
@@ -115,7 +135,25 @@ async function saveEdit(ev){ev.preventDefault();if(!editing||!(await permitted()
  }catch(err){$('zixHistoryEditMsg').textContent='Não foi possível salvar: '+err.message}finally{btn.disabled=false}
 }
 function init(){
- if(!$('zixHistorico'))return;categoryRender();const s=$('zixHistoryEditForm').elements.namedItem('category');categories.forEach(([k,t])=>{const o=new Option(t,k);s.append(o)});
+ if(!$('zixHistorico'))return;
+ const form=$('zixHistoryEditForm');
+ const price=form.elements.namedItem('price');
+ const label=document.createElement('label');
+ label.style.cssText=
+   'display:flex;align-items:center;gap:9px;font-weight:700;';
+ zixAdminPriceCheck=document.createElement('input');
+ zixAdminPriceCheck.type='checkbox';
+ zixAdminPriceCheck.style.cssText=
+   'width:22px;height:22px;flex-shrink:0;';
+ label.append(
+   zixAdminPriceCheck,
+   document.createTextNode(' Preco a combinar')
+ );
+ price.closest('label').after(label);
+ zixAdminPriceCheck.addEventListener('change',syncAdminPrice);
+ form.elements.namedItem('category')
+   .addEventListener('change',syncAdminPrice);
+ categoryRender();const s=$('zixHistoryEditForm').elements.namedItem('category');categories.forEach(([k,t])=>{const o=new Option(t,k);s.append(o)});
  $('zixHistoryEditForm').addEventListener('submit',saveEdit);$('zixHistoryEditCancel').onclick=()=>$('zixHistoryEditDialog').close();
  $('zixHistoryRefresh').onclick=refresh;
  for(const id of ['zixHistorySearch','zixHistoryOrder','zixHistoryStatus'])$(id).addEventListener(id==='zixHistorySearch'?'input':'change',()=>{visible=25;render()});
