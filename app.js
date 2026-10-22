@@ -94,6 +94,23 @@ function showDetail(x){
     a.href='https://wa.me/'+phone+'?text='+encodeURIComponent('Olá! Tenho interesse no anúncio: '+x.title);
     a.target='_blank';a.rel='noopener noreferrer';r.append(a);
   }
+  // ZIX_OWNER_EDIT_DETAIL_V1
+  if(user && x.user_id===user.id){
+    const editar=el(
+      'button','primary','✏️ Editar meu anúncio'
+    );
+    editar.type='button';
+    editar.style.cssText=
+      'display:block;width:100%;margin:15px 0;' +
+      'padding:14px;font-size:17px;font-weight:700;';
+    editar.onclick=()=>{
+      $('detailDialog').close();
+      editListing(x);
+    };
+    r.append(editar);
+    r.append(el('p','muted',
+      'Após salvar, o anúncio volta para aprovação.'));
+  }
   if(zixIsPublished(x))r.append(zixShareControls(x));
   else r.append(el('p','zix-share-pending','Este anúncio ainda não pode ser compartilhado publicamente. Aguarde a aprovação ou renovação.'));
   dialog('detailDialog');
@@ -182,7 +199,7 @@ function editListing(x){
   set('description',description);
   syncRental();
   f.querySelector('h2').textContent='Editar anúncio';
-  f.querySelector('[type=submit]').textContent='Salvar alterações';
+  f.querySelector('[type=submit]').textContent='Salvar e enviar para aprovação';
   $('postMsg').textContent=
     'Ao salvar, o anúncio voltará para aprovação. '
     +'O código original será mantido.';
@@ -202,7 +219,7 @@ function card(x,isMine=false){
     if(x.zix_expires_at)body.append(el('p','muted','Vencimento: '+new Date(x.zix_expires_at).toLocaleString('pt-BR')));
     const del=el('button','danger','Excluir');del.type='button';
     del.onclick=async ev=>{ev.stopPropagation();if(!confirm('Excluir este anúncio?'))return;const {error}=await db.from('listings').delete().eq('id',x.id).eq('user_id',user.id);if(error)alert(error.message);else{await mine();await load()}};
-    const edit=el('button','zix-edit-btn','✏️ Editar');edit.type='button';
+    const edit=el('button','zix-edit-btn','✏️ Editar meu anúncio');edit.type='button';
     edit.onclick=ev=>{ev.stopPropagation();editListing(x)};
     const aviso=el('p','zix-edit-aviso','Ao editar, volta para aprovação.');
     body.append(aviso,del,edit);
