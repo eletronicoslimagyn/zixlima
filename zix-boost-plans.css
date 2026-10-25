@@ -1,0 +1,22 @@
+/* Configuracao de anuncios dentro da aba Impulsionamentos */
+#zixBoostAdminPanel .zix-boost-plan-settings{margin:17px 0 22px;padding:17px;background:linear-gradient(140deg,#f7fcff,#e7f8f5);border-radius:17px;border:1.5px solid #9fcfd0;box-sizing:border-box;color:#183347;}
+#zixBoostAdminPanel .zix-boost-plan-settings>summary{font-size:clamp(16px,3.5vw,20px);font-weight:850;cursor:pointer;color:#075667;padding:6px 2px;line-height:1.4;}
+#zixBoostAdminPanel .zix-plan-lead{color:#49677b;line-height:1.5;font-size:14px;margin:13px 0;}
+#zixBoostAdminPanel .zix-plan-message{color:#276472;font-size:13px;min-height:16px;margin:12px 0;line-height:1.4;}
+#zixBoostAdminPanel .zix-plan-message.zix-plan-error{color:#a83232;}
+#zixBoostAdminPanel .zix-plan-list{display:grid;gap:13px;}
+#zixBoostAdminPanel .zix-plan-card{background:#fff;border:1px solid #c6dce6;border-radius:13px;padding:15px;display:grid;gap:13px;margin:0;max-width:none;box-shadow:0 2px 9px #1a516910;}
+#zixBoostAdminPanel .zix-plan-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;color:#133850;}
+#zixBoostAdminPanel .zix-plan-heading strong{font-size:16px;}
+#zixBoostAdminPanel .zix-plan-heading small{font-size:11px;color:#5c778c;overflow-wrap:anywhere;}
+#zixBoostAdminPanel .zix-plan-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;}
+#zixBoostAdminPanel .zix-plan-field{display:grid;gap:6px;min-width:0;color:#365c73;font-size:12px;font-weight:800;}
+#zixBoostAdminPanel .zix-plan-field input{box-sizing:border-box;width:100%;max-width:none;min-height:45px;background:#fff;color:#123b53;border:1px solid #b5ccdb;border-radius:10px;padding:9px 10px;font-size:15px;}
+#zixBoostAdminPanel .zix-plan-controls{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+#zixBoostAdminPanel .zix-plan-switch{display:inline-flex;gap:9px;align-items:center;color:#2b6070;font-size:13px;font-weight:750;}
+#zixBoostAdminPanel .zix-plan-switch input{width:19px;height:19px;accent-color:#098d8b;}
+#zixBoostAdminPanel .zix-plan-save{border:0;border-radius:11px;padding:11px 17px;background:#087d83;color:#fff;font-weight:850;font-size:14px;min-height:45px;cursor:pointer;}
+#zixBoostAdminPanel .zix-plan-save:disabled{opacity:.6;cursor:wait;}
+#zixBoostAdminPanel .zix-plan-new{margin-top:16px;border-top:1px dashed #9fcac9;padding-top:15px;}
+#zixBoostAdminPanel .zix-plan-new h3{font-size:18px;color:#19485a;margin:0 0 10px;}
+@media(max-width:440px){#zixBoostAdminPanel .zix-boost-plan-settings{padding:12px}#zixBoostAdminPanel .zix-plan-grid{grid-template-columns:1fr}#zixBoostAdminPanel .zix-plan-controls{align-items:stretch;flex-direction:column}#zixBoostAdminPanel .zix-plan-save{width:100%}}

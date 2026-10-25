@@ -54,7 +54,7 @@ function card(item){
  if(item.archived_at){node.append(element('p','Arquivado em '+date(item.archived_at),'zix-boost-detail'));button('↩ Restaurar','zix-boost-action',()=>archive(item,true));}
  else if(['solicitado','aguardando_pagamento','aprovado'].includes(item.status)){
   button('✓ Aprovar','zix-boost-action good',()=>setStatus(item,'aprovado',0));
-  if(item.channel==='interno')button('▶ Ativar destaque','zix-boost-action good',async()=>{const raw=prompt('Duração do destaque em dias (1 a 365)',item.package==='destaque_7'?'7':item.package==='premium_15'?'15':'30');if(raw===null)return;await setStatus(item,'ativo',Number(raw))});
+  if(item.channel==='interno')button('▶ Ativar destaque','zix-boost-action good',async()=>{const raw=prompt('Duração do destaque em dias (1 a 365)',String(item.duration_days|| (item.package==='destaque_7'?7:item.package==='premium_15'?15:30)));if(raw===null)return;await setStatus(item,'ativo',Number(raw))});
   button('✕ Rejeitar','zix-boost-action bad',()=>setStatus(item,'rejeitado',0));
  }
  if(item.status==='ativo'&&!item.archived_at){button('✓ Concluir','zix-boost-action',()=>setStatus(item,'concluido',0));button('⛔ Cancelar','zix-boost-action bad',()=>setStatus(item,'cancelado',0));}
@@ -79,7 +79,7 @@ function render(){const content=$('zixBoostAdmList'),search=$('zixBoostAdmSearch
  }log.hidden=tab!=='historico';}
 }
 async function reload(){if(!authorized)return;message('Atualizando solicitações...');
- const {data,error}=await db.from('zix_boost_requests').select('id,listing_id,channel,channels_requested,package,price_brl,media_budget_brl,campaign_objective,request_notes,admin_reason,status,starts_at,ends_at,archived_at,created_at,public_code').order('created_at',{ascending:false}).limit(350);
+ const {data,error}=await db.from('zix_boost_requests').select('id,listing_id,channel,channels_requested,package,price_brl,duration_days,media_budget_brl,campaign_objective,request_notes,admin_reason,status,starts_at,ends_at,archived_at,created_at,public_code').order('created_at',{ascending:false}).limit(350);
  if(error){message('Erro ao consultar pedidos: '+error.message+'. Confira se o SQL da atualização foi aplicado.');return;}
  requests=data||[];listings=new Map();const ids=[...new Set(requests.map(x=>x.listing_id).filter(Boolean))];
  for(let i=0;i<ids.length;i+=120){const r=await db.from('listings').select('id,zix_code,title').in('id',ids.slice(i,i+120));if(!r.error)for(const l of r.data||[])listings.set(l.id,l);}

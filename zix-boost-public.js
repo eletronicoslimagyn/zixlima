@@ -18,6 +18,14 @@ const channels=[
  ['tiktok','TikTok Ads','Vídeos e descoberta']
 ];
 
+async function loadAvailablePlans(db){
+ const {data,error}=await db.from('zix_boost_plans')
+   .select('code,title,duration_days,price_brl')
+   .eq('enabled',true).order('sort_order',{ascending:true}).order('duration_days',{ascending:true});
+ if(error)throw new Error('Não foi possível carregar planos de impulsionamento: '+error.message);
+ return data||[];
+}
+
 async function loadShowcase(){
  const holder=document.getElementById('zixBoostShowcase');if(!holder)return;
  try{
@@ -42,7 +50,7 @@ async function loadShowcase(){
  }catch(err){console.warn('Destaques indisponíveis:',err.message)}
 }
 
-function openBoostDialog(db,user,own){
+function openBoostDialog(db,user,own,plans){
  const dialog=document.createElement('dialog');dialog.className='zix-boost-dialog';dialog.setAttribute('aria-label','Solicitar impulsionamento ou tráfego pago');
  dialog.innerHTML=`
  <div class="zix-boost-modal">
@@ -59,7 +67,7 @@ function openBoostDialog(db,user,own){
    </div>
    <section class="zix-boost-internal">
     <label class="zix-boost-label" for="boostPack">Selecione um plano</label>
-    <select name="pack" id="boostPack"><option value="destaque_7" data-price="9.9">7 dias • R$ 9,90</option><option value="premium_15" data-price="24.9">15 dias • R$ 24,90</option><option value="supremo_30" data-price="49.9">30 dias • R$ 49,90</option></select>
+    <select name="pack" id="boostPack" aria-label="Escolha um plano"></select><p class="zix-boost-help zix-plan-nooptions" hidden>Sem planos internos disponíveis. Selecione tráfego pago ou peça ao administrador que ative um plano.</p>
    </section>
    <section class="zix-boost-traffic" hidden>
     <p class="zix-boost-label">Selecione uma ou várias plataformas</p>
@@ -79,6 +87,15 @@ function openBoostDialog(db,user,own){
  </div>`;
  const $=selector=>dialog.querySelector(selector);
  const listing=$('#boostOwnListing');for(const x of own){const opt=document.createElement('option');opt.value=x.id;opt.textContent=(x.zix_code||x.id)+' — '+x.title;listing.append(opt)}
+ const planSelect=$('#boostPack');
+ for(const plan of plans){
+  const opt=document.createElement('option');opt.value=plan.code;
+  opt.dataset.price=String(plan.price_brl);opt.dataset.days=String(plan.duration_days);
+  opt.dataset.title=plan.title;
+  opt.textContent=`${plan.title} • ${plan.duration_days} ${plan.duration_days===1?'dia':'dias'} • ${money(plan.price_brl)}`;
+  planSelect.append(opt);
+ }
+ if(!plans.length){planSelect.disabled=true;$('.zix-plan-nooptions').hidden=false;}
  const channelsEl=$('.zix-boost-channels');for(const [value,label,hint] of channels){
   const wrap=document.createElement('label');wrap.className='zix-boost-channel';
   const input=document.createElement('input');input.type='checkbox';input.value=value;input.name='platform';
@@ -87,19 +104,19 @@ function openBoostDialog(db,user,own){
  function updateMode(){const paid=$('input[name="mode"]:checked')?.value==='trafego';$('.zix-boost-internal').hidden=paid;$('.zix-boost-traffic').hidden=!paid;
   const name=$('.zix-boost-summary-name'),price=$('.zix-boost-summary-price');
   if(paid){const items=[...dialog.querySelectorAll('input[name="platform"]:checked')].map(x=>channels.find(c=>c[0]===x.value)?.[1]).filter(Boolean);name.textContent=items.length?items.join(' + '):'Selecione suas plataformas';price.textContent='Orçamento a combinar';}
-  else{const pack=$('#boostPack'),op=pack.selectedOptions[0];name.textContent=op.textContent.split(' • ')[0]+' · ZixLima';price.textContent=money(op.dataset.price);}
+  else{const op=planSelect.selectedOptions[0];name.textContent=op?op.dataset.title+' · '+op.dataset.days+' dias':'Sem planos ativos';price.textContent=op?money(op.dataset.price):'—';}
  }
  dialog.addEventListener('change',updateMode);$('.zix-boost-close').onclick=()=>dialog.close();$('.zix-boost-cancel').onclick=()=>dialog.close();
  dialog.addEventListener('close',()=>dialog.remove(),{once:true});
  $('.zix-boost-form').addEventListener('submit',async e=>{
   e.preventDefault();const alert=$('.zix-boost-alert'),send=$('.zix-boost-submit'),mode=$('input[name="mode"]:checked').value;
-  const pack=$('#boostPack').value,selected=[...dialog.querySelectorAll('input[name="platform"]:checked')].map(x=>x.value);
+  const chosenPlan=planSelect.selectedOptions[0],pack=chosenPlan?.value,selected=[...dialog.querySelectorAll('input[name="platform"]:checked')].map(x=>x.value);
+  if(mode==='interno'&&!chosenPlan){alert.textContent='Nenhum plano disponível. Peça ao administrador que ative uma opção.';return;}
   if(mode==='trafego'&&!selected.length){alert.textContent='Marque pelo menos uma plataforma de tráfego pago.';return;}
   const budgetValue=$('[name="budget"]').value;
   if(mode==='trafego'&&budgetValue&&(!Number.isFinite(Number(budgetValue))||Number(budgetValue)<1||Number(budgetValue)>1000000)){alert.textContent='Confira o orçamento sugerido.';return;}
   const traffic=mode==='trafego',baseChannel=selected.includes('google_ads')?'google_ads':'externo';
-  const packages={destaque_7:9.9,premium_15:24.9,supremo_30:49.9};
-  const payload={listing_id:listing.value,user_id:user.id,channel:traffic?baseChannel:'interno',package:traffic?(baseChannel==='google_ads'?'google_personalizado':'externo_personalizado'):pack,price_brl:traffic?0:packages[pack],channels_requested:traffic?selected:['interno'],campaign_objective:traffic?$('[name="objective"]').value:'visitas',request_notes:$('#boostNotes').value.trim().slice(0,600),media_budget_brl:traffic&&budgetValue?Number(budgetValue):0};
+  const payload={listing_id:listing.value,user_id:user.id,channel:traffic?baseChannel:'interno',package:traffic?(baseChannel==='google_ads'?'google_personalizado':'externo_personalizado'):pack,price_brl:traffic?0:Number(chosenPlan.dataset.price),duration_days:traffic?null:Number(chosenPlan.dataset.days),channels_requested:traffic?selected:['interno'],campaign_objective:traffic?$('[name="objective"]').value:'visitas',request_notes:$('#boostNotes').value.trim().slice(0,600),media_budget_brl:traffic&&budgetValue?Number(budgetValue):0};
   send.disabled=true;alert.textContent='Enviando sua solicitação...';
   try{const {error}=await db.from('zix_boost_requests').insert(payload);if(error)throw error;
    alert.textContent='✅ Solicitação enviada! Acompanhe a confirmação com o suporte. Nenhuma campanha foi ativada automaticamente.';
@@ -118,7 +135,7 @@ function enableRequest(){
    if(!auth.user){alert('Entre em sua conta para solicitar impulsionamento.');return}
    const {data:own,error}=await db.from('listings').select('id,zix_code,title').eq('user_id',auth.user.id).eq('status','approved').limit(100);
    if(error)throw error;if(!own?.length){alert('Você precisa ter um anúncio aprovado para solicitar publicidade.');return;}
-   openBoostDialog(db,auth.user,own);
+   const plans=await loadAvailablePlans(db);openBoostDialog(db,auth.user,own,plans);
   }catch(e){alert('Não foi possível abrir a solicitação: '+e.message)}finally{btn.disabled=false}
  });
 }
