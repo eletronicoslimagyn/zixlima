@@ -1,0 +1,19 @@
+#zixIndiceBtn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;flex:0 0 44px;width:44px;height:44px;border:0;border-radius:12px;background:#1465da;color:#fff;cursor:pointer;box-shadow:0 3px 10px #1234;position:relative;z-index:8}
+#zixIndiceBtn span{height:3px;width:22px;border-radius:9px;background:currentColor}
+#zixIndiceBtn:focus-visible,.zixIndice a:focus-visible,.zixIndice button:focus-visible{outline:3px solid #e5aa2e;outline-offset:2px}
+#zixIndiceFundo{position:fixed;inset:0;background:#040b1bbd;z-index:99990;opacity:0;visibility:hidden;transition:.2s}
+#zixIndiceFundo.aberto{opacity:1;visibility:visible}
+.zixIndice{position:fixed;top:0;bottom:0;left:0;width:min(380px,94vw);background:#f9fbff;color:#102644;z-index:99991;transform:translateX(-103%);transition:transform .25s;box-shadow:10px 0 35px #0005;display:flex;flex-direction:column;visibility:hidden}
+.zixIndice.aberto{transform:translateX(0);visibility:visible}
+.zixIndiceTopo{background:linear-gradient(115deg,#063b95,#0879f1);padding:20px 17px;color:white;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.zixIndiceTopo strong{font-size:22px}.zixIndiceTopo small{display:block;margin-top:3px}
+#zixIndiceFechar{background:#ffffff29;border:1px solid #ffffff88;color:white;font-size:25px;border-radius:10px;width:42px;height:42px;cursor:pointer}
+.zixIndiceRolagem{overflow-y:auto;overscroll-behavior:contain;padding:13px 15px 22px;flex:1}
+.zixIndice details{border:1px solid #dce7f6;background:white;border-radius:11px;margin:9px 0;overflow:hidden}
+.zixIndice summary{cursor:pointer;list-style:none;padding:13px 12px;font-weight:800;font-size:15px;background:#eff5ff;display:flex;justify-content:space-between;align-items:center}
+.zixIndice summary::-webkit-details-marker{display:none}.zixIndice summary::after{content:'⌄'}.zixIndice details[open] summary::after{content:'⌃'}
+.zixIndice a,.zixIndice button.zixItem{display:flex;width:100%;border:0;border-bottom:1px solid #ebf0f7;background:#fff;color:#15375b;text-decoration:none;text-align:left;font:600 14px/1.4 system-ui,Arial;cursor:pointer;align-items:center;gap:9px;padding:11px 13px;box-sizing:border-box}
+.zixIndice a:hover,.zixIndice button.zixItem:hover{background:#e8f2ff}
+.zixIndice details:first-of-type a{background:#e8f3ff;color:#0952aa;font-size:16px;font-weight:800;padding:15px 13px;min-height:52px}.zixIndice details:first-of-type a:hover{background:#cee6ff}.zixIndice .zixNota{font-size:12px;color:#54657b;padding:10px 3px;text-align:center}
+@media(max-width:700px){#zixIndiceBtn{flex-basis:40px;width:40px;height:40px}}
+@media(prefers-reduced-motion:reduce){.zixIndice,#zixIndiceFundo{transition:none}}
