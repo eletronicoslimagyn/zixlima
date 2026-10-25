@@ -33,7 +33,30 @@
  overlay.addEventListener('click',()=>setOpen(false));close.addEventListener('click',()=>setOpen(false));
  doc.addEventListener('keydown',e=>{if(e.key==='Escape'&&aside.classList.contains('aberto'))setOpen(false);if(e.key==='Tab'&&aside.classList.contains('aberto')){const nodes=Array.from(aside.querySelectorAll('button,a,summary')).filter(n=>n.getClientRects().length);if(nodes.length){const first=nodes[0],last=nodes[nodes.length-1];if(e.shiftKey&&doc.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&doc.activeElement===last){e.preventDefault();first.focus()}}}});
  const btn=doc.createElement('button');btn.type='button';btn.id='zixIndiceBtn';btn.setAttribute('aria-label','Abrir índice com todas as categorias e serviços');btn.setAttribute('title','Índice ZixLima');btn.innerHTML='<span></span><span></span><span></span>';btn.addEventListener('click',()=>setOpen(true));
- const top=doc.querySelector('header .wrap.top')||doc.querySelector('header .top')||doc.querySelector('header');if(top)top.prepend(btn);else{btn.style.position='fixed';btn.style.top='12px';btn.style.left='12px';doc.body.append(btn)}
+ // Posicionar na mesma linha do botão Download, no canto esquerdo.
+ function positionIndexButton(){
+  const elems=[...doc.querySelectorAll('a,button')];
+  const download=elems.find(el=>/download\s+zixlima\s+classificados/i.test(el.textContent||''));
+  if(download){
+   let row=download.parentElement;
+   // Tentar identificar a linha de controles, sem mover o botão Download.
+   if(row && row.children.length===1 && row.parentElement)row=row.parentElement;
+   if(row){
+    row.insertBefore(btn,row.firstChild);
+    row.classList.add('zix-indice-download-row');
+    btn.style.cssText='position:relative;top:auto;left:auto;right:auto;bottom:auto;float:none;transform:none;';
+    return true;
+   }
+  }
+  return false;
+ }
+ if(!positionIndexButton()){
+  const anchor=doc.querySelector('#zzPaletteToggle');
+  const row=anchor&&anchor.parentElement;
+  if(row){row.insertBefore(btn,anchor);row.classList.add('zix-indice-download-row');}
+  else doc.querySelector('header')?.append(btn);
+ }
+ window.addEventListener('load',positionIndexButton,{once:true});
  function category(slug){const area=doc.getElementById('categories');if(!area)return false;const candidates=Array.from(area.querySelectorAll('button,a,[data-category],[data-cat],.category,.cat'));const match=candidates.find(e=>e.dataset.category===slug||e.dataset.cat===slug||e.getAttribute('data-value')===slug|| (e.textContent||'').toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g,'').includes(({carros:'carros',motos:'motos',caminhoes:'caminhoes',pecas:'pecas',eletronicos:'eletronicos',imoveis:'imoveis',alugueis:'alugueis',casa:'casa',servicos:'servicos',outros:'outros'})[slug]));if(match){match.click();doc.getElementById('anuncios')?.scrollIntoView({behavior:'smooth'});return true}area.scrollIntoView({behavior:'smooth'});return false}
  function handle(target){if(target.startsWith('cat:'))return category(target.slice(4));if(target.startsWith('rent:')){category('alugueis');const sel=doc.getElementById('rentalKindFilter');if(sel){sel.value=target.slice(5);sel.dispatchEvent(new Event('change',{bubbles:true}));doc.getElementById('anuncios')?.scrollIntoView({behavior:'smooth'});return true}return false}
   if(target==='!post'||target==='!login'){doc.getElementById(target==='!post'?'postBtn':'loginBtn')?.click();return true}
