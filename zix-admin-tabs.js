@@ -8,6 +8,7 @@
     ['afiliados','🛍️','Afiliados','Produtos afiliados'],
     ['planos','🏷️','Planos','Planos e promoções'],
     ['financeiro','💳','Financeiro','Cobrança, créditos e prazos'],
+    ['impulsionamentos','📣','Impulsionamentos','Solicitações e histórico'],
     ['perfil','👤','Minha conta','Perfil e segurança'],
     ['backup','💾','Backup','Cópias do código e GitHub']
   ];
@@ -67,6 +68,7 @@
       });
       section.append(save,result);
     }
+    const boostPanel=document.createElement('section');boostPanel.id='zixBoostAdminPanel';boostPanel.className='card';painel.appendChild(boostPanel);
     const groups={
       inicio:[inicio],
       anuncios:[moderation],
@@ -74,6 +76,7 @@
       afiliados:[afil],
       planos:[plano],
       financeiro:[financeiro,...finChildren],
+      impulsionamentos:[boostPanel],
       perfil:[email,perfil],
       backup:[backup]
     };

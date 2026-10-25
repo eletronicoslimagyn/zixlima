@@ -1,3 +1,78 @@
 #zixBoostShowcase{max-width:1160px;margin:24px auto;padding:0 20px}#zixBoostShowcase[hidden]{display:none!important}.zix-boost-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px}.zix-boost-card{background:white;border:1px solid #bfd2ec;border-radius:14px;padding:12px;display:grid;gap:5px;color:#173c65;box-shadow:0 3px 10px #1231}.zix-boost-card img{width:100%;height:150px;object-fit:cover;border-radius:8px}.zix-boost-card small{display:inline-block;width:max-content;padding:4px 8px;border-radius:8px;background:#e9f2ff;color:#1058ab;font-weight:bold}.zix-boost-admin-row{padding:12px;margin:10px 0;border:1px solid #cee;border-radius:10px}.zix-boost-admin-row select,.zix-boost-admin-row input{max-width:160px}
 
 .zix-boost-request-button{margin:20px;padding:12px 20px;border:0;border-radius:10px;background:#1761d3;color:#fff;font-weight:bold}.zix-boost-dialog form{display:grid;gap:12px;padding:15px}.zix-boost-dialog select{width:100%;max-width:500px}
+
+/* ZixLima impulsionamento v4 — estilo premium, 100% escopado */
+.zix-boost-request-button{margin:20px auto;display:flex;justify-content:center;align-items:center;padding:15px 23px;border:0;border-radius:16px;background:linear-gradient(120deg,#067f83,#0c61b7);color:#fff;font-size:16px;font-weight:800;letter-spacing:.01em;box-shadow:0 12px 26px #075a8d38;cursor:pointer;min-height:50px}
+.zix-boost-request-button:disabled{opacity:.6;cursor:wait}
+.zix-boost-dialog{border:0;padding:0;border-radius:26px;width:min(640px,calc(100vw - 22px));max-height:min(90dvh,820px);overflow-y:auto;box-shadow:0 24px 84px #00152b9c;color:#172b43;background:#fff;overscroll-behavior:contain}
+.zix-boost-dialog::backdrop{background:#091c38a8;backdrop-filter:blur(3px)}
+.zix-boost-modal,.zix-boost-dialog *{box-sizing:border-box}
+.zix-boost-modal-head{position:relative;padding:24px 26px 22px;color:white;background:linear-gradient(125deg,#06233d,#0b5271 68%,#087f79);text-align:left}
+.zix-boost-eyebrow{color:#46d9c7!important;letter-spacing:.13em;font-weight:900;font-size:11px;text-transform:uppercase;margin:0 0 10px}
+.zix-boost-modal-head h2{font-size:clamp(25px,5vw,32px);line-height:1.13;color:#fff;margin:2px 30px 10px 0;font-weight:850}
+.zix-boost-modal-head p{margin:0;color:#d2e9f0;line-height:1.5;font-size:14px}
+.zix-boost-close{position:absolute;right:16px;top:17px;border:1px solid #ffffff50;border-radius:12px;background:#ffffff14;color:#fff;font-size:19px;min-width:42px;min-height:42px;cursor:pointer}
+.zix-boost-dialog .zix-boost-form{display:grid;gap:14px;padding:20px 25px 25px;background:#fff;color:#172b43}
+.zix-boost-steps{display:flex;gap:10px;align-items:center;flex-wrap:wrap;color:#44718d;font-size:11px;font-weight:800}
+.zix-boost-steps span{border-radius:30px;background:#eaf6f8;padding:7px 12px}
+.zix-boost-dialog .zix-boost-label{font-size:13px;font-weight:850;color:#20364d;display:block;margin:0}
+.zix-boost-dialog :is(select,textarea,input[type=number]){font-size:15px;background:#fff!important;border:1.5px solid #b9cee0!important;border-radius:12px!important;padding:12px 13px!important;max-width:100%!important;width:100%!important;color:#172b43!important;box-sizing:border-box;min-height:48px}
+.zix-boost-dialog textarea{resize:vertical;min-height:75px}
+.zix-boost-dialog :is(input,select,textarea):focus-visible{outline:3px solid #34b9b666;outline-offset:1px}
+.zix-boost-dialog .zix-boost-choice{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.zix-boost-type,.zix-boost-channel{cursor:pointer;display:flex!important;align-items:flex-start;gap:10px;min-width:0;border:1.5px solid #d4e3ec;border-radius:14px;padding:13px 12px!important;background:#f8fbfd!important;color:#172c42!important}
+.zix-boost-type:has(input:checked),.zix-boost-channel:has(input:checked){background:#e5f8f5!important;border-color:#008c84;box-shadow:0 0 0 1px #008c8430}
+.zix-boost-dialog .zix-boost-type input,.zix-boost-dialog .zix-boost-channel input{accent-color:#008c84!important;flex:0 0 18px!important;width:18px!important;height:18px!important;min-height:18px!important;margin:2px 0 0!important;padding:0!important}
+.zix-boost-type span,.zix-boost-channel span{display:grid;gap:5px;line-height:1.3}
+.zix-boost-type strong,.zix-boost-channel strong{font-size:14px;color:#102c43!important}
+.zix-boost-type small,.zix-boost-channel small{font-size:12px;color:#567288!important;line-height:1.35}
+.zix-boost-internal,.zix-boost-traffic{display:grid;gap:12px;margin:0;padding:0}
+.zix-boost-internal[hidden],.zix-boost-traffic[hidden]{display:none!important}
+.zix-boost-channels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.zix-boost-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.zix-boost-two label{font-size:13px;font-weight:800;display:grid;gap:6px;color:#20364d}
+.zix-boost-help{font-size:12px;line-height:1.5;color:#63758c;margin:0}
+.zix-boost-summary{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:17px;border:1px solid #bee3e4;border-radius:15px;background:#edf9f8}
+.zix-boost-summary div{display:grid;gap:4px;min-width:0}.zix-boost-summary small{font-size:12px;color:#446f73}.zix-boost-summary strong{font-size:15px;color:#075e65;overflow-wrap:anywhere}
+.zix-boost-summary-price{text-align:right;flex-shrink:0;max-width:48%}
+.zix-boost-alert{min-height:20px;margin:0!important;font-size:13px;color:#944326;font-weight:700;line-height:1.5;overflow-wrap:anywhere}
+.zix-boost-actions{display:grid;grid-template-columns:1fr 1.5fr;gap:10px}
+.zix-boost-dialog .zix-boost-actions button{min-height:50px;padding:12px;border-radius:13px!important;cursor:pointer;font-size:15px;font-weight:850;margin:0!important}
+.zix-boost-cancel{background:#edf2f6!important;color:#30465b!important;border:1px solid #cbd7e2!important}
+.zix-boost-submit{background:linear-gradient(115deg,#098e87,#0873a6)!important;color:white!important;border:0!important}
+.zix-boost-submit:disabled{opacity:.5}
+@media(max-width:500px){.zix-boost-dialog{border-radius:21px;width:calc(100vw - 14px);max-height:92dvh}.zix-boost-modal-head{padding:21px 18px}.zix-boost-dialog .zix-boost-form{padding:17px 15px 20px;gap:12px}.zix-boost-dialog .zix-boost-choice,.zix-boost-channels,.zix-boost-two{grid-template-columns:1fr}.zix-boost-summary{flex-wrap:wrap}.zix-boost-summary-price{max-width:100%}}
+
+/* Painel ADMIN: solicitações e histórico */
+#zixBoostAdminPanel{border-radius:20px;background:#f4f8fc;color:#172b43;padding:clamp(15px,3vw,27px);border:1px solid #c9dbe9;box-sizing:border-box}
+.zix-boost-admin-title{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:20px}
+#zixBoostAdminPanel .zix-boost-admin-title h2{color:#12304a;font-size:clamp(21px,3vw,28px);margin:0 0 8px}
+#zixBoostAdminPanel .zix-boost-admin-title p:not(.zix-boost-eyebrow){margin:0;color:#516b7d;line-height:1.5}
+.zix-boost-refresh{background:#176f95;color:white;border:none;border-radius:10px;padding:12px 16px;font-weight:800;min-height:45px;white-space:nowrap;cursor:pointer}
+.zix-boost-admin-toolbar{display:grid;gap:15px}
+#zixBoostAdmSearch{box-sizing:border-box;max-width:100%;width:100%;background:#fff;border:1px solid #c1d4e2;border-radius:12px;padding:14px;font-size:15px;min-height:50px;color:#17344d}
+.zix-boost-admin-subtabs{display:flex;flex-wrap:wrap;gap:8px}
+.zix-boost-subtab{flex:1 1 130px;border-radius:12px;padding:12px 14px;border:1px solid #cadbe9;background:white;color:#1e4c67;cursor:pointer;font-weight:800}
+.zix-boost-subtab.current{background:linear-gradient(120deg,#135a86,#00938c);color:#fff;border-color:#067d8a}
+#zixBoostAdmMsg{font-size:13px;color:#4d697b;margin:18px 0}
+.zix-boost-admin-list{display:grid;gap:14px}
+#zixBoostAdminPanel .zix-boost-admin-row{box-sizing:border-box;border-radius:17px;padding:18px;margin:0;background:white;border:1px solid #d4e4ed;box-shadow:0 2px 14px #0c35530e;color:#1a3044}
+.zix-boost-rowtop{display:flex;justify-content:space-between;flex-wrap:wrap;align-items:center;gap:10px}
+.zix-boost-id{font-size:13px;letter-spacing:.03em;color:#166a82;overflow-wrap:anywhere}
+.zix-boost-status{font-size:11px;font-weight:850;padding:6px 10px;border-radius:20px;background:#e6eff7;color:#234964}
+.zix-boost-status.ativo{background:#d6f9e8;color:#116c4a}.zix-boost-status.rejeitado,.zix-boost-status.cancelado{background:#ffe3e3;color:#9f3131}.zix-boost-status.solicitado{background:#fff4d1;color:#875b08}
+#zixBoostAdminPanel .zix-boost-admin-row h3{color:#112f46;font-size:17px;margin:10px 0 4px;overflow-wrap:anywhere}
+.zix-boost-platforms{font-size:14px;font-weight:750;color:#0b777a;margin:2px 0 10px}
+.zix-boost-metadata{display:flex;flex-wrap:wrap;gap:8px}.zix-boost-metadata span{border-radius:9px;background:#eef5f8;color:#4a6479;padding:6px 8px;font-size:12px}
+.zix-boost-detail{font-size:13px;line-height:1.45;color:#52697f;overflow-wrap:anywhere;margin:9px 0 2px}
+.zix-boost-admin-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px;padding-top:13px;border-top:1px solid #e0e9ef}
+#zixBoostAdminPanel .zix-boost-action{box-sizing:border-box;width:auto;max-width:100%;border-radius:10px;padding:10px 13px;min-height:42px;cursor:pointer;color:#255470;background:#eaf2f7;border:1px solid #cee0ec;font-size:13px;font-weight:800;margin:0}
+#zixBoostAdminPanel .zix-boost-action.good{background:#d6f6e8;border-color:#9ce1c1;color:#145c41}
+#zixBoostAdminPanel .zix-boost-action.bad{background:#ffeaea;border-color:#f0c0be;color:#a33232}
+#zixBoostAdminPanel .zix-boost-action.subtle{background:#f5f6f8;color:#5b6677}
+.zix-boost-empty{background:white;border:1px dashed #bdcfdc;border-radius:12px;padding:22px;text-align:center;color:#566f81}
+.zix-boost-history{margin-top:25px;padding:17px;border:1px solid #c6dbe7;background:white;border-radius:13px;color:#243f58}
+.zix-boost-history[hidden]{display:none!important}.zix-boost-logline{display:grid;gap:5px;padding:11px 0;border-bottom:1px solid #e3ebef;font-size:12px;overflow-wrap:anywhere}.zix-boost-logline small{color:#53697f}
+.zix-boost-advanced{margin-top:25px;padding:12px;border:1px solid #d1e1eb;border-radius:14px;background:#fff}.zix-boost-advanced>summary{cursor:pointer;font-weight:800;color:#206184;padding:8px}
+@media(max-width:640px){.zix-boost-admin-title{align-items:flex-start;flex-direction:column}.zix-boost-refresh{width:100%}#zixBoostAdminPanel .zix-boost-admin-row{padding:14px}}
