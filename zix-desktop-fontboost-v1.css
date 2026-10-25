@@ -1,0 +1,178 @@
+/* ZixLima — aumento geral de fontes no desktop */
+@media screen and (min-width: 800px) {
+  html { font-size: 18px !important; }
+  body { font-size: 1.04rem !important; line-height: 1.5; }
+
+  .wrap { max-width: 1240px; }
+
+  header,
+  .top,
+  .wrap.top { font-size: 1rem !important; }
+
+  .brand,
+  #siteBrand,
+  #footerBrand {
+    font-size: clamp(2rem, 2.8vw, 3rem) !important;
+    line-height: 1.1 !important;
+    font-weight: 900 !important;
+  }
+
+  nav a,
+  header a,
+  .actions button,
+  .actions a,
+  .ghost,
+  .primary,
+  button,
+  .btn {
+    font-size: 1rem !important;
+  }
+
+  .primary,
+  .ghost,
+  button,
+  .btn {
+    min-height: 48px !important;
+    padding: 12px 18px !important;
+    border-radius: 12px !important;
+  }
+
+  .eyebrow {
+    font-size: .95rem !important;
+    letter-spacing: .08em !important;
+  }
+
+  h1,
+  .hero h1,
+  #siteHero {
+    font-size: clamp(2.3rem, 3.5vw, 4rem) !important;
+    line-height: 1.08 !important;
+  }
+
+  h2,
+  .sectionTitle h2,
+  .mine h2,
+  #zixPlanos h2,
+  #zixAffiliateTitle {
+    font-size: clamp(1.45rem, 2vw, 2rem) !important;
+    line-height: 1.18 !important;
+  }
+
+  h3 { font-size: 1.2rem !important; }
+
+  p,
+  li,
+  label,
+  input,
+  select,
+  textarea,
+  .muted,
+  small,
+  .notice,
+  .sectionTitle p,
+  .mine p,
+  #zixModo,
+  #zixPlanNotice,
+  #zixAffiliateShowcase p,
+  #supportMail,
+  #supportWhatsapp {
+    font-size: 1rem !important;
+  }
+
+  .hero p,
+  .search input,
+  .search select,
+  .search button,
+  #term,
+  #city,
+  #categories,
+  #sort {
+    font-size: 1rem !important;
+  }
+
+  .search input,
+  .search select,
+  .search button,
+  #term,
+  #city,
+  #sort {
+    min-height: 50px !important;
+  }
+
+  .categories,
+  .cards,
+  #listing,
+  #myListing,
+  #zixPlanCards,
+  #zixAffiliateGrid {
+    font-size: 1rem !important;
+  }
+
+  .category-card,
+  .cat-card,
+  .categories > *,
+  #categories > * {
+    min-height: 120px !important;
+    padding: 16px !important;
+  }
+
+  .category-card *,
+  .cat-card *,
+  .categories > * *,
+  #categories > * * {
+    font-size: 1rem !important;
+  }
+
+  .cards article,
+  .card,
+  .listing-card,
+  #listing > *,
+  #myListing > * {
+    font-size: 1rem !important;
+  }
+
+  .price,
+  .detailPrice,
+  .listing-price,
+  .card .price {
+    font-size: 1.18rem !important;
+    font-weight: 800 !important;
+  }
+
+  .detailDescription,
+  #detail,
+  #detail p,
+  dialog,
+  dialog * {
+    font-size: 1rem !important;
+  }
+
+  dialog h2,
+  #detail h2 { font-size: 1.55rem !important; }
+
+  footer,
+  footer *,
+  .zz-footer,
+  .zz-footer * {
+    font-size: .98rem !important;
+  }
+
+  #zixRelogio,
+  #zixRelogio *,
+  #zixData,
+  #zixHora {
+    font-size: .98rem !important;
+  }
+
+  #zixHora { font-size: 1.08rem !important; font-weight: 800 !important; }
+
+  #zixIndicePainel,
+  #zixIndicePainel * {
+    font-size: 1rem !important;
+  }
+
+  #zixIndiceTitulo { font-size: 1.18rem !important; }
+  #zixIndiceSubtitulo { font-size: .98rem !important; }
+  .zix-indice-cabecalho { font-size: 1rem !important; }
+  .zix-indice-item { font-size: 1rem !important; }
+}
