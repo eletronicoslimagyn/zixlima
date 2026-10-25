@@ -26,6 +26,11 @@ async function loadAvailablePlans(db){
  return data||[];
 }
 
+async function loadTrafficServices(db){
+ const {data,error}=await db.from('zix_boost_traffic_services').select('code,title,description,service_price_brl').eq('enabled',true).order('sort_order');
+ if(error)throw new Error('Catálogo de serviços: '+error.message);
+ return data||[];
+}
 async function loadShowcase(){
  const holder=document.getElementById('zixBoostShowcase');if(!holder)return;
  try{
@@ -50,7 +55,7 @@ async function loadShowcase(){
  }catch(err){console.warn('Destaques indisponíveis:',err.message)}
 }
 
-function openBoostDialog(db,user,own,plans){
+function openBoostDialog(db,user,own,plans,services){
  const dialog=document.createElement('dialog');dialog.className='zix-boost-dialog';dialog.setAttribute('aria-label','Solicitar impulsionamento ou tráfego pago');
  dialog.innerHTML=`
  <div class="zix-boost-modal">
@@ -72,11 +77,14 @@ function openBoostDialog(db,user,own,plans){
    <section class="zix-boost-traffic" hidden>
     <p class="zix-boost-label">Selecione uma ou várias plataformas</p>
     <div class="zix-boost-channels" role="group" aria-label="Plataformas de publicidade"></div>
+    <p class="zix-boost-label">Serviços de impulsionamento oferecidos</p>
+    <div class="zix-boost-services" role="group" aria-label="Serviços disponíveis"></div>
+    <div class="zix-boost-service-price" aria-live="polite">Prestação de serviço: R$ 0,00</div>
     <div class="zix-boost-two">
      <label>Objetivo da campanha<select name="objective"><option value="visitas">Mais visitas ao anúncio</option><option value="whatsapp">Conversas pelo WhatsApp</option><option value="leads">Receber contatos de clientes</option><option value="alcance">Alcance e reconhecimento</option></select></label>
      <label>Orçamento sugerido para mídia (R$)<input type="number" name="budget" min="1" max="1000000" step="0.01" placeholder="Ex.: 100,00" inputmode="decimal"></label>
     </div>
-    <p class="zix-boost-help">O orçamento é uma sugestão para análise. Não será debitado automaticamente. A taxa de gestão, se houver, será informada antes da contratação.</p>
+    <p class="zix-boost-help">O orçamento é uma sugestão para análise. Não será debitado automaticamente. A prestação de serviço será mostrada separadamente. O investimento em mídia é pago à plataforma somente após aprovação.</p>
    </section>
    <label class="zix-boost-label" for="boostNotes">Informações adicionais (opcional)</label>
    <textarea id="boostNotes" name="notes" maxlength="600" rows="2" placeholder="Ex.: Quero divulgar somente em Goiânia"></textarea>
@@ -101,9 +109,16 @@ function openBoostDialog(db,user,own,plans){
   const input=document.createElement('input');input.type='checkbox';input.value=value;input.name='platform';
   const txt=document.createElement('span');const strong=document.createElement('strong');strong.textContent=label;const small=document.createElement('small');small.textContent=hint;txt.append(strong,small);wrap.append(input,txt);channelsEl.append(wrap);
  }
+ const serviceEl=$('.zix-boost-services');for(const svc of services){
+  const wrap=document.createElement('label');wrap.className='zix-boost-channel';
+  const input=document.createElement('input');input.type='checkbox';input.name='traffic_service';input.value=svc.code;
+  const txt=document.createElement('span');const strong=document.createElement('strong');strong.textContent=svc.title+' · '+money(svc.service_price_brl);
+  const small=document.createElement('small');small.textContent=svc.description||'Serviço de publicidade';txt.append(strong,small);wrap.append(input,txt);serviceEl.append(wrap);
+ }
+ function selectedServices(){return [...dialog.querySelectorAll('input[name="traffic_service"]:checked')].map(x=>services.find(s=>s.code===x.value)).filter(Boolean)}
  function updateMode(){const paid=$('input[name="mode"]:checked')?.value==='trafego';$('.zix-boost-internal').hidden=paid;$('.zix-boost-traffic').hidden=!paid;
   const name=$('.zix-boost-summary-name'),price=$('.zix-boost-summary-price');
-  if(paid){const items=[...dialog.querySelectorAll('input[name="platform"]:checked')].map(x=>channels.find(c=>c[0]===x.value)?.[1]).filter(Boolean);name.textContent=items.length?items.join(' + '):'Selecione suas plataformas';price.textContent='Orçamento a combinar';}
+  if(paid){const items=[...dialog.querySelectorAll('input[name="platform"]:checked')].map(x=>channels.find(c=>c[0]===x.value)?.[1]).filter(Boolean);name.textContent=items.length?items.join(' + '):'Selecione suas plataformas';const fee=selectedServices().reduce((n,s)=>n+Number(s.service_price_brl),0);$('.zix-boost-service-price').textContent='Prestação de serviço: '+money(fee);price.textContent=money(fee)+' (serviço) + mídia à parte';}
   else{const op=planSelect.selectedOptions[0];name.textContent=op?op.dataset.title+' · '+op.dataset.days+' dias':'Sem planos ativos';price.textContent=op?money(op.dataset.price):'—';}
  }
  dialog.addEventListener('change',updateMode);$('.zix-boost-close').onclick=()=>dialog.close();$('.zix-boost-cancel').onclick=()=>dialog.close();
@@ -112,11 +127,12 @@ function openBoostDialog(db,user,own,plans){
   e.preventDefault();const alert=$('.zix-boost-alert'),send=$('.zix-boost-submit'),mode=$('input[name="mode"]:checked').value;
   const chosenPlan=planSelect.selectedOptions[0],pack=chosenPlan?.value,selected=[...dialog.querySelectorAll('input[name="platform"]:checked')].map(x=>x.value);
   if(mode==='interno'&&!chosenPlan){alert.textContent='Nenhum plano disponível. Peça ao administrador que ative uma opção.';return;}
+  if(mode==='trafego'&&!selectedServices().length){alert.textContent='Selecione pelo menos um serviço oferecido.';return;}
   if(mode==='trafego'&&!selected.length){alert.textContent='Marque pelo menos uma plataforma de tráfego pago.';return;}
   const budgetValue=$('[name="budget"]').value;
   if(mode==='trafego'&&budgetValue&&(!Number.isFinite(Number(budgetValue))||Number(budgetValue)<1||Number(budgetValue)>1000000)){alert.textContent='Confira o orçamento sugerido.';return;}
   const traffic=mode==='trafego',baseChannel=selected.includes('google_ads')?'google_ads':'externo';
-  const payload={listing_id:listing.value,user_id:user.id,channel:traffic?baseChannel:'interno',package:traffic?(baseChannel==='google_ads'?'google_personalizado':'externo_personalizado'):pack,price_brl:traffic?0:Number(chosenPlan.dataset.price),duration_days:traffic?null:Number(chosenPlan.dataset.days),channels_requested:traffic?selected:['interno'],campaign_objective:traffic?$('[name="objective"]').value:'visitas',request_notes:$('#boostNotes').value.trim().slice(0,600),media_budget_brl:traffic&&budgetValue?Number(budgetValue):0};
+  const payload={listing_id:listing.value,user_id:user.id,channel:traffic?baseChannel:'interno',package:traffic?(baseChannel==='google_ads'?'google_personalizado':'externo_personalizado'):pack,price_brl:traffic?0:Number(chosenPlan.dataset.price),duration_days:traffic?null:Number(chosenPlan.dataset.days),channels_requested:traffic?selected:['interno'],campaign_objective:traffic?$('[name="objective"]').value:'visitas',request_notes:$('#boostNotes').value.trim().slice(0,600),media_budget_brl:traffic&&budgetValue?Number(budgetValue):0,service_codes:traffic?selectedServices().map(s=>s.code):[],service_fee_brl:traffic?selectedServices().reduce((n,s)=>n+Number(s.service_price_brl),0):0};
   send.disabled=true;alert.textContent='Enviando sua solicitação...';
   try{const {error}=await db.from('zix_boost_requests').insert(payload);if(error)throw error;
    alert.textContent='✅ Solicitação enviada! Acompanhe a confirmação com o suporte. Nenhuma campanha foi ativada automaticamente.';
@@ -135,7 +151,7 @@ function enableRequest(){
    if(!auth.user){alert('Entre em sua conta para solicitar impulsionamento.');return}
    const {data:own,error}=await db.from('listings').select('id,zix_code,title').eq('user_id',auth.user.id).eq('status','approved').limit(100);
    if(error)throw error;if(!own?.length){alert('Você precisa ter um anúncio aprovado para solicitar publicidade.');return;}
-   const plans=await loadAvailablePlans(db);openBoostDialog(db,auth.user,own,plans);
+   const plans=await loadAvailablePlans(db);const services=await loadTrafficServices(db);openBoostDialog(db,auth.user,own,plans,services);
   }catch(e){alert('Não foi possível abrir a solicitação: '+e.message)}finally{btn.disabled=false}
  });
 }
