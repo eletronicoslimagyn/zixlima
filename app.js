@@ -286,7 +286,7 @@ async function zixConvertFotos(files,revision){
   if(revision!==zixPhotoRevision)throw Error('Seleção de fotos alterada.');
   const file=files[i];
   if(zixPhotoInfo)zixPhotoInfo.textContent=`Otimizando foto ${i+1} de ${files.length}...`;
-  const smaller=await window.ZixImageOptimizer.cached(file,{maxBytes:3*1024*1024,maxInputBytes:30*1024*1024,maxDimension:2600});
+  const smaller=await window.ZixImageOptimizer.cached(file,{maxBytes:3*1024*1024,maxInputBytes:30*1024*1024,maxDimension:1600,targetBytes:420*1024});
   if(smaller.size>3*1024*1024)throw Error('Foto '+(i+1)+' excede 3 MB.');
   out.push(smaller);
  }
@@ -296,7 +296,7 @@ let zixPrepared=null;
 zixPhotoInput?.addEventListener('change',async()=>{
  const revision=++zixPhotoRevision,files=Array.from(zixPhotoInput.files||[]);
  zixClearPreviews();
- if(!files.length){zixPhotoInfo.textContent='Selecione até 5 fotos. O site reduz automaticamente para até 3 MB cada.';zixPrepared=null;return;}
+ if(!files.length){zixPhotoInfo.textContent='Selecione até 5 fotos. Otimização automática para arquivos leves com boa qualidade.';zixPrepared=null;return;}
  const promise=zixConvertFotos(files,revision);zixPrepared={revision,promise};
  try{
   const photos=await promise;if(revision!==zixPhotoRevision)return;
@@ -307,12 +307,12 @@ zixPhotoInput?.addEventListener('change',async()=>{
    cap.textContent=window.ZixImageOptimizer.formatSize(files[i].size)+' → '+window.ZixImageOptimizer.formatSize(photos[i].size);
    fig.append(img,cap);zixPhotoPreview?.append(fig);
   }
-  zixPhotoInfo.textContent=`${photos.length} foto(s) pronta(s), até 3 MB cada. Só as otimizadas serão enviadas.`;
+  zixPhotoInfo.textContent=`${photos.length} foto(s) pronta(s). Arquivos otimizados para economizar espaço.`;
  }catch(err){if(revision===zixPhotoRevision)zixPhotoInfo.textContent='Erro na conversão: '+err.message;}
 });
 $('postForm').addEventListener('reset',()=>{
  ++zixPhotoRevision;zixPrepared=null;zixClearPreviews();
- if(zixPhotoInfo)zixPhotoInfo.textContent='Selecione até 5 fotos; conversão automática para até 3 MB cada.';
+ if(zixPhotoInfo)zixPhotoInfo.textContent='Selecione até 5 fotos; redução automática do tamanho para upload.';
 });
 $('postForm').onsubmit=async e=>{e.preventDefault();if(!db||!user)return;const form=e.target,btn=form.querySelector('[type=submit]');btn.disabled=true;$('postMsg').textContent='Enviando...';try{const f=new FormData(form),files=Array.from(form.querySelector('[name=photos]').files);if(files.length>5)throw Error('Máximo de cinco fotos.');const optimized=(zixPrepared?.revision===zixPhotoRevision)?await zixPrepared.promise:await zixConvertFotos(files,zixPhotoRevision);
 const photos=[];for(let i=0;i<optimized.length;i++){
