@@ -20,46 +20,40 @@
  async function optimize(file, options={}){
   if(!(file instanceof Blob))throw new Error('Selecione uma imagem.');
   if(!formats.includes(file.type))throw new Error('Formato não aceito. Use JPG, PNG ou WebP.');
-  const limit=options.maxBytes||3*MB;
-  if(file.size>(options.maxInputBytes||30*MB))throw new Error('Foto original acima de 30 MB. Escolha uma menor.');
-  const mime=options.mime||'image/webp';
+  const limit=Math.min(400000,options.maxBytes||400000);
+  if(file.size>(options.maxInputBytes||30*MB))throw new Error('Foto acima de 30 MB. Envie uma menor.');
   const img=await loadImage(file),w=img.naturalWidth,h=img.naturalHeight;
-  if(!w||!h||w*h>120000000)throw new Error('Imagem grande demais para este aparelho.');
-  const target=Math.min(limit,options.targetBytes||420*1024);
-  const maxDimension=options.maxDimension||1600;
-  const scale=Math.min(1,maxDimension/Math.max(w,h));
+  if(!w||!h||w*h>120000000)throw new Error('Imagem grande demais para processar neste celular.');
+  const scale=Math.min(1,(options.maxDimension||1600)/Math.max(w,h));
   const canvas=document.createElement('canvas');
-  let best=null;
   try{
-   canvas.width=Math.max(1,Math.round(w*scale));
-   canvas.height=Math.max(1,Math.round(h*scale));
-   const ctx=canvas.getContext('2d',{alpha:true});
+   canvas.width=Math.max(1,Math.round(w*scale));canvas.height=Math.max(1,Math.round(h*scale));
+   const ctx=canvas.getContext('2d',{alpha:false});
    if(!ctx)throw new Error('Não foi possível preparar a foto.');
-   ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
-   ctx.drawImage(img,0,0,canvas.width,canvas.height);
-   for(const quality of [.86,.82,.78,.74,.70]){
-    const blob=await encode(canvas,mime,quality);
-    if(!best||blob.size<best.size)best=blob;
-    if(blob.size<=target){best=blob;break;}
-   }
-   if(best&&best.size>limit){
-    const scaled=document.createElement('canvas');
-    const shrink=Math.min(.92,Math.sqrt(limit/best.size)*.94);
-    scaled.width=Math.max(1,Math.round(canvas.width*shrink));
-    scaled.height=Math.max(1,Math.round(canvas.height*shrink));
-    const sc=scaled.getContext('2d');
-    if(sc){sc.imageSmoothingEnabled=true;sc.imageSmoothingQuality='high';sc.drawImage(canvas,0,0,scaled.width,scaled.height);
-      const smaller=await encode(scaled,mime,.76);
-      if(smaller.size<best.size)best=smaller;
+   ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
+   ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(img,0,0,canvas.width,canvas.height);
+   for(let round=0;round<12;round++){
+    for(const quality of [.88,.84,.80,.76,.72,.66,.60,.52,.44,.34]){
+     const blob=await encode(canvas,'image/webp',quality);
+     if(blob.type!=='image/webp')throw new Error('Este navegador não suporta WebP.');
+     if(blob.size<=limit){
+      const name=(file.name||'foto').replace(/\.[^.]+$/,'')+'.webp';
+      return new File([blob],name,{type:'image/webp',lastModified:Date.now()});
+     }
     }
-    scaled.width=0;scaled.height=0;
+    if(canvas.width<=320&&canvas.height<=320)break;
+    const small=document.createElement('canvas');
+    small.width=Math.max(1,Math.round(canvas.width*.8));
+    small.height=Math.max(1,Math.round(canvas.height*.8));
+    const x=small.getContext('2d',{alpha:false});
+    if(!x)break;
+    x.fillStyle='#fff';x.fillRect(0,0,small.width,small.height);
+    x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';x.drawImage(canvas,0,0,small.width,small.height);
+    canvas.width=small.width;canvas.height=small.height;
+    canvas.getContext('2d').drawImage(small,0,0);
+    small.width=0;small.height=0;
    }
-   if(!best||best.size>limit)throw new Error('Esta foto não pôde ser reduzida ao limite de envio.');
-   if(file.size<=best.size&&!options.forceConvert)return file;
-   const detected=best.type||mime;
-   const ext=detected==='image/webp'?'webp':detected==='image/png'?'png':'jpg';
-   const name=(file.name||'imagem').replace(/\.[^.]+$/,'')+'.'+ext;
-   return new File([best],name,{type:detected,lastModified:Date.now()});
+   throw new Error('Não foi possível reduzir esta foto a 400 KB sem prejudicar muito a qualidade.');
   }finally{canvas.width=0;canvas.height=0;}
  }
  function dataURL(blob){return new Promise((resolve,reject)=>{

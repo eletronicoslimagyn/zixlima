@@ -286,8 +286,8 @@ async function zixConvertFotos(files,revision){
   if(revision!==zixPhotoRevision)throw Error('Seleção de fotos alterada.');
   const file=files[i];
   if(zixPhotoInfo)zixPhotoInfo.textContent=`Otimizando foto ${i+1} de ${files.length}...`;
-  const smaller=await window.ZixImageOptimizer.cached(file,{maxBytes:3*1024*1024,maxInputBytes:30*1024*1024,maxDimension:1600,targetBytes:420*1024});
-  if(smaller.size>3*1024*1024)throw Error('Foto '+(i+1)+' excede 3 MB.');
+  const smaller=await window.ZixImageOptimizer.cached(file,{maxBytes:400000,maxInputBytes:30*1024*1024,maxDimension:1600,targetBytes:400000});
+  if(smaller.size>400000)throw Error('Foto '+(i+1)+' excede 400 KB.');
   out.push(smaller);
  }
  return out;
