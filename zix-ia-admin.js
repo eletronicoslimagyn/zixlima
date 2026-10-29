@@ -12,9 +12,10 @@ function message(role,text){
  const el=document.createElement('div');el.className='zix-ia-msg '+role;
  const who=document.createElement('strong');who.textContent=role==='user'?'Você':'ZixLima IA';
  const p=document.createElement('pre');if(role==='assistant' && window.ZixDownloads){
-    const rx=/```([a-zA-Z0-9_-]*)\\n([\\s\\S]*?)```/g;
-    let last=0, match;
+    const rx=/```([a-zA-Z0-9_-]*)[ \\t]*\\r?\\n([\\s\\S]*?)```/g;
+    let last=0, match, encontrou=false;
     while((match=rx.exec(text))!==null){
+      encontrou=true;
       if(match.index>last){
         const span=document.createElement('span');
         span.textContent=text.slice(last,match.index);
@@ -28,7 +29,7 @@ function message(role,text){
       );
       last=rx.lastIndex;
     }
-    if(last<text.length){
+    if(last<text.length || !encontrou){
       const span=document.createElement('span');
       span.textContent=text.slice(last);
       p.appendChild(span);

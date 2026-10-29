@@ -32,3 +32,19 @@
   font-size: 13px;
   line-height: 1.5;
 }
+
+.zix-ia-msg.assistant,
+.zix-ia-msg.assistant > div,
+.zix-ia-msg.assistant p {
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.zix-code-panel {
+  width: 100%;
+  box-sizing: border-box;
+}
+.zix-code-panel pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
