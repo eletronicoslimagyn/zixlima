@@ -515,6 +515,23 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 </div>
 
 <div id="painel">
+
+<!-- ZIXLIMA_IA_ADMIN_V1 -->
+<section class="card" id="zixIaAdmin" aria-labelledby="zixIaTitulo">
+<h2 id="zixIaTitulo">🤖 ZixLima IA — Programadora</h2>
+<p>Somente administradores. Groq pela conta independente; outros provedores apenas quando cadastrados no Worker.</p>
+<div id="zixIaMensagens" role="log" aria-label="Conversa com a IA" aria-live="polite"></div>
+<form id="zixIaForm">
+<label for="zixIaPergunta">Pergunte ou cole seu código (máximo 10 mil caracteres por mensagem)</label>
+<textarea id="zixIaPergunta" maxlength="10000" placeholder="Descreva o problema ou cole código para analisar..." required></textarea>
+<div class="zix-ia-actions"><button id="zixIaEnviar" type="submit">Enviar para IA</button>
+<button id="zixIaNova" type="button">Nova conversa</button>
+<button id="zixIaCopiar" type="button">Copiar conversa</button></div></form>
+<p id="zixIaStatus" role="status">Aguardando pergunta.</p>
+<p><small>Não publica nem executa código. Imagens, Internet e modo off-line ainda não estão ativados. Não cole chaves ou senhas.</small></p>
+</section>
+<!-- /ZIXLIMA_IA_ADMIN_V1 -->
+
 <div class="card">
 <h2>Administração</h2>
 <p id="usuario"></p>
@@ -1468,5 +1485,7 @@ btn.addEventListener('click',async()=>{
 <script type="module" src="./zix-promo-admin.js?v=2"></script><script type="module" src="./zix-boost-admin.js?v=20261025planos1"></script>
 <script type="module" src="./zix-boost-plans-admin.js?v=20261025planos1"></script>
 <script type="module" src="./zix-boost-services-admin.js?v=20261025servicos2"></script>
+<link rel="stylesheet" href="./zix-ia-admin.css?v=1">
+<script type="module" src="./zix-ia-admin.js?v=1"></script>
 </body>
 </html>

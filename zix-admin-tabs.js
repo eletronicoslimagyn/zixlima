@@ -10,7 +10,8 @@
     ['financeiro','💳','Financeiro','Cobrança, créditos e prazos'],
     ['impulsionamentos','📣','Impulsionamentos','Solicitações e histórico'],
     ['perfil','👤','Minha conta','Perfil e segurança'],
-    ['backup','💾','Backup','Cópias do código e GitHub']
+    ['backup','💾','Backup','Cópias do código e GitHub'],
+    ['ia','🤖','ZixLima IA','Assistente exclusivo de programação']
   ];
   function init(){
     const painel=document.getElementById('painel');
@@ -78,7 +79,8 @@
       financeiro:[financeiro,...finChildren],
       impulsionamentos:[boostPanel],
       perfil:[email,perfil],
-      backup:[backup]
+      backup:[backup],
+      ia:[document.getElementById('zixIaAdmin')]
     };
     // A moderação foi originalmente colocada fora de #painel. Movê-la para dentro
     // restringe sua visibilidade à sessão autenticada e mantém seus IDs intactos.

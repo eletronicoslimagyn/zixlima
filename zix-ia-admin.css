@@ -1,0 +1,9 @@
+#zixIaAdmin {background:#fff}
+#zixIaMensagens{background:#0b1220;color:#e7efff;min-height:210px;max-height:55vh;overflow:auto;padding:14px;border-radius:12px;display:flex;flex-direction:column;gap:11px}
+#zixIaMensagens .zix-ia-msg{padding:11px;border:1px solid #42516b;border-radius:12px;max-width:98%;min-width:0}
+#zixIaMensagens .zix-ia-msg.user{background:#173f85;align-self:flex-end}
+#zixIaMensagens .zix-ia-msg.assistant{background:#1d293c;align-self:flex-start}
+#zixIaMensagens pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;line-height:1.5;margin:8px 0 0}
+#zixIaPergunta{width:100%;min-height:105px;padding:12px;border:1px solid #adc2db;border-radius:10px;font:inherit;resize:vertical}
+#zixIaStatus{font-size:14px;color:#334155;white-space:pre-wrap}
+#zixIaAdmin .zix-ia-actions{display:flex;gap:8px;flex-wrap:wrap}
