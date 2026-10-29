@@ -1,0 +1,14 @@
+#zixMemoriaPanel{border:1px solid #c1d4ec;border-radius:14px;padding:16px;background:#f7faff;margin:18px 0;color:#152b4b}
+#zixMemoriaPanel h3{font-size:21px;margin:4px 0 10px}
+#zixMemoriaPanel p{line-height:1.5}
+#zixMemoriaPanel label{display:block;font-weight:700;font-size:15px;margin:12px 0 4px}
+#zixMemoriaPanel input,#zixMemoriaPanel textarea{width:100%;max-width:100%;font:inherit;padding:12px;border:1px solid #adbed8;border-radius:9px;background:#fff;color:#1c2938;box-sizing:border-box}
+#zixMemoriaPanel textarea{resize:vertical;min-height:145px;white-space:pre-wrap}
+#zixMemoriaPanel .zix-mem-search{display:flex;gap:8px;align-items:center}
+#zixMemoriaPanel .zix-mem-search input{flex:1;min-width:0}
+#zixMemoriaPanel button{max-width:100%;white-space:normal;overflow-wrap:anywhere}
+#zixMemoriaPanel #zixMemStatus{font-weight:700;white-space:pre-wrap}
+#zixMemResults{display:flex;flex-direction:column;gap:10px}
+#zixMemResults .zix-mem-row{background:#fff;padding:10px;border:1px solid #d7e5f6;border-radius:10px;min-width:0}
+#zixMemResults .zix-mem-row pre{font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:180px;overflow:auto}
+@media(max-width:650px){#zixMemoriaPanel{padding:12px}#zixMemoriaPanel .zix-mem-search{flex-wrap:wrap}#zixMemoriaPanel .zix-mem-search button{width:100%}}
