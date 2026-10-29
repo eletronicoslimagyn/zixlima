@@ -11,7 +11,31 @@ let history=[];
 function message(role,text){
  const el=document.createElement('div');el.className='zix-ia-msg '+role;
  const who=document.createElement('strong');who.textContent=role==='user'?'Você':'ZixLima IA';
- const p=document.createElement('pre');p.textContent=text;
+ const p=document.createElement('pre');if(role==='assistant' && window.ZixDownloads){
+    const rx=/```([a-zA-Z0-9_-]*)\\n([\\s\\S]*?)```/g;
+    let last=0, match;
+    while((match=rx.exec(text))!==null){
+      if(match.index>last){
+        const span=document.createElement('span');
+        span.textContent=text.slice(last,match.index);
+        p.appendChild(span);
+      }
+      p.appendChild(
+        window.ZixDownloads.criarBalao(
+          match[2],
+          match[1]||'txt'
+        )
+      );
+      last=rx.lastIndex;
+    }
+    if(last<text.length){
+      const span=document.createElement('span');
+      span.textContent=text.slice(last);
+      p.appendChild(span);
+    }
+  }else{
+    p.textContent=text;
+  }
  el.append(who,p);box.append(el);box.scrollTop=box.scrollHeight;
 }
 function setStatus(s){status.textContent=s;}
