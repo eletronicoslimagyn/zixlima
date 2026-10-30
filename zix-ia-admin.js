@@ -11,7 +11,7 @@ let history=[];
 function message(role,text){
  const el=document.createElement('div');el.className='zix-ia-msg '+role;
  const who=document.createElement('strong');who.textContent=role==='user'?'Você':'ZixLima IA';
- const p=document.createElement('pre');if(role==='assistant' && window.ZixDownloads){
+ const p=document.createElement('pre');if(role==='assistant' && window.ZixDownloads && typeof window.ZixDownloads.criarBalao === 'function'){
     const rx=/```[ \t]*([a-zA-Z0-9_-]*)[ \t]*\r?\n?([\s\S]*?)```/g;
     let last=0, match, encontrou=false;
     while((match=rx.exec(text))!==null){
@@ -50,6 +50,74 @@ async function adminToken(){
  if(admError||!adm)throw Error('Acesso permitido somente ao administrador.');
  return session.access_token;
 }
+
+// ZIX_IA_PROVIDER_SELECTOR_V1
+(function(){
+  try{
+    if(document.getElementById('zixIaProviderBox')) return;
+
+    const box=document.createElement('div');
+    box.id='zixIaProviderBox';
+
+    box.style.cssText=
+      'margin:8px 0 12px;padding:10px;border:1px solid #cbd5e1;'+
+      'border-radius:10px;background:#f8fafc;';
+
+    const label=document.createElement('label');
+    label.htmlFor='zixIaProvider';
+    label.textContent='Provedor da IA';
+
+    label.style.cssText=
+      'display:block;font-weight:700;margin-bottom:6px;';
+
+    const select=document.createElement('select');
+    select.id='zixIaProvider';
+
+    select.style.cssText=
+      'width:100%;padding:10px;border:1px solid #94a3b8;'+
+      'border-radius:8px;background:white;font-size:15px;';
+
+    select.innerHTML=`
+      <option value="auto">⚡ Automática — Groq → Gemini</option>
+      <option value="groq">🚀 Somente Groq</option>
+      <option value="gemini">✨ Somente Gemini</option>
+    `;
+
+    const saved=localStorage.getItem('zixIaProvider') || 'auto';
+
+    select.value=['auto','groq','gemini'].includes(saved)
+      ? saved
+      : 'auto';
+
+    window.ZIX_IA_PROVIDER=select.value;
+
+    select.addEventListener('change',()=>{
+      window.ZIX_IA_PROVIDER=select.value;
+      localStorage.setItem('zixIaProvider',select.value);
+
+      if(typeof setStatus==='function'){
+        const nomes={
+          auto:'Automática: Groq → Gemini',
+          groq:'Somente Groq',
+          gemini:'Somente Gemini'
+        };
+        setStatus('Modo: '+nomes[select.value]);
+      }
+    });
+
+    box.appendChild(label);
+    box.appendChild(select);
+
+    if(form && form.parentNode){
+      form.parentNode.insertBefore(box,form);
+    }
+
+  }catch(err){
+    console.warn('Seletor IA:',err);
+  }
+})();
+
+
 form?.addEventListener('submit',async(e)=>{
  e.preventDefault();const text=input.value.trim();if(!text||send.disabled)return;
  if(text.length>10000){setStatus('Mensagem acima do limite de 10 mil caracteres.');return;}
@@ -61,7 +129,7 @@ form?.addEventListener('submit',async(e)=>{
   setStatus('Consultando IA...');
   const res=await fetch(API+'/chat',{
    method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+jwt},
-   body:JSON.stringify({messages:pending}),signal:AbortSignal.timeout(110000)
+   body:JSON.stringify({messages:pending,provider:(window.ZIX_IA_PROVIDER||'auto')}),signal:AbortSignal.timeout(110000)
   });
   const data=await res.json().catch(()=>({}));
   if(!res.ok||!data.ok||typeof data.answer!=='string')throw Error(data.error||'Serviço indisponível ('+res.status+').');
