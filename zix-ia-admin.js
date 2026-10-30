@@ -12,7 +12,7 @@ function message(role,text){
  const el=document.createElement('div');el.className='zix-ia-msg '+role;
  const who=document.createElement('strong');who.textContent=role==='user'?'Você':'ZixLima IA';
  const p=document.createElement('pre');if(role==='assistant' && window.ZixDownloads){
-    const rx=/```([a-zA-Z0-9_-]*)[ \\t]*\\r?\\n([\\s\\S]*?)```/g;
+    const rx=/```[ \t]*([a-zA-Z0-9_-]*)[ \t]*\r?\n?([\s\S]*?)```/g;
     let last=0, match, encontrou=false;
     while((match=rx.exec(text))!==null){
       encontrou=true;
