@@ -46,3 +46,18 @@
 #zixm-root #zixm-w-message{display:block;min-height:20px;color:#95daff;line-height:1.4}
 #zixm-root .zixm-disclaimer{font-size:11px}
 @media(max-width:600px){#zixm-root .zixm-panel{height:min(565px,calc(100dvh - var(--zixm-bottom) - 85px))}}
+
+/* ZIXM-SIZING-20261102 — desktop maior, mobile sem legenda cortada */
+@media (min-width:901px) {
+  #zixm-root { right:24px; }
+  #zixm-root .zixm-launch {width:126px;height:143px;}
+  #zixm-root .zixm-launch img {width:115px;height:115px;}
+  #zixm-root .zixm-launch .zixm-label {font-size:12px;padding:5px 9px;max-width:176px;text-align:center;white-space:normal;}
+  #zixm-root .zixm-panel {bottom:154px;}
+  #zzixbrWhats.zz-whats {width:76px!important;height:76px!important;min-width:76px;min-height:76px;display:flex;align-items:center;justify-content:center;border-radius:50%;}
+  #zzixbrWhats.zz-whats svg {width:43px!important;height:43px!important;}
+}
+@media (max-width:900px) {
+  #zixm-root {right:12px;}
+  #zixm-root .zixm-launch .zixm-label {white-space:normal;text-align:center;max-width:min(144px,calc(100vw - 32px));font-size:10px;line-height:1.2;overflow-wrap:anywhere;}
+}
