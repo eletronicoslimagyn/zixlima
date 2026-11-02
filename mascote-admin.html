@@ -1,0 +1,25 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5"><meta name="robots" content="noindex,nofollow"><title>Mascote IA | Admin ZixLima</title><link rel="stylesheet" href="./zix-mascote-admin.css"></head>
+<body><main class="zma-app">
+ <header class="zma-head"><div class="zma-head-title"><img src="./zix-mascote.webp" alt=""><div><span class="zma-brand">ZIXLIMA • ADMIN</span><h1>🤖 Mascote IA</h1><p>Mensagens automáticas e assistência aos anúncios</p></div></div><a href="./admin.html" class="zma-return">← Voltar ao Admin</a></header>
+ <div id="zma-auth" class="zma-notice" role="status">Verificando acesso administrativo...</div>
+ <section id="zma-editor" hidden>
+  <nav class="zma-tabs" aria-label="Abas de configuração"><button type="button" data-tab="geral" class="selected">Geral</button><button type="button" data-tab="mensagens">Mensagens automáticas</button><button type="button" data-tab="anuncio">Ajuda no anúncio</button><button type="button" data-tab="ia">IA</button></nav>
+  <section class="zma-pane" data-pane="geral"><h2>Configurações gerais</h2><p class="zma-help">O mascote fica à direita, acima do WhatsApp.</p>
+   <div class="zma-checks"><label><input id="zma-enabled" type="checkbox"> Mascote visível no site</label><label><input id="zma-guidance" type="checkbox"> Oferecer ajuda durante o anúncio</label></div>
+   <label>Saudação inicial<textarea id="zma-greeting" maxlength="450" rows="3" placeholder="Olá! Como posso ajudar?"></textarea></label>
+   <label>Texto abaixo do mascote<input id="zma-bubble" maxlength="70" placeholder="Dúvidas? Fale com o Zix"></label>
+   <label>Mensagem de orientação para novos anúncios<textarea id="zma-nudge" rows="2" maxlength="240"></textarea></label>
+   <h3>Atalhos da conversa</h3><p class="zma-help">Três opções que aparecem logo acima da caixa de digitação.</p><div id="zma-quick"></div>
+  </section>
+  <section class="zma-pane" data-pane="mensagens" hidden><div class="zma-line"><div><h2>Perguntas e respostas automáticas</h2><p class="zma-help">Personalize as respostas usadas antes de chamar a IA. Separe palavras-chave com vírgulas.</p></div><button type="button" id="zma-add-rule" class="zma-add">＋ Nova mensagem</button></div><div id="zma-rules"></div></section>
+  <section class="zma-pane" data-pane="anuncio" hidden><h2>Orientação para preencher anúncios</h2><p class="zma-help">O Zix pode criar sugestões de título e descrição, orientar sobre fotos, localização e preço. Ele não envia ou publica o anúncio automaticamente.</p>
+   <h3>Vinculação opcional aos campos reais do site</h3><p class="zma-help">Informe os seletores CSS dos campos no formulário de anúncios (ex.: #titulo). Se deixar vazio, o visitante poderá copiar o conteúdo gerado. Use somente depois de verificar os campos reais.</p><div id="zma-fields" class="zma-fields"></div>
+  </section>
+  <section class="zma-pane" data-pane="ia" hidden><h2>Atendimento inteligente</h2><label class="zma-toggle"><input id="zma-enable-ai" type="checkbox"> Permitir respostas livres da IA quando não houver mensagem automática</label>
+   <label>Informações e instruções públicas para a IA<textarea id="zma-ai-context" maxlength="1500" rows="7" placeholder="Ex.: horários, orientações, dúvidas frequentes..."></textarea></label>
+   <p class="zma-help">Não coloque senhas, chaves privadas, informações pessoais nem dados financeiros confidenciais. Este texto será usado como contexto público da IA.</p>
+   <p class="zma-help">O Worker público, o Turnstile e as chaves dos provedores são configurados separadamente. A aba não altera a IA exclusiva do administrador.</p>
+  </section>
+  <footer class="zma-foot"><div><span id="zma-modified">Carregando...</span><div id="zma-status" role="status" aria-live="polite"></div></div><button id="zma-save" type="button" disabled>Salvar configurações</button></footer>
+ </section>
+</main><script type="module" src="./zix-mascote-admin.js"></script></body></html>
