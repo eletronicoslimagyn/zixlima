@@ -77,3 +77,48 @@
     text-align:center; line-height:1.2;
   }
 }
+
+/* ZIXM-DESKTOP-VISUAL-20261102-V3
+ * "Site para computador" no Android usa largura desktop mesmo sem mouse.
+ * Mobile padrao (ate 900px CSS): mantem mascote pequeno.
+ */
+@media (min-width: 901px) {
+  #zixm-root { right: 18px !important; }
+  #zixm-root .zixm-launch {
+    width: 170px !important;
+    height: 186px !important;
+    align-items: center !important;
+    overflow: visible !important;
+  }
+  #zixm-root .zixm-launch img {
+    width: 150px !important;
+    height: 150px !important;
+    flex-shrink: 0 !important;
+  }
+  #zixm-root .zixm-launch .zixm-label {
+    width: 170px !important;
+    max-width: 170px !important;
+    align-self: flex-end !important;
+    margin: 0 !important;
+    padding: 5px 8px !important;
+    font-size: 12px !important;
+    line-height: 1.25 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    text-align: center !important;
+  }
+  #zixm-root .zixm-panel { bottom: 196px !important; }
+}
+/* A legenda nao deve escapar pela direita no mobile padrao. */
+@media (max-width: 900px) {
+  #zixm-root .zixm-launch .zixm-label {
+    align-self: flex-end !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    width: max-content !important;
+    max-width: min(140px, calc(100vw - 28px)) !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    text-align: center !important;
+  }
+}
