@@ -1576,3 +1576,17 @@ header nav a {
 .zix-photo-previews figure{width:86px;max-width:calc(33% - 8px);padding:4px;margin:0;border-radius:8px;background:#ecf4ff;border:1px solid #c4d9ef}
 .zix-photo-previews img{width:100%;height:64px;object-fit:contain;background:#e3eaf3;border-radius:5px}
 .zix-photo-previews figcaption{font-size:10px;line-height:1.25;color:#26466b;text-align:center}
+/* ZIX-AJUSTE-DESKTOP-MOBILE-20261102: libera textos do rodape no celular. */
+@media (hover:none) and (pointer:coarse) {
+  footer #zixLinksLegais {
+    padding-right:clamp(82px, 15vw, 100px) !important;
+    padding-left:12px !important;
+    overflow-wrap:anywhere;
+  }
+  #zzixbrWhats.zz-whats {
+    right:12px!important;
+    width:55px!important; height:55px!important;
+    min-width:55px; min-height:55px;
+  }
+  #zzixbrWhats.zz-whats svg {width:32px!important;height:32px!important;}
+}

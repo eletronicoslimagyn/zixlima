@@ -61,3 +61,19 @@
   #zixm-root {right:12px;}
   #zixm-root .zixm-launch .zixm-label {white-space:normal;text-align:center;max-width:min(144px,calc(100vw - 32px));font-size:10px;line-height:1.2;overflow-wrap:anywhere;}
 }
+/* ZIX-AJUSTE-DESKTOP-MOBILE-20261102 */
+/* Desktop real, com mouse: mascote maior; não aumenta no celular em modo desktop. */
+@media (min-width:1000px) and (hover:hover) and (pointer:fine) {
+  #zixm-root .zixm-launch { width:170px; height:186px; }
+  #zixm-root .zixm-launch img { width:150px; height:150px; }
+  #zixm-root .zixm-panel { bottom:196px; }
+}
+/* Celulares, inclusive quando o navegador ativa "site para computador". */
+@media (hover:none) and (pointer:coarse) {
+  #zixm-root .zixm-launch .zixm-label {
+    position:relative; right:0; margin-right:0; margin-left:auto;
+    width:max-content; max-width:min(145px, calc(100vw - 28px));
+    white-space:normal; overflow-wrap:anywhere;
+    text-align:center; line-height:1.2;
+  }
+}
