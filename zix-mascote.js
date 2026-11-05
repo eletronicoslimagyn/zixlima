@@ -13,7 +13,7 @@ root.innerHTML=`<div class="zixm-panel" id="zixm-panel" hidden role="dialog" ari
   <div class="zixm-wizard-head"><strong>📝 Vamos montar seu anúncio</strong><button id="zixm-wizard-close" type="button" aria-label="Voltar ao chat">×</button></div>
   <p>Preencha o que souber. O Zix organiza as informações para você revisar.</p>
   <form id="zixm-wizard-form">
-   <label>Categoria<select id="zixm-w-cat"><option value="Produto">Produto</option><option value="Veículo">Veículo</option><option value="Imóvel">Imóvel</option><option value="Serviço">Serviço</option><option value="Outro">Outro</option></select></label>
+   <label>Categoria<select id="zixm-w-cat"><option value="Carros">Carros</option><option value="Motos">Motos</option><option value="Caminhões">Caminhões</option><option value="Peças e acessórios">Peças e acessórios</option><option value="Eletrônicos">Eletrônicos</option><option value="Imóveis">Imóveis</option><option value="Aluguéis">Aluguéis</option><option value="Casa e móveis">Casa e móveis</option><option value="Serviços">Serviços</option><option value="Outros">Outros</option></select></label>
    <label>O que você está anunciando?<input id="zixm-w-name" required maxlength="110" placeholder="Ex.: Geladeira Brastemp 375 L"></label>
    <label>Estado ou detalhes principais<input id="zixm-w-details" maxlength="180" placeholder="Ex.: usado, funcionando bem"></label>
    <label>Preço (se desejar)<input id="zixm-w-price" maxlength="45" placeholder="Ex.: R$ 850 ou a combinar"></label>
