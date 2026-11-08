@@ -107,7 +107,35 @@
     overflow-wrap: anywhere !important;
     text-align: center !important;
   }
-  #zixm-root .zixm-panel { bottom: 196px !important; }
+  #zixm-root .zixm-panel {
+    --zixm-panel-offset: 196px;
+    bottom: var(--zixm-panel-offset) !important;
+    width: 460px;
+    height: min(540px, calc(100dvh - var(--zixm-bottom) - var(--zixm-panel-offset) - 12px));
+    min-height: 0;
+  }
+  #zixm-root .zixm-messages {
+    min-height: 0;
+    padding-block: 8px;
+  }
+  #zixm-root .zixm-msg { max-width: 100%; }
+  #zixm-root .zixm-msg span { font-size: 15px !important; }
+  #zixm-root .zixm-msg small { font-size: 11px !important; }
+  #zixm-root .zixm-quick { flex-shrink: 0; }
+  #zixm-root .zixm-quick button {
+    font-size: 13px !important;
+    min-height: 36px !important;
+    padding: 6px 9px !important;
+  }
+}
+/* Em janelas baixas, a conversa cabe ao lado do mascote. */
+@media (min-width: 901px) and (max-height: 760px) {
+  #zixm-root .zixm-panel {
+    --zixm-panel-offset: calc(12px - var(--zixm-bottom));
+    right: calc(100% + 12px);
+  }
+  #zixm-root .zixm-head { padding-block: 6px; }
+  #zixm-root .zixm-form { padding-block: 4px; }
 }
 /* A legenda nao deve escapar pela direita no mobile padrao. */
 @media (max-width: 900px) {
