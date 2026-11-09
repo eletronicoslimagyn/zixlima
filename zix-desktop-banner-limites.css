@@ -30,6 +30,11 @@
     transform:none!important;
     aspect-ratio:auto!important;
   }
+  /* Altura de 40% da arte original de 1499 × 1049, com a largura inteira. */
+  body.zix-layout-v3.zz-has-custom-logo header .top > a.brand > #zzCustomBrandLogo {
+    aspect-ratio: 1499 / 419.6 !important;
+    object-fit: fill !important;
+  }
   /* Hero gráfico, se utilizado no lugar da marca */
   body.zix-elite-active .hero#inicio,
   body.zix-elite-active .hero#inicio #zixElite {
