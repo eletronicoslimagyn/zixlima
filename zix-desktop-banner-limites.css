@@ -50,3 +50,11 @@
     object-fit:contain!important;
   }
 }
+
+/* ZIXLIMA_SLOGAN_DESKTOP_INICIO */
+@media screen and (min-width:701px) {
+  body.zix-layout-v3.zz-has-custom-logo header .top > a.brand > #zzCustomBrandLogo {
+    content: url("./assets/zixlima-slogan-desktop-aa2513a85dee.jpg") !important;
+  }
+}
+/* ZIXLIMA_SLOGAN_DESKTOP_FIM */
