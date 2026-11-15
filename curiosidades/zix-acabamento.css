@@ -15,7 +15,7 @@ body .toolbar,
 body details,
 body details summary,
 body .grid > div {
-  background:rgba(255,255,255,.48)!important;
+  background:rgba(255,255,255,.18)!important;
   backdrop-filter:blur(3px)!important;
   -webkit-backdrop-filter:blur(3px)!important;
   color:#17372c!important;
