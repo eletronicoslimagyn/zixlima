@@ -1,0 +1,36 @@
+:root{--zp:#1478e8;--zc:#00c9df}
+html{scroll-behavior:smooth}
+body{font-family:system-ui,-apple-system,Arial,sans-serif}
+button,.btn,a.button,input[type=submit]{
+ transition:transform .2s,box-shadow .2s,filter .2s;
+ border-radius:12px!important;
+ font-weight:700;
+}
+button:active,.btn:active{transform:scale(.97)}
+button:hover,.btn:hover{
+ filter:brightness(1.08);
+ box-shadow:0 5px 18px #008bff35;
+}
+button:focus-visible,a:focus-visible,input:focus-visible{
+ outline:3px solid #00c9df!important;
+ outline-offset:3px;
+}
+input,select,textarea{
+ border-radius:12px!important;
+ max-width:100%;
+}
+.card,details{
+ transition:box-shadow .2s,transform .2s;
+}
+.card:hover,details:hover{
+ box-shadow:0 8px 24px #0868b522!important;
+}
+summary{cursor:pointer}
+a{text-underline-offset:3px}
+@media(max-width:600px){
+ button,.btn{min-height:40px}
+ input,select,textarea{font-size:16px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{transition:none!important;scroll-behavior:auto!important}
+}
