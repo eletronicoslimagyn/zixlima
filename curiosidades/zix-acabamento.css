@@ -1,0 +1,66 @@
+/* ZixLima Curiosidades - acabamento premium */
+
+/* Transparencia dos quadros */
+body .category,
+body .category .inside,
+body .answer,
+body .zix-card,
+body .zix-feature,
+body .zix-longread,
+body .zix-visual-card,
+body .zix-illustrated,
+body .guides,
+body .articles,
+body .toolbar,
+body details,
+body details summary,
+body .grid > div {
+  background:rgba(255,255,255,.48)!important;
+  backdrop-filter:blur(3px)!important;
+  -webkit-backdrop-filter:blur(3px)!important;
+  color:#17372c!important;
+}
+
+/* Manter fotos nitidas */
+body .zix-card img,
+body .zix-feature img,
+body .zix-visual-card img,
+body .zix-photo-card img {
+  opacity:1!important;
+  filter:none!important;
+}
+
+/* Cabecalho alinhado */
+header nav {
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  flex-wrap:wrap!important;
+  gap:12px!important;
+}
+
+header nav a {
+  align-self:center!important;
+  margin:0!important;
+}
+
+header nav a:first-child {
+  margin-right:auto!important;
+}
+
+/* Melhor leitura */
+body .category,
+body .category summary,
+body details summary {
+  font-weight:700!important;
+}
+
+@media(max-width:600px) {
+  header nav {
+    justify-content:flex-start!important;
+    gap:12px!important;
+  }
+  header nav a:first-child {
+    width:100%!important;
+  }
+}
