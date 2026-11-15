@@ -1,0 +1,33 @@
+/* Transparencia da parte superior */
+.category,
+.category .inside,
+.category summary,
+.category details,
+.grid > div,
+.guides,
+.articles,
+.zix {
+  background:rgba(255,255,255,.30)!important;
+  background-image:none!important;
+  backdrop-filter:blur(2px)!important;
+  -webkit-backdrop-filter:blur(2px)!important;
+}
+
+/* Textos legiveis */
+.category,
+.category summary,
+.guides,
+.articles,
+.zix {
+  color:#17372c!important;
+}
+
+/* Bordas suaves */
+.category,
+.grid > div,
+.guides,
+.articles,
+.zix {
+  border:1px solid rgba(255,255,255,.55)!important;
+  box-shadow:0 4px 16px rgba(0,50,100,.10)!important;
+}
