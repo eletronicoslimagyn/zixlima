@@ -1,0 +1,45 @@
+/* Transparencia premium ZixLima */
+body .category,
+body .category .inside,
+body .answer,
+body .zix,
+body .zix-card,
+body .zix-feature,
+body .zix-longread,
+body .zix-visual-card,
+body .zix-illustrated,
+body .guides,
+body .articles,
+body .toolbar,
+body .grid > div,
+body details,
+body article {
+  background: rgba(255,255,255,.48)!important;
+  background-image: none!important;
+  backdrop-filter: blur(3px)!important;
+  -webkit-backdrop-filter: blur(3px)!important;
+}
+
+body .zix-card img,
+body .zix-feature img,
+body .zix-photo-card img {
+  opacity: 1!important;
+}
+
+body .category,
+body .zix-card,
+body details {
+  border: 1px solid rgba(255,255,255,.65)!important;
+}
+
+body .category *,
+body .zix-card *,
+body .guides *,
+body details {
+  color: #17332c;
+}
+
+body .zix-card a,
+body .guides a {
+  color: #006d47!important;
+}
