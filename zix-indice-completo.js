@@ -8,7 +8,16 @@
    ['🏠 Página inicial','#inicio'],['🔎 Buscar anúncios','#searchForm'],['📢 Todos os anúncios','#anuncios'],['🗂️ Meus anúncios','#meus'],['📋 Planos de anúncios','#zixPlanos'],['⭐ Anúncios patrocinados','#zixBoostShowcase']]],
   ['📚 Todas as categorias',[
    ['🚗 Carros','cat:carros'],['🏍️ Motos','cat:motos'],['🚚 Caminhões','cat:caminhoes'],['🔧 Peças e acessórios','cat:pecas'],['📱 Eletrônicos','cat:eletronicos'],['🏠 Imóveis','cat:imoveis'],['🏘️ Aluguéis','cat:alugueis'],['🛋️ Casa e móveis','cat:casa'],['🧰 Serviços','cat:servicos'],['📦 Outros','cat:outros']]],
-  ['🏘️ Tipos de aluguel',[
+  ['📚 Biblioteca de Curiosidades',[
+ ['📖 Biblioteca completa','/curiosidades/'],
+ ['📱 Celulares','/curiosidades/#celulares'],
+ ['💻 Informática','/curiosidades/#informatica'],
+ ['🤖 Inteligência Artificial','/curiosidades/#inteligencia-artificial'],
+ ['🔐 Segurança Digital','/curiosidades/#seguranca-digital'],
+ ['💼 Empreendedorismo','/curiosidades/#empreendedorismo'],
+ ['⚙️ Tecnologia','/curiosidades/#tecnologia']
+ ]],
+ ['🏘️ Tipos de aluguel',[
    ['🏡 Casas','rent:Casa'],['🏢 Apartamentos','rent:Apartamento'],['🏠 Kitnets','rent:Kitnet'],['🧳 Airbnb','rent:Airbnb'],['🚪 Quartos','rent:Quarto'],['🏬 Comercial','rent:Comercial'],['🌴 Temporada','rent:Temporada'],['📂 Outros aluguéis','rent:Outro']]],
   ['🚀 Divulgação e serviços',[
    ['🚀 Impulsionamentos','boost'],['💎 Planos e valores','#zixPlanos'],['⭐ Destaques patrocinados','#zixBoostShowcase'],['🛍️ Ofertas de afiliados','#zixAffiliateShowcase'],['🧰 Anúncios de serviços','cat:servicos']]],
