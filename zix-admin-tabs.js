@@ -11,6 +11,7 @@
     ['impulsionamentos','📣','Impulsionamentos','Solicitações e histórico'],
     ['perfil','👤','Minha conta','Perfil e segurança'],
     ['backup','💾','Backup','Cópias do código e GitHub'],
+    ['curiosidades','📚','Curiosidades','Editor de categorias, tutoriais e downloads'],
     ['ia','🤖','ZixLima IA','Assistente exclusivo de programação']
   ];
   function init(){
@@ -80,6 +81,7 @@
       impulsionamentos:[boostPanel],
       perfil:[email,perfil],
       backup:[backup],
+      curiosidades:[document.getElementById('zixCuriosidadesAdmin')],
       ia:[document.getElementById('zixIaAdmin')]
     };
     // A moderação foi originalmente colocada fora de #painel. Movê-la para dentro
