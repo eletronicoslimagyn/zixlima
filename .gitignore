@@ -1,0 +1,9 @@
+# Arquivos de backup e temporários
+*.bak
+*.bak-visual
+backup-*
+*.zip
+*.py
+verificar.sh
+arrumar.sh
+*.log
