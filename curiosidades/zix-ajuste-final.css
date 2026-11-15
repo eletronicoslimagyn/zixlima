@@ -1,0 +1,6 @@
+
+header a:first-child{font-size:clamp(21px,4.5vw,34px)!important;font-weight:900!important;color:#111!important;letter-spacing:-.5px!important}
+header{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:14px!important}
+.zix,.guides,.articles,.guides-section,section:has(>h2){background:linear-gradient(135deg,#f8f8f5,#d4d8d5)!important;color:#111!important}
+.zix *, .guides *, .articles *, .guides-section *{color:#111!important}
+.zix a,.guides a,.articles a,.guides-section a{color:#086b47!important}
