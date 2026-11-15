@@ -4,3 +4,20 @@ header{display:flex!important;flex-wrap:wrap!important;align-items:center!import
 .zix,.guides,.articles,.guides-section,section:has(>h2){background:linear-gradient(135deg,#f8f8f5,#d4d8d5)!important;color:#111!important}
 .zix *, .guides *, .articles *, .guides-section *{color:#111!important}
 .zix a,.guides a,.articles a,.guides-section a{color:#086b47!important}
+
+/* Alinhamento do menu superior */
+header nav{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  flex-wrap:wrap!important;
+  gap:16px!important;
+}
+header nav a{
+  align-self:center!important;
+  margin:0!important;
+  line-height:1.3!important;
+}
+header nav a:first-child{
+  margin-right:4px!important;
+}
