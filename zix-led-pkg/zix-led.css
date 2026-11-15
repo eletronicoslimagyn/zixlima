@@ -1,0 +1,11 @@
+/* ZixLima Curiosidades - fundo LED 2026 */
+html{min-height:100%}
+body{background-color:#e9f6ff!important;background-image:linear-gradient(180deg,rgba(235,249,255,.10),rgba(255,255,255,.13)),url('/curiosidades/fundo-tecnologico.png')!important;background-position:center top!important;background-repeat:no-repeat!important;background-size:cover!important;background-attachment:fixed!important}
+#zix-led-overlay{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;opacity:.82}
+body>header,body>main,body>footer,body>.wrap{position:relative;z-index:1}
+#zix-led-overlay path{fill:none;stroke:#66edff;stroke-width:3;stroke-linecap:round;stroke-dasharray:8 85;filter:drop-shadow(0 0 5px #02bdff) drop-shadow(0 0 9px #10a5ff);animation:zix-led-flow 7s linear infinite}
+#zix-led-overlay path:nth-child(2n){stroke:#fff;stroke-width:1.8;stroke-dasharray:4 120;animation-duration:9s;animation-direction:reverse}
+#zix-led-overlay path:nth-child(3n){animation-delay:-3s;animation-duration:11s}
+@keyframes zix-led-flow{to{stroke-dashoffset:-930}}
+@media(max-width:700px){body{background-attachment:scroll!important;background-size:auto 100%!important}#zix-led-overlay{opacity:.62}}
+@media(prefers-reduced-motion:reduce){#zix-led-overlay path{animation:none!important}}

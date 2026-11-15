@@ -118,26 +118,50 @@ async function adminToken(){
 })();
 
 
+
+(function installZixWebSearchToggle(){
+  if(document.getElementById('zixIaWebSearchBox')||!form?.parentNode)return;
+  const box=document.createElement('div');
+  box.id='zixIaWebSearchBox';
+  box.style.cssText='margin:8px 0 12px;padding:12px;border:1px solid #b8cbea;border-radius:12px;background:#f5f9ff;';
+  const label=document.createElement('label');
+  label.style.cssText='display:flex;align-items:center;gap:10px;margin:0;font-weight:700;cursor:pointer;';
+  const check=document.createElement('input');
+  check.id='zixIaWebSearch';
+  check.type='checkbox';
+  check.style.cssText='width:20px;height:20px;margin:0;flex:0 0 auto;';
+  const title=document.createElement('span');
+  title.textContent='Pesquisar na Internet em tempo real (Groq)';
+  label.append(check,title);
+  const note=document.createElement('small');
+  note.style.cssText='display:block;margin:8px 0 0 30px;color:#475569;';
+  note.textContent='Ative somente nesta pergunta. A resposta usará fontes atuais e referências quando disponíveis.';
+  check.addEventListener('change',()=>setStatus(check.checked?'Pesquisa na Internet ativada para a próxima pergunta.':'Pesquisa na Internet desativada.'));
+  box.append(label,note);
+  form.parentNode.insertBefore(box,form);
+})();
+
 form?.addEventListener('submit',async(e)=>{
- e.preventDefault();const text=input.value.trim();if(!text||send.disabled)return;
+ e.preventDefault();const text=input.value.trim();const webSearch=document.getElementById('zixIaWebSearch')?.checked===true;if(!text||send.disabled)return;
  if(text.length>10000){setStatus('Mensagem acima do limite de 10 mil caracteres.');return;}
  send.disabled=true;setStatus('Verificando acesso...');
  try{
   const jwt=await adminToken();
   const pending=[...history,{role:'user',content:text}].slice(-20);
   if(pending.reduce((n,m)=>n+m.content.length,0)>39000)throw Error('Histórico muito grande. Use Nova conversa.');
-  setStatus('Consultando IA...');
+  setStatus(webSearch?'Pesquisando na Internet com Groq...':'Consultando IA...');
   const res=await fetch(API+'/chat',{
    method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+jwt},
-   body:JSON.stringify({messages:pending,provider:(window.ZIX_IA_PROVIDER||'auto')}),signal:AbortSignal.timeout(110000)
+   body:JSON.stringify({messages:pending,provider:(window.ZIX_IA_PROVIDER||'auto'),web_search:webSearch}),signal:AbortSignal.timeout(110000)
   });
   const data=await res.json().catch(()=>({}));
   if(!res.ok||!data.ok||typeof data.answer!=='string')throw Error(data.error||'Serviço indisponível ('+res.status+').');
+  if(webSearch&&data.webSearch!==true)throw Error('O Worker ainda não foi atualizado para a pesquisa na Internet.');
   history=pending.concat({role:'assistant',content:data.answer});
   message('user',text);message('assistant',data.answer);
-  input.value='';setStatus('Respondido por '+(data.provider||'IA')+'.');
+  input.value='';setStatus('Respondido por '+(data.provider||'IA')+(webSearch?' com pesquisa na Internet.':'.'));
  }catch(e){setStatus('Não foi possível consultar a IA: '+(e.message||String(e)));}
- finally{send.disabled=false;}
+ finally{send.disabled=false;if(webSearch){const searchToggle=document.getElementById('zixIaWebSearch');if(searchToggle)searchToggle.checked=false;}}
 });
 $('zixIaNova')?.addEventListener('click',()=>{history=[];box.replaceChildren();setStatus('Nova conversa iniciada.');});
 $('zixIaCopiar')?.addEventListener('click',async()=>{

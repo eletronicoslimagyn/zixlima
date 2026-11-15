@@ -1,0 +1,1504 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin | ZixLima</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f1f5f9;color:#172033;font-family:Arial,sans-serif}
+header{background:#125bd3;color:white;padding:22px;text-align:center}
+main{max-width:850px;margin:auto;padding:18px}
+.card{background:white;border-radius:15px;padding:20px;margin:16px 0;box-shadow:0 3px 12px #0001}
+button,.btn{display:inline-block;background:#1263df;color:white;border:0;border-radius:9px;padding:12px 17px;margin:5px 4px 5px 0;text-decoration:none;cursor:pointer;font-size:15px}
+input,select{padding:13px;width:100%;margin:8px 0;border:1px solid #ccc;border-radius:8px}
+.ok{background:#15803d}.danger{background:#b91c1c}
+a{color:#1263df}
+small{color:#64748b}
+#painel{display:none}
+.item{border-bottom:1px solid #ddd;padding:14px 0}
+
+/* ZixLima: ajustes de acessibilidade e telas pequenas */
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+@media(max-width:600px){main{padding:10px}.card{padding:14px;margin:12px 0}button,.btn{max-width:100%;white-space:normal;overflow-wrap:anywhere}input,select{min-width:0}pre,#zixBuscaResultado,#zixPrazoMsg{overflow-wrap:anywhere;white-space:pre-wrap}}
+</style>
+<style id="zixEditorPlanosCss">
+.zix-plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px 14px}
+.zix-plan-grid label{font-size:14px;font-weight:600}
+.zix-check{display:block;margin:10px 0;font-weight:600}
+.zix-check input{width:auto;margin-right:8px}
+.zix-plano-linha{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;border-bottom:1px solid #eee;padding:8px 0}
+#zixPlanEditMsg{white-space:pre-wrap;overflow-wrap:anywhere}
+</style>
+
+<style id="zixMarcaEditorExtraCss">
+.zix-pass-wrap{position:relative}
+.zix-pass-wrap input{padding-right:52px !important}
+.zix-pass-toggle{
+  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  border:0;background:transparent;cursor:pointer;font-size:22px;line-height:1;
+}
+#zzMarcaEditorCard h3{margin:18px 0 10px}
+.zix-brand-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:14px;
+}
+.zix-brand-box{
+  border:1px solid #d8e1f1;
+  border-radius:14px;
+  padding:14px;
+  background:linear-gradient(180deg,#ffffff,#f8fbff);
+}
+.zix-brand-box h4{
+  margin:0 0 10px;
+  font-size:16px;
+  color:#17325f;
+}
+.zix-help{
+  font-size:12px;
+  color:#64748b;
+  margin:4px 0 10px;
+}
+.zix-preview-area{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+}
+.zix-preview-box{
+  min-height:90px;
+  border:2px dashed #c7d6ee;
+  border-radius:14px;
+  padding:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff;
+  overflow:hidden;
+}
+.zix-preview-box img{
+  max-width:100%;
+  max-height:100px;
+  object-fit:contain;
+}
+.zix-mini-top{
+  width:100%;
+  background:linear-gradient(135deg,#0d58d4,#1e73ff);
+  border-radius:14px;
+  padding:10px 12px;
+  color:#fff;
+  box-shadow:0 4px 16px #0001;
+}
+.zix-mini-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-height:56px;
+}
+.zix-mini-brand img{
+  object-fit:contain;
+  background:#ffffff18;
+  border-radius:10px;
+}
+.zix-mini-name{
+  font-weight:900;
+  transform-origin:left center;
+  white-space:nowrap;
+}
+.zix-mini-hero{
+  margin-top:10px;
+  background:#fff;
+  border-radius:12px;
+  color:#17325f;
+  padding:10px;
+}
+.zix-mini-slogan{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:800;
+  color:#1263df;
+}
+.zix-mini-slogan img{
+  object-fit:contain;
+  border-radius:10px;
+}
+.zix-two-btns{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:12px;
+}
+.zix-two-btns button{margin:0}
+@media(max-width:600px){
+  .zix-two-btns button{width:100%}
+}
+
+/* zix-preview-v3 */
+.zix-preview-top3{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin:0 0 14px;
+}
+.zix-preview-card{
+  border:1px solid #cfe0ff;
+  border-radius:16px;
+  padding:12px;
+  background:linear-gradient(180deg,#1670ff,#0a52cb);
+  color:#fff;
+  box-shadow:0 6px 18px #0b3c8a20;
+}
+.zix-preview-card h5{
+  margin:0 0 4px;
+  font-size:15px;
+  font-weight:800;
+}
+.zix-preview-card p{
+  margin:0 0 10px;
+  font-size:13px;
+  opacity:.95;
+}
+.zix-preview-shot{
+  background:#ffffff14;
+  border-radius:14px;
+  padding:10px;
+  min-height:92px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.zix-preview-shot .zix-shot-bar{
+  width:100%;
+  border-radius:14px;
+  background:linear-gradient(135deg,#041f56,#1670ff);
+  padding:10px 12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-height:70px;
+}
+.zix-preview-shot .zix-shot-box{
+  width:100%;
+  border-radius:14px;
+  background:#fff;
+  padding:10px;
+  color:#17325f;
+}
+.zix-preview-shot .zix-shot-title{
+  font-weight:900;
+  line-height:1.05;
+}
+.zix-preview-shot img{
+  object-fit:contain;
+  border-radius:10px;
+  background:#ffffff20;
+  flex-shrink:0;
+}
+.zix-preview-duo{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  margin-top:8px;
+}
+.zix-preview-duo .zix-preview-card{
+  background:linear-gradient(180deg,#ffffff,#f6faff);
+  color:#17325f;
+  border:1px solid #d9e6ff;
+  box-shadow:none;
+}
+.zix-preview-duo .zix-preview-card h5{
+  color:#0b53c8;
+}
+.zix-preview-duo .zix-preview-shot{
+  background:#eef5ff;
+}
+.zix-preview-duo .zix-preview-shot .zix-shot-bar{
+  min-height:92px;
+}
+.zix-preview-duo .zix-preview-shot .zix-shot-box{
+  min-height:92px;
+}
+.zix-quick-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:14px;
+}
+.zix-quick-actions button{
+  margin:0;
+}
+@media(max-width:900px){
+  .zix-preview-top3,.zix-preview-duo{
+    grid-template-columns:1fr;
+  }
+}
+
+/* zix-preview-v2 */
+.zix-brand-grid>.zix-brand-preview-wide{grid-column:1/-1;min-width:0}
+.zix-brand-preview-wide .zix-mini-top{width:100%;max-width:100%;overflow:hidden;min-width:0}
+.zix-brand-preview-wide .zix-mini-brand,.zix-brand-preview-wide .zix-mini-slogan{
+  display:flex;flex-wrap:wrap;align-items:center;gap:12px;min-width:0
+}
+.zix-brand-preview-wide .zix-mini-name,.zix-brand-preview-wide #zzMiniSloganText{
+  white-space:normal;overflow-wrap:break-word;word-break:normal;min-width:0;max-width:100%;line-height:1.15
+}
+.zix-brand-preview-wide .zix-mini-brand img,.zix-brand-preview-wide .zix-mini-slogan img{
+  max-width:100%;object-fit:contain;flex-shrink:1
+}
+.zix-brand-preview-wide .zix-mini-hero{min-width:0}
+.zix-brand-grid>*{min-width:0}
+@media(max-width:700px){.zix-brand-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* zix-layout-aprovado-v4 */
+@media (min-width:901px) {
+ .zix-brand-grid {
+   display:grid;
+   grid-template-columns:repeat(3,minmax(0,1fr));
+   align-items:start;
+   gap:14px;
+ }
+ .zix-brand-grid > .zix-brand-box:nth-child(3) {
+   grid-column:3;
+   grid-row:1 / span 2;
+   align-self:stretch;
+ }
+ .zix-brand-grid > .zix-brand-preview-wide {
+   grid-column:1 / span 2;
+   grid-row:2;
+   min-width:0;
+ }
+ .zix-brand-preview-wide .zix-preview-duo {
+   display:grid;
+   grid-template-columns:1fr;
+ }
+ .zix-brand-preview-wide .zix-preview-card {
+   min-width:0;
+ }
+ .zix-brand-preview-wide .zix-preview-shot {
+   max-width:100%;
+   overflow:hidden;
+ }
+}
+</style>
+
+<style id="zix-css-olhinho-token">
+.zix-token-wrap{position:relative;margin-bottom:8px}
+.zix-token-wrap input{box-sizing:border-box;width:100%;padding-right:56px}
+.zix-token-wrap #zzTokenEye{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:44px;height:42px;margin:0;padding:0;border:0;background:transparent;border-radius:8px;font-size:22px;cursor:pointer}
+.zix-token-wrap #zzTokenEye:focus-visible{outline:3px solid #f59e0b}
+</style>
+<link rel="stylesheet" href="./site-brand-live.css?v=editor-led-posicao-1">
+<!-- ZIX_NUMERIC_BUTTONS_V1_START -->
+<style id="zix-numeric-buttons-css">
+/* Controles numericos do editor visual, sem alterar outros formularios */
+.zix-brand-grid .zix-stepper {
+ display:grid;grid-template-columns:38px minmax(0,1fr) 38px;
+ align-items:stretch;gap:0;width:100%;min-width:0;
+ border:1px solid #cbd5e1;border-radius:10px;overflow:hidden;
+ background:#fff;margin-top:5px;
+}
+.zix-brand-grid .zix-stepper input[type="number"] {
+ min-width:0;width:100%!important;max-width:100%!important;
+ border:0!important;border-radius:0!important;margin:0!important;
+ padding:9px 5px!important;text-align:center;
+ background:transparent!important;box-shadow:none!important;
+ appearance:textfield;-moz-appearance:textfield;
+}
+.zix-brand-grid .zix-stepper input::-webkit-inner-spin-button,
+.zix-brand-grid .zix-stepper input::-webkit-outer-spin-button {
+ -webkit-appearance:none;margin:0;
+}
+.zix-brand-grid .zix-stepper button {
+ appearance:none;border:0!important;border-radius:0!important;
+ min-width:38px;width:38px;min-height:42px;
+ margin:0!important;padding:0!important;
+ background:#e7f0ff!important;color:#1157a8!important;
+ font-size:23px!important;font-weight:800!important;line-height:1;
+ display:grid;place-items:center;touch-action:manipulation;
+}
+.zix-brand-grid .zix-stepper button:first-child {border-right:1px solid #cbd5e1!important}
+.zix-brand-grid .zix-stepper button:last-child {border-left:1px solid #cbd5e1!important}
+.zix-brand-grid .zix-stepper button:disabled {opacity:.45}
+.zix-brand-grid .zix-stepper:focus-within {outline:2px solid #e5a516;outline-offset:1px}
+@media(max-width:400px){
+ .zix-brand-grid .zix-stepper{grid-template-columns:34px minmax(0,1fr) 34px}
+ .zix-brand-grid .zix-stepper button{min-width:34px;width:34px}
+}
+</style>
+<!-- ZIX_NUMERIC_BUTTONS_V1_END -->
+<style>
+
+/* zix-mini-preview-fix-v6 */
+.zix-preview-duo .zix-shot-bar,
+.zix-preview-duo .zix-shot-box {
+  min-width:0;
+  max-width:100%;
+  overflow:hidden;
+  box-sizing:border-box;
+}
+
+.zix-preview-duo .zix-shot-bar > div,
+.zix-preview-duo .zix-shot-box {
+  min-width:0;
+}
+
+.zix-preview-duo .zix-shot-title,
+.zix-preview-duo [id^="zzMiniSloganText"] {
+  min-width:0;
+  max-width:100%;
+  overflow-wrap:anywhere;
+  word-break:normal;
+  line-height:1.15;
+  transform:none !important;
+}
+
+.zix-preview-duo img {
+  display:block;
+  max-width:45%;
+  max-height:85px;
+  object-fit:contain;
+  flex-shrink:1;
+}
+
+.zix-preview-duo img:not([src]) {
+  display:none;
+}
+
+#zzMiniNameM {
+  font-size:clamp(15px,3vw,28px) !important;
+  color:#fff;
+}
+
+#zzMiniNameD {
+  font-size:clamp(16px,3vw,32px) !important;
+  color:#fff;
+}
+
+#zzMiniSloganTextM,
+#zzMiniSloganTextD {
+  font-size:clamp(13px,2vw,21px) !important;
+}
+
+@media(max-width:900px) {
+  .zix-preview-duo {
+    grid-template-columns:1fr;
+  }
+  #zzMiniNameM,#zzMiniNameD {
+    font-size:clamp(18px,5vw,30px) !important;
+  }
+  #zzMiniSloganTextM,#zzMiniSloganTextD {
+    font-size:clamp(15px,4vw,23px) !important;
+  }
+}
+
+</style>
+<style>
+/* zix-preview-vertical-v7 */
+.zix-preview-duo{
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  gap:14px !important;
+  max-width:420px;
+}
+.zix-preview-duo .zix-preview-card{
+  width:100%;
+}
+.zix-brand-preview-wide{
+  overflow:hidden;
+}
+
+</style>
+<link rel="stylesheet" href="zix-quick-directional.css">
+
+<style>
+/* ZIX_AFILIADOS_FORM_FIX_V1 */
+#zixAfiliadoForm {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+#zixAfiliadoForm label {
+  display:block;
+  width:100%;
+  min-width:0;
+  margin:0;
+  font-weight:600;
+}
+#zixAfiliadoForm input:not([type="checkbox"]),
+#zixAfiliadoForm select,
+#zixAfiliadoForm textarea {
+  display:block;
+  position:static;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  box-sizing:border-box;
+  margin:7px 0 0;
+}
+#zixAfiliadoForm textarea {
+  min-height:105px;
+  height:auto;
+  padding:12px;
+  resize:vertical;
+  border:1px solid #ccd5e2;
+  border-radius:9px;
+  background:white;
+  color:#172033;
+  font:inherit;
+  line-height:1.5;
+}
+#zixAfiliadoForm label:has(input[type="checkbox"]) {
+  display:flex;
+  align-items:center;
+}
+#zixAfiliadoForm button {
+  align-self:flex-start;
+}
+@media(max-width:600px) {
+  #zixAfiliadosAdmin {
+    padding:15px;
+  }
+  #zixAfiliadoForm {
+    gap:15px;
+  }
+}
+</style>
+
+<link rel="stylesheet" href="./zix-led-ticker.css?v=4">
+<link rel="stylesheet" href="./zix-led-schedule-admin.css?v=3">
+
+<style>
+.zix-slogan-stage-card{margin:14px 0 8px;padding:14px;border:1px solid #bed5fa;border-radius:16px;background:linear-gradient(180deg,#f7fbff,#edf5ff);box-shadow:0 6px 18px rgba(37,99,235,.08)}
+.zix-slogan-stage-head{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.zix-slogan-stage-head h5{margin:0;font-size:18px;color:#15345b}
+.zix-slogan-stage-head span{font-size:12px;font-weight:800;color:#1d4ed8;background:#dbeafe;border-radius:999px;padding:5px 10px}
+.zix-slogan-stage{position:relative;overflow:hidden;border-radius:20px;padding:18px;border:3px solid transparent;background:linear-gradient(#071a30,#071a30) padding-box,linear-gradient(90deg,#ff4f7f,#ffb400,#fff164,#32e787,#32c5ff,#7e7cff,#ff54d6,#ff4f7f) border-box;box-shadow:0 0 24px rgba(34,211,238,.22)}
+.zix-slogan-stage-lights{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.16) 0 9px,transparent 9px 42px),linear-gradient(120deg,rgba(56,189,248,.16),transparent 40%,rgba(255,255,255,.08) 60%,transparent 78%);mix-blend-mode:screen;pointer-events:none;animation:zixStageSweep 6s linear infinite}
+.zix-slogan-stage-content{position:relative;display:flex;align-items:center;justify-content:center;gap:14px;min-height:92px;text-align:center}
+.zix-slogan-stage-content img{display:none;max-width:82px;max-height:82px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 0 10px rgba(255,255,255,.35))}
+.zix-slogan-stage-content img[src]{display:block}
+#zzSloganStageText{display:inline-block;font-size:clamp(20px,3vw,40px);font-weight:900;line-height:1.12;letter-spacing:.2px;overflow-wrap:anywhere}
+#zzSloganStageWrap.is-steady #zzSloganStageText{filter:drop-shadow(0 0 10px rgba(255,255,255,.4))}
+#zzSloganStageWrap.is-pulse #zzSloganStageText{animation:zzLedPulse 2.2s ease-in-out infinite}
+#zzSloganStageWrap.is-cycle #zzSloganStageText{animation:zzMoveGlow 2.5s linear infinite}
+#zzSloganStageWrap.is-none .zix-slogan-stage-lights{opacity:.55}
+@keyframes zixStageSweep{0%{transform:translateX(-18%)}100%{transform:translateX(18%)}}
+@media(max-width:700px){.zix-slogan-stage{padding:14px;border-radius:16px}.zix-slogan-stage-content{min-height:76px;gap:10px}}
+</style>
+<link rel="stylesheet" href="./zix-gallery.css?v=zix20261018galeria2">
+<link rel="stylesheet" href="./zix-admin-tabs.css?v=20261019b">
+<link rel="stylesheet" href="./zix-historico.css?v=20261021lixeira3">
+  <link rel="stylesheet" href="./zix-desktop-total-v3.css?v=20261020-total">
+<link rel="stylesheet" href="./zix-boost.css?v=20261025premium2026">
+<link rel="stylesheet" href="./zix-promo.css?v=2"><link rel="stylesheet" href="./zix-boost-plans.css?v=20261025planos1">
+<link rel="stylesheet" href="./zix-boost-extra.css?v=20261025servicos2">
+<link rel="stylesheet" href="./zix-ia-downloads.css">
+</head>
+<body>
+<header>
+<h1>ZixLima</h1>
+<p>Painel Administrativo</p>
+</header>
+<main>
+<div class="card" id="login">
+<h2>Acesso administrativo</h2>
+<input id="email" type="email" placeholder="E-mail do administrador">
+
+<div class="zix-pass-wrap">
+  <input id="senha" type="password" placeholder="Senha">
+  <button type="button" id="zzToggleSenhaLogin" class="zix-pass-toggle" title="Ver ou ocultar senha" aria-label="Ver ou ocultar senha">👁️</button>
+</div>
+
+<button id="entrar">Entrar</button> <a class="btn" href="./index.html">← Voltar ao site</a><p><a href="./recuperar-senha.html">Esqueci minha senha</a></p>
+<p id="mensagem"></p>
+</div>
+
+<div id="painel">
+
+<!-- ZIXLIMA_IA_ADMIN_V1 -->
+<section class="card" id="zixIaAdmin" aria-labelledby="zixIaTitulo">
+<h2 id="zixIaTitulo">🤖 ZixLima IA — Programadora</h2>
+<p>Somente administradores. Groq pela conta independente; outros provedores apenas quando cadastrados no Worker.</p>
+<div id="zixIaMensagens" role="log" aria-label="Conversa com a IA" aria-live="polite"></div>
+<form id="zixIaForm">
+<label for="zixIaPergunta">Pergunte ou cole seu código (máximo 10 mil caracteres por mensagem)</label>
+<textarea id="zixIaPergunta" maxlength="10000" placeholder="Descreva o problema ou cole código para analisar..." required></textarea>
+<div class="zix-ia-actions"><button id="zixIaEnviar" type="submit">Enviar para IA</button>
+<button id="zixIaNova" type="button">Nova conversa</button>
+<button id="zixIaCopiar" type="button">Copiar conversa</button></div></form>
+<p id="zixIaStatus" role="status">Aguardando pergunta.</p>
+<p><small>Não publica nem executa código. Imagens, Internet e modo off-line ainda não estão ativados. Não cole chaves ou senhas.</small></p>
+</section>
+<!-- /ZIXLIMA_IA_ADMIN_V1 -->
+
+<div class="card">
+<h2>Administração</h2>
+<p id="usuario"></p>
+<button id="sair" class="danger">Sair</button>
+<a class="btn" href="./index.html">Abrir site</a>
+</div>
+
+<section class="card" id="zixAfiliadosAdmin" aria-labelledby="zixAfiliadosTitle">
+<h2 id="zixAfiliadosTitle">🛍️ Afiliados — exclusivo do Admin</h2>
+<p>Cadastre produtos do Mercado Livre ou Shopee. Somente administradores podem criar, editar ou excluir. A compra acontece no site parceiro.</p>
+<form id="zixAfiliadoForm">
+<input type="hidden" name="product_id" value="">
+<label>Loja<select name="store" required><option value="mercadolivre">Mercado Livre</option><option value="shopee">Shopee</option></select></label>
+<label>Nome do produto<input name="title" maxlength="130" required placeholder="Ex.: Smartphone 128 GB"></label>
+<label>Preço informado (R$)<input name="price" type="number" min="0" max="99999999" step="0.01" required></label>
+<label>Link de afiliado (URL)<input name="affiliate_url" type="url" required maxlength="2000" placeholder="https://..."></label>
+<label>Descrição<textarea name="description" maxlength="1200" rows="3" placeholder="Detalhes principais do produto"></textarea></label>
+<label>Foto do produto (JPG, PNG ou WebP; conversão automática para até 3 MB)<input name="photo_file" type="file" accept="image/jpeg,image/png,image/webp"></label>
+<label>OU URL HTTPS da imagem<input name="image_url" type="url" maxlength="2000" placeholder="https://.../foto.jpg"></label>
+<label style="display:flex;align-items:center;gap:8px"><input name="published" type="checkbox" checked style="width:auto">Publicado na vitrine</label>
+<button class="ok" type="submit">Salvar produto afiliado</button><button id="zixAffiliateCancelEdit" type="button">Limpar formulário</button>
+<p id="zixAffiliateAdminStatus" role="status" aria-live="polite"></p>
+</form>
+<h3>Meus produtos afiliados</h3><div id="zixAffiliateAdminList"></div>
+</section>
+<div class="card" id="zixEmailAdminCard">
+<h2>✉️ Alterar e-mail do administrador</h2>
+<p><small>Altere o e-mail de acesso administrativo pelo Supabase Auth. A confirmação pode ser exigida nos endereços antigo e novo.</small></p>
+<label>E-mail atual<input id="zixEmailAdminAtual" type="email" readonly></label>
+<label>Novo e-mail<input id="zixEmailAdminNovo" type="email" maxlength="254" placeholder="novo@email.com"></label>
+<label>Confirmar novo e-mail<input id="zixEmailAdminConfirmar" type="email" maxlength="254" placeholder="Repita o novo e-mail"></label>
+<button id="zixEmailAdminEnviar" type="button">Solicitar alteração de e-mail</button>
+<p id="zixEmailAdminStatus" role="status" aria-live="polite"></p>
+<p><small>O endereço atual continua válido até a confirmação. Nunca compartilhe links de confirmação.</small></p>
+</div>
+
+<div class="card" id="zzixbrPerfil">
+<h2>👤 Meu perfil administrativo</h2>
+<p><small>Informações privadas da sua conta, salvas no Supabase.</small></p>
+<label>Nome<input id="zzPerfilNome" maxlength="100"></label>
+<label>Telefone<input id="zzPerfilFone" maxlength="30"></label>
+<label>Cidade<input id="zzPerfilCidade" maxlength="80"></label>
+<button id="zzSalvarPerfil" class="ok">Salvar meu perfil</button>
+<section id="zixAlterarSenhaAdmin" style="margin-top:22px;padding-top:16px;border-top:1px solid #ddd">
+  <h3>🔐 Segurança da conta</h3>
+  <p style="font-size:13px;color:#555">Defina uma nova senha para sua conta administrativa.</p>
+
+  <label>Nova senha
+    <input id="zixSenhaAdminNova" type="password" minlength="8"
+           autocomplete="new-password" placeholder="Mínimo de 8 caracteres">
+  </label>
+
+  <label>Confirmar nova senha
+    <input id="zixSenhaAdminConfirma" type="password" minlength="8"
+           autocomplete="new-password" placeholder="Repita a nova senha">
+  </label>
+
+  <label style="display:flex;align-items:center;gap:8px;margin:12px 0">
+    <input id="zixSenhaAdminMostrar" type="checkbox" style="width:auto">
+    👁 Mostrar senhas
+  </label>
+
+  <button id="zixSenhaAdminSalvar" type="button"
+          style="background:#1765d1;color:white;border:0;border-radius:6px;padding:12px 18px;cursor:pointer">
+    Redefinir minha senha
+  </button>
+
+  <p id="zixSenhaAdminMensagem" role="status" aria-live="polite"></p>
+</section>
+
+<p id="zzPerfilMensagem" role="status"></p>
+</div>
+<div class="card" id="zzixbrConfig">
+<h2>📞 Contatos do site</h2>
+<p><small>Edite os contatos públicos. Os textos da marca ficam nas duas áreas de edição logo abaixo.</small></p>
+<input id="zzNome" type="hidden" value="ZixLima">
+<input id="zzSlogan" type="hidden" value="ZixLima Anúncie Aqui">
+<label>E-mail de suporte<input id="zzEmail" type="email" maxlength="150"></label>
+<label>WhatsApp com DDI e DDD<input id="zzWhatsapp" inputmode="numeric" maxlength="16"></label>
+
+<!-- ZIX_MARCA_EDITOR_START -->
+<h3>🖼️ Editor visual da marca e slogan</h3>
+<p><small>Envie uma imagem para o canto superior esquerdo, ajuste o tamanho do nome da empresa e adicione foto/ícone no slogan principal do anúncio.</small></p>
+
+<div class="zix-brand-grid">
+  <div class="zix-brand-box">
+    <h4>Logo superior esquerdo</h4>
+    <p class="zix-help">Você pode enviar a imagem que quiser. Ela aparecerá no canto superior esquerdo do site.</p>
+    <label>Imagem do logo
+      <input id="zzLogoFile" type="file" accept="image/jpeg,image/png,image/webp"><small>Conversão automática para até 3 MB.</small>
+    </label>
+    <div class="zix-preview-area">
+      <div class="zix-preview-box" id="zzLogoPreviewBox">Sem logo selecionado</div>
+    </div>
+
+    <label>Largura do logo no celular (px)<input id="zzLogoWm" type="number" min="24" max="300" value="56"></label>
+    <label>Altura do logo no celular (px)<input id="zzLogoHm" type="number" min="24" max="300" value="56"></label>
+    <label>Largura do logo no desktop (px)<input id="zzLogoWd" type="number" min="24" max="500" value="84"></label>
+    <label>Altura do logo no desktop (px)<input id="zzLogoHd" type="number" min="24" max="500" value="84"></label>
+    <h4>↔ ↕ Posicionar logo (px)</h4>
+    <p class="zix-help">Número negativo: esquerda/cima. Positivo: direita/baixo. Ajuste separadamente por tela.</p>
+    <label>Celular: esquerda / direita<input id="zzLogoXm" type="number" min="-300" max="300" value="0"></label>
+    <label>Celular: cima / baixo<input id="zzLogoYm" type="number" min="-300" max="300" value="0"></label>
+    <label>Desktop: esquerda / direita<input id="zzLogoXd" type="number" min="-500" max="500" value="0"></label>
+    <label>Desktop: cima / baixo<input id="zzLogoYd" type="number" min="-500" max="500" value="0"></label>
+
+  </div>
+
+  <div class="zix-brand-box">
+    <h4>✏️ Texto superior: nome da empresa</h4>
+    <label>Escrita que aparece no topo esquerdo
+      <input id="zzTextoMarca" maxlength="60" value="ZixLima" placeholder="Nome da empresa">
+    </label>
+    <h4>Nome da empresa</h4>
+    <p class="zix-help">Ajuste o tamanho e a proporção do nome ZixLima no painel superior esquerdo.</p>
+
+    <label>Tamanho do nome no celular (px)<input id="zzNameSm" type="number" min="18" max="120" value="36"></label>
+    <label>Tamanho do nome no desktop (px)<input id="zzNameSd" type="number" min="18" max="180" value="72"></label>
+    <label>Escala horizontal (%)<input id="zzNameSx" type="number" min="50" max="250" value="100"></label>
+    <label>Escala vertical (%)<input id="zzNameSy" type="number" min="50" max="250" value="100"></label>
+    <label>Posição vertical do nome (px)<input id="zzNameY" type="number" min="-50" max="80" value="0"></label>
+    <label>Espaçamento entre letras (px)<input id="zzNameLs" type="number" min="-8" max="12" value="-1"></label>
+    <h4>🎨 Cor e luz do nome</h4>
+    <label>Cor da letra<select id="zzNameColor"><option value="original">Original</option><option value="white">Branco</option><option value="green">Verde LED</option><option value="yellow">Amarelo</option><option value="gold">Dourado</option><option value="silver">Prateado</option><option value="blue">Azul</option><option value="red">Vermelho</option><option value="black">Preto</option></select></label>
+    <label>Efeito luminoso<select id="zzNameLed"><option value="none">Sem luz</option><option value="steady">Luz fixa</option><option value="pulse">LED pulsante</option><option value="cycle">LED em movimento de cores</option></select></label>
+    <label>Intensidade do LED (0 a 20)<input id="zzNameGlow" type="number" min="0" max="20" value="6"></label>
+
+  </div>
+
+  <div class="zix-brand-box">
+    <h4>✏️ Texto do balão de anúncio</h4>
+    <label>Escrita do slogan principal
+      <input id="zzTextoSlogan" maxlength="160" value="ZixLima Anúncie Aqui" placeholder="Frase do anúncio">
+    </label>
+    <h4>📐 Tamanho do texto do anúncio</h4>
+    <p class="zix-help">Altere o tamanho da escrita em cada tipo de tela. A imagem continua com medidas independentes.</p>
+    <label>Tamanho da letra no celular (px)<input id="zzSloganTextSm" type="number" min="12" max="100" value="24"></label>
+    <label>Tamanho da letra no desktop (px)<input id="zzSloganTextSd" type="number" min="12" max="160" value="40"></label>
+    <h4>Ícone / foto do slogan</h4>
+    <p class="zix-help">Adicione uma foto ou ícone ao lado do slogan principal do anúncio.</p>
+
+    <label>Imagem do slogan
+      <input id="zzSloganFile" type="file" accept="image/jpeg,image/png,image/webp"><small>Conversão automática para até 3 MB, mantendo a proporção.</small>
+    </label>
+    <div class="zix-preview-area">
+      <div class="zix-preview-box" id="zzSloganPreviewBox">Sem imagem do slogan</div>
+    </div>
+
+    <label>Largura no celular (px)<input id="zzSloganWm" type="number" min="20" max="240" value="36"></label>
+    <label>Altura no celular (px)<input id="zzSloganHm" type="number" min="20" max="240" value="36"></label>
+    <label>Largura no desktop (px)<input id="zzSloganWd" type="number" min="20" max="300" value="52"></label>
+    <label>Altura no desktop (px)<input id="zzSloganHd" type="number" min="20" max="300" value="52"></label>
+    <h4>🎨 Cor e luz do slogan</h4>
+    <label>Cor da letra<select id="zzSloganColor"><option value="original">Original</option><option value="white">Branco</option><option value="green">Verde LED</option><option value="yellow">Amarelo</option><option value="gold">Dourado</option><option value="silver">Prateado</option><option value="blue">Azul</option><option value="red">Vermelho</option><option value="black">Preto</option></select></label>
+    <label>Efeito luminoso<select id="zzSloganLed"><option value="none">Sem luz</option><option value="steady">Luz fixa</option><option value="pulse">LED pulsante</option><option value="cycle">LED em movimento de cores</option></select></label>
+    <label>Intensidade do LED (0 a 20)<input id="zzSloganGlow" type="number" min="0" max="20" value="6"></label>
+    <h4>↔ ↕ Ajuste de posição (px)</h4>
+    <p class="zix-help">Valor negativo move para esquerda/cima. Positivo move para direita/baixo. Texto e foto têm controles independentes.</p>
+    <label>Texto: esquerda/direita<input id="zzSloganX" type="number" min="-300" max="300" value="0"></label>
+    <label>Texto: cima/baixo<input id="zzSloganY" type="number" min="-300" max="300" value="0"></label>
+    <label>Imagem: esquerda/direita<input id="zzSloganImgX" type="number" min="-300" max="300" value="0"></label>
+    <label>Imagem: cima/baixo<input id="zzSloganImgY" type="number" min="-300" max="300" value="0"></label>
+
+  </div>
+
+  
+<div class="zix-brand-box zix-brand-preview-wide">
+  <h4>Prévia rápida</h4>
+  <p class="zix-help">Confira em tempo real como ficará o seu anúncio. As alterações são aplicadas automaticamente.</p>
+
+  <div class="zix-modo-banner" style="padding:13px;margin:12px 0;border:1px solid #bed5fa;border-radius:13px;background:#f1f7ff;color:#19375b">
+      <label for="zzBannerEstendido" style="font-weight:700">🖼️ Exibição do logotipo no cabeçalho</label>
+      <select id="zzBannerEstendido" style="width:100%;padding:10px;margin-top:6px;border-radius:9px">
+        <option value="true">Imagem estendida com contorno LED</option>
+        <option value="false">Logo normal (layout anterior)</option>
+      </select>
+      <small>Use o Manche para mudar a imagem. A escolha entra no botão verde “Salvar tudo no GitHub”.</small>
+    </div>
+    <div class="zix-preview-duo">
+    <div class="zix-preview-card">
+      <h5>📱 Prévia celular</h5>
+      <p>Visualização aproximada em celular (versão mobile).</p>
+      <div class="zix-preview-shot">
+        <div class="zix-shot-bar" style="flex-direction:column;align-items:stretch">
+          <div style="display:flex;align-items:center;gap:10px">
+            <img id="zzMiniLogoM" alt="Prévia do logo mobile" style="width:56px;height:56px;display:none">
+            <div class="zix-shot-title" id="zzMiniNameM" style="font-size:36px;color:#fff">ZixLima</div>
+          </div>
+          <div class="zix-shot-box" style="display:flex;align-items:center;gap:10px">
+            <img id="zzMiniSloganImgM" alt="Prévia do slogan mobile" style="width:36px;height:36px;display:none">
+            <span id="zzMiniSloganTextM" style="font-size:24px;font-weight:800">ZixLima Anúncie Aqui</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zix-preview-card">
+      <h5>🖥️ Prévia desktop</h5>
+      <p>Visualização aproximada em computador (versão desktop).</p>
+      <div class="zix-preview-shot">
+        <div class="zix-shot-bar" style="flex-direction:column;align-items:stretch">
+          <div style="display:flex;align-items:center;gap:12px">
+            <img id="zzMiniLogoD" alt="Prévia do logo desktop" style="width:84px;height:84px;display:none">
+            <div class="zix-shot-title" id="zzMiniNameD" style="font-size:52px;color:#fff">ZixLima</div>
+          </div>
+          <div class="zix-shot-box" style="display:flex;align-items:center;gap:10px">
+            <img id="zzMiniSloganImgD" alt="Prévia do slogan desktop" style="width:52px;height:52px;display:none">
+            <span id="zzMiniSloganTextD" style="font-size:30px;font-weight:800">ZixLima Anúncie Aqui</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="zix-slogan-stage-card">
+    <div class="zix-slogan-stage-head">
+      <h5>🎆 Painel animado do slogan principal</h5>
+      <span>Prévia com mais destaque</span>
+    </div>
+    <p class="zix-help">Essa área mostra o slogan principal com um acabamento mais vivo, brilho e animação de painel.</p>
+    <div class="zix-slogan-stage" id="zzSloganStageWrap">
+      <div class="zix-slogan-stage-lights" aria-hidden="true"></div>
+      <div class="zix-slogan-stage-content">
+        <img id="zzSloganStageImg" alt="Prévia animada do ícone do slogan" style="width:52px;height:52px;display:none">
+        <span id="zzSloganStageText">ZixLima Anúncie Aqui</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="zixEfeitosOriginais" style="margin:12px 0;padding:12px;border:1px solid #b9d2f9;border-radius:12px;background:#f3f8ff">
+<strong>✨ Aparência do painel</strong>
+<label>Celular<select id="zixEffectsMobile"><option value="led">Efeitos LED</option><option value="original">Original — sem LED</option></select></label>
+<label>Desktop<select id="zixEffectsDesktop"><option value="led">Efeitos LED</option><option value="original">Original — sem LED</option></select></label>
+<small>A escolha entra no botão verde “Salvar tudo no GitHub”. Não apaga outras configurações.</small>
+</div>
+
+<section id="zixLedAdmin" style="margin:16px 0;padding:16px;border:1px solid #bdd4f1;border-radius:14px;background:#eef6ff">
+<h3>✨ Painel LED interativo</h3>
+<p>Mensagens acima de Explore as categorias.</p>
+<label><input id="zixLedEnabled" type="checkbox" style="width:auto"> Ligar painel LED</label>
+<label>Frases personalizadas
+<textarea id="zixLedText" rows="3" maxlength="400" placeholder="Bem-vindo ao ZixLima!"></textarea></label>
+<small>Separe as frases com Enter.</small>
+<label>Velocidade: <strong id="zixLedSpeedValue">5</strong> / 10
+<input id="zixLedSpeed" type="range" min="1" max="10" value="5"></label>
+<label>Cor das letras
+<select id="zixLedColor">
+<option value="yellow">Amarelo</option>
+<option value="white">Branco</option>
+<option value="green">Verde</option>
+<option value="blue">Azul</option>
+<option value="pink">Rosa</option>
+</select></label>
+<label>Efeito
+<select id="zixLedEffect">
+<option value="fixed">LED fixo</option>
+<option value="pulse">LED pulsante</option>
+<option value="christmas">Natalino multicolorido</option><option value="rainbow">Multicolorido arco-íris</option>
+</select></label>
+<p><strong>Prévia:</strong></p>
+<div id="zixLedPreview" style="background:#06172c;padding:15px;border-radius:9px;color:#ffe34c;font-weight:900"></div>
+<details class="zix-led-scheduler" open>
+<summary>📅 Central de frases e programação automática</summary>
+<p>Crie quantas mensagens precisar, escolha a ordem numérica e defina quantos minutos, horas ou dias cada uma ficará no painel.</p>
+<div class="zix-led-toolbar">
+<label><input type="checkbox" id="zixLedAutoEnabled"> Ativar sequência programada</label>
+<label><input type="checkbox" id="zixLedLoop" checked> Repetir sequência ao terminar</label>
+</div>
+<div class="zix-led-toolbar">
+<label>Data e hora do início
+<input type="datetime-local" id="zixLedStart" required></label>
+<button type="button" id="zixLedRestart" class="zix-led-action">⏱ Reiniciar ciclo agora</button>
+</div>
+<p class="zix-led-schedule-info" id="zixLedScheduleCurrent" role="status">Aguardando configuração.</p>
+<div class="zix-led-new">
+<strong>➕ Cadastrar uma nova frase</strong>
+<label>Mensagem a exibir
+<textarea id="zixLedNewText" rows="2" maxlength="400" placeholder="Exemplo: Aproveite as promoções do dia!"></textarea></label>
+<div class="zix-led-new-grid">
+<label>Duração da frase
+<input type="number" id="zixLedNewDuration" min="1" max="9999" step="1" value="1" inputmode="numeric"></label>
+<label>Escolha o período
+<select id="zixLedNewUnit"><option value="minutes">Minutos</option><option value="hours">Horas</option><option value="days">Dias (24 horas)</option></select></label>
+</div>
+<button type="button" id="zixLedAddPhrase" class="zix-led-action">＋ Adicionar frase</button>
+<button type="button" id="zixLedImportManual" class="zix-led-action">↳ Importar frases do campo acima</button>
+</div>
+<h4>📋 Frases salvas na lista <small id="zixLedPhraseCount">0 frases</small></h4>
+<div id="zixLedPhraseList"></div>
+<p id="zixLedScheduleStatus" role="status" aria-live="polite"></p>
+<small>As alterações só entram no ar após clicar no botão verde “Salvar tudo no GitHub”. Minutos, horas e dias são aceitos. Cada dia dura 24 horas. O agendamento se baseia no horário de início salvo e avança automaticamente, mesmo com o Admin fechado.</small>
+</details>
+<p><small>Salve pelo botão verde Salvar tudo no GitHub.</small></p>
+</section>
+
+<div class="zix-quick-actions">
+    <button type="button" id="zzAplicarMarcaPreview">Aplicar prévia</button>
+    <button type="button" id="zzRestaurarMarca">Restaurar padrão</button>
+    
+    <button type="button" id="zzSalvarMarcaGithub" class="ok">💾 Salvar tudo no GitHub</button>
+  </div>
+
+  <p id="zzMarcaMensagem" role="status" style="white-space:pre-wrap;overflow-wrap:anywhere"></p>
+</div>
+
+</div>
+<!-- ZIX_MARCA_EDITOR_END -->
+
+<h3>🔐 Conexão GitHub</h3>
+<p><small>Token clássico com permissão repo ou token refinado com Contents: Read and write. O token não é salvo no site nem no backup.</small></p>
+<label for="zzToken">Token GitHub</label>
+<div class="zix-token-wrap">
+  <input id="zzToken" type="password" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Cole seu token somente para publicar">
+  <button id="zzTokenEye" type="button" aria-label="Mostrar token" aria-pressed="false" title="Mostrar token">👁️</button>
+</div>
+<button id="zzTestar">Testar conexão</button>
+<button id="zzPublicar" class="ok">Salvar no GitHub</button>
+<button id="zzBaixar">Baixar backup JSON</button>
+<label class="btn" style="cursor:pointer">Importar backup JSON<input id="zzImportar" type="file" accept=".json,application/json" style="display:none"></label>
+<p id="zzMensagem" role="status" style="white-space:pre-wrap;overflow-wrap:anywhere"></p>
+<p><small>O backup inclui apenas as configurações públicas. Anúncios e imagens permanecem no Supabase.</small></p>
+</div>
+
+<div class="card">
+<h2>Backup do código</h2>
+<p>Baixe os arquivos atualizados do GitHub.</p>
+<a class="btn ok"
+href="https://github.com/eletronicoslimagyn/zixlima/archive/refs/heads/main.zip">
+Baixar código completo ZIP
+</a>
+<p><small>Este backup não inclui os dados armazenados no Supabase.</small></p>
+</div>
+
+<section class="card" id="zixPlanEditorCard">
+<h2>🧩 Construtor de planos e promoções</h2>
+<p><small>Crie ou modifique os mesmos balões de planos exibidos no rodapé do site. O código do plano não pode ser alterado depois de criado, para preservar o histórico dos créditos.</small></p>
+<div id="zixPlanEditList"></div>
+<div style="display:flex;flex-wrap:wrap;gap:8px"><button type="button" id="zixPlanNew">➕ Novo plano</button><button type="button" id="zixPlanRefresh">🔄 Atualizar lista</button></div>
+<h3 id="zixPlanEditTitle">Criar novo plano</h3>
+<form id="zixPlanEditForm">
+<label>Código identificador (sem espaços)<input name="id" required maxlength="40" pattern="[a-z][a-z0-9_]{2,39}" placeholder="ex.: premium_2026"></label>
+<label>Nome que aparece no balão<input name="name" required minlength="3" maxlength="60" placeholder="Ex.: Destaque Nacional"></label>
+<label>Descrição promocional<input name="description" maxlength="200" placeholder="Ex.: Mais visibilidade para seus anúncios"></label>
+<div class="zix-plan-grid">
+<label>Preço normal (R$)<input name="price" type="number" required min="0" max="999999999" step="0.01"></label>
+<label>Quantidade de anúncios<input name="ad_count" type="number" required min="1" max="10000" step="1"></label>
+<label>Validade (dias)<input name="days" type="number" required min="1" max="3650" step="1"></label>
+<label>Desconto (%)<input name="discount_percent" type="number" required min="0" max="100" step="1" value="0"></label>
+<label>Início da promoção (opcional)<input name="promo_start" type="datetime-local"></label>
+<label>Fim da promoção (opcional)<input name="promo_end" type="datetime-local"></label>
+<label>Ordem na página<input name="sort_order" type="number" required value="100" step="1"></label>
+</div>
+<label class="zix-check"><input name="visible" type="checkbox" checked> Mostrar este plano ao público</label>
+<label class="zix-check"><input name="featured" type="checkbox"> Destacar o balão</label>
+<button class="ok" type="submit">💾 Salvar plano</button>
+</form>
+<p id="zixPlanEditMsg" role="status"></p>
+<p><small>Os controles anteriores de cobrança e descontos gerais continuam disponíveis logo abaixo. Um desconto geral maior pode prevalecer sobre o desconto configurado individualmente.</small></p>
+</section>
+
+<div class="card" id="zixFinanceiro"><h2>💳 Planos, descontos e prazos</h2><p>Configurações salvas no Supabase. Somente administradores autorizados podem modificar.</p><label><input type="checkbox" id="zixCobrar" style="width:auto"> Ativar cobrança dos planos</label><p><small>Desativado: anúncios podem ser enviados gratuitamente para moderação. Ativado: exige crédito concedido pelo Admin após confirmar o Pix.</small></p><h3>Promoções</h3><label>Aplicar a<select id="zixPlanoAlvo"><option value="todos">Todos os planos pagos</option><option value="avulso">Avulso</option><option value="iniciante">Iniciante</option><option value="negocio">Negócio</option><option value="profissional">Profissional</option></select></label><label>Desconto (%)<input id="zixDesconto" type="number" min="0" max="100" value="0"></label><button id="zixSalvarFinanceiro" class="ok">Salvar cobrança e promoção</button><p id="zixFinanceiroMsg" role="status"></p><section id="zixDiscountExtra" style="border-top:1px solid #ddd;margin-top:18px;padding-top:12px"><h3>Desconto individual por plano</h3><p><small>Configure descontos diferentes para cada plano. Salve somente depois de aplicar o SQL no Supabase.</small></p><label>Plano<select id="zixDiscountPlan"><option value="boasvindas">Boas-vindas</option><option value="avulso">Avulso</option><option value="iniciante">Iniciante</option><option value="negocio">Negócio</option><option value="profissional">Profissional</option></select></label><label>Desconto (%)<input id="zixDiscountPercent" type="number" min="0" max="100" value="0"></label><label><input id="zixDiscountEnabled" type="checkbox" style="width:auto"> Ativar desconto deste plano</label><button id="zixDiscountSave" type="button">Salvar desconto individual</button><p id="zixDiscountMsg" role="status"></p></section>
+
+<hr>
+<div id="zixPrecoGeral"></div>
+</div>
+<h3>Conceder créditos após confirmar Pix</h3><label>ID do usuário (UUID)<input id="zixClienteId" placeholder="UUID do usuário"></label><label>Plano<select id="zixConcederPlano"><option value="boasvindas">Boas-vindas — 1 anúncio, 7 dias</option><option value="avulso">Avulso — 1 anúncio, 7 dias</option><option value="iniciante">Iniciante — 5 anúncios, 30 dias</option><option value="negocio">Negócio — 15 anúncios, 30 dias</option><option value="profissional">Profissional — 40 anúncios, 30 dias</option></select></label><button id="zixConceder" class="ok">Confirmar e conceder créditos</button><p id="zixCreditoMsg" role="status"></p><h3>Controle individual de vencimento</h3><label>ID do anúncio<input id="zixAnuncioId" placeholder="UUID do anúncio"></label><label>Ação<select id="zixAcao"><option value="extend">Adicionar dias</option><option value="pause">Pausar</option><option value="resume">Retomar</option><option value="renew">Renovar prazo</option><option value="block">Bloquear</option><option value="release">Liberar</option></select></label><label>Dias<input id="zixDias" type="number" min="1" max="365" value="30"></label><label>Motivo<input id="zixMotivo" maxlength="200" placeholder="Motivo da alteração"></label><button id="zixAplicarPrazo">Aplicar alteração</button><p id="zixPrazoMsg" role="status"></p></div>
+<div class="card">
+<h2>Moderação de anúncios</h2>
+<section id="zixHistorico" class="zix-history" aria-labelledby="zixHistoryTitle">
+<h3 id="zixHistoryTitle">📚 Histórico de anúncios por número</h3>
+<p>Selecione uma ou várias categorias existentes. Ordenação padrão: menor número para o maior.</p>
+<div class="zix-history-controls"><label>Pesquisar código, título ou cidade<input id="zixHistorySearch" type="search" placeholder="Ex.: ZIX-000001, Moto ou Goiânia"></label><label>Ordenação<select id="zixHistoryOrder"><option value="asc">Número: menor → maior</option><option value="desc">Número: maior → menor</option><option value="new">Mais recentes</option><option value="old">Mais antigos</option></select></label><label>Situação<select id="zixHistoryStatus"><option value="all">Todas</option><option value="pending">Pendentes</option><option value="approved">Aprovadas</option><option value="rejected">Rejeitadas</option><option value="expired">Vencidas</option><option value="disabled">Desativadas</option><option value="trash">🗑️ Lixeira</option></select></label></div>
+<details class="zix-history-categories"><summary>☑️ Selecionar várias categorias <span id="zixCategoryCount">(todas)</span></summary><div id="zixHistoryCategories" class="zix-history-checks"></div><div class="zix-history-category-buttons"><button type="button" id="zixHistoryAll">Todas</button><button type="button" id="zixHistoryNone">Limpar seleção</button></div></details>
+<div class="zix-history-buttons"><button type="button" id="zixHistoryRefresh">🔄 Atualizar histórico</button></div>
+<p id="zixHistoryInfo" role="status" aria-live="polite">Abra a aba Anúncios para carregar o histórico.</p>
+<div id="zixHistoryList"></div><button type="button" id="zixHistoryMore" hidden>Mostrar mais anúncios</button>
+<dialog id="zixHistoryEditDialog"><form id="zixHistoryEditForm" class="zix-history-edit"><h3>✏️ Editar anúncio</h3><p id="zixHistoryEditCode"></p><label>Título<input name="title" required minlength="8" maxlength="100"></label><label>Categoria<select name="category" required></select></label><label>Preço (R$)<input name="price" type="number" min="0" max="999999999" step="0.01" required></label><label>Cidade<input name="city" required minlength="2" maxlength="80"></label><label>UF<input name="state" required maxlength="2" minlength="2"></label><label>WhatsApp (somente números)<input name="phone" inputmode="numeric" maxlength="15"></label><label>Descrição<textarea name="description" required minlength="20" maxlength="3000" rows="5"></textarea></label><p>Fotos, proprietário, código e prazo de publicação não serão alterados.</p><p id="zixHistoryEditMsg" role="status"></p><div class="zix-history-actions"><button type="button" id="zixHistoryEditCancel">Cancelar</button><button type="submit" class="ok">Salvar alterações</button></div></form></dialog>
+</section>
+<button id="atualizar">Atualizar lista</button>
+<label>Pesquisar anúncio pelo código
+<input id="zixBuscaCodigo" placeholder="Ex.: ZIX-000001">
+</label>
+<button id="zixBuscarCodigo" type="button">Buscar código</button>
+<p id="zixBuscaResultado"></p>
+<div id="anuncios"></div>
+</div>
+</div>
+</main>
+
+<script type="module">
+import {createClient} from
+'https://esm.sh/@supabase/supabase-js@2';
+import {SUPABASE_URL,SUPABASE_ANON_KEY} from './config.js';
+
+const $=id=>document.getElementById(id);
+let db=null;
+let usuario=null;
+
+if(!SUPABASE_URL||!SUPABASE_ANON_KEY){
+ $('mensagem').textContent='Configure o Supabase no config.js.';
+}else{
+ db=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+}
+
+async function verificar(){
+ if(!db)return;
+ const {data:{user},error}=await db.auth.getUser();
+ if(error||!user)return;
+ const {data:admin,error:erro}=await db.from('admins')
+ .select('user_id').eq('user_id',user.id).maybeSingle();
+ if(erro||!admin){
+  $('mensagem').textContent='Conta sem permissão administrativa.';
+  return;
+ }
+ usuario=user;
+ $('login').style.display='none';
+ $('painel').style.display='block';
+ $('usuario').textContent=user.email;
+ await carregar();
+}
+
+$('entrar').onclick=async()=>{
+ if(!db)return;
+ $('mensagem').textContent='Verificando acesso...';
+ const {error}=await db.auth.signInWithPassword({
+  email:$('email').value.trim(),
+  password:$('senha').value
+ });
+ if(error){
+  $('mensagem').textContent=error.message;
+  return;
+ }
+ await verificar();
+};
+
+$('sair').onclick=async()=>{
+ await db.auth.signOut();
+ location.reload();
+};
+
+async function carregar(){
+ if(!usuario)return;
+ const area=$('anuncios');
+ area.replaceChildren();
+ const {data,error}=await db.from('listings')
+ .select('id,zix_code,title,city,state,status,price')
+ .eq('status','pending')
+ .order('created_at',{ascending:false})
+ .limit(100);
+ if(error){
+  area.textContent=error.message;
+  return;
+ }
+ if(!data?.length){
+  area.textContent='Nenhum anúncio aguardando aprovação.';
+  return;
+ }
+ for(const item of data){
+  const div=document.createElement('div');
+  div.className='item';
+  const titulo=document.createElement('h3');
+  titulo.textContent=item.title;
+  const info=document.createElement('p');
+  info.textContent=`${item.city} - ${item.state} | R$ ${item.price}`;
+  div.append(titulo,info);
+  const codigo=document.createElement('p');
+  codigo.textContent='Código: '+(item.zix_code||item.id);
+  div.append(codigo);
+  for(const [texto,status,classe] of [
+   ['Aprovar','approved','ok'],
+   ['Rejeitar','rejected','danger']
+  ]){
+   const botao=document.createElement('button');
+   botao.textContent=texto;
+   botao.className=classe;
+   botao.onclick=async()=>{
+    if(!confirm(`${texto} este anúncio?`))return;
+    botao.disabled=true;
+    const {error}=await db.from('listings')
+     .update({status}).eq('id',item.id);
+    if(error){
+     alert(error.message);
+     botao.disabled=false;
+    }else await carregar();
+   };
+   div.append(botao);
+  }
+  area.append(div);
+ }
+}
+$('atualizar').onclick=carregar;
+verificar();
+</script>
+<script type="module" src="admin-personalizacao.js"></script><script type="module" src="admin-perfil.js"></script><script type="module" src="zix-planos-admin.js?v=1"></script>
+
+
+<script>
+(function () {
+  const precos = {
+    boasvindas: 0,
+    avulso: 3.95,
+    iniciante: 14.95,
+    negocio: 34.95,
+    profissional: 64.95
+  };
+
+  const moeda = n => n.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
+
+  function iniciar() {
+    const painel = document.getElementById("zixFinanceiro");
+    if (!painel) return;
+
+    const selects = [...painel.querySelectorAll("select")];
+    const inputs = [...painel.querySelectorAll("input")];
+
+    const descontos = inputs.filter(el =>
+      el.type === "number" &&
+      (el.value === "0" || el.min === "0")
+    );
+
+    if (selects.length < 2 || descontos.length < 2) return;
+
+    const caixas = [];
+
+    descontos.slice(0, 2).forEach((campo, i) => {
+      const div = document.createElement("div");
+      div.style.cssText =
+        "margin:10px 0;padding:12px;border-radius:8px;" +
+        "background:#ecfdf5;border:1px solid #86efac;" +
+        "font-weight:bold;white-space:pre-line";
+
+      div.textContent = "Calculando preço final...";
+      campo.insertAdjacentElement("afterend", div);
+      caixas.push(div);
+    });
+
+    function atualizar() {
+      descontos.slice(0, 2).forEach((campo, i) => {
+        const select = selects[i];
+        const codigo = String(select.value || "").toLowerCase();
+        const preco = precos[codigo];
+
+        if (preco === undefined) {
+          caixas[i].textContent =
+            "Selecione um plano para visualizar o preço final.";
+          return;
+        }
+
+        const desconto = Math.max(
+          0, Math.min(100, Number(campo.value) || 0)
+        );
+
+        const final = Math.round(preco * (100 - desconto)) / 100;
+
+        caixas[i].textContent =
+          "Valor original: " + moeda(preco) +
+          "\nDesconto: " + desconto + "%" +
+          "\nValor final: " + moeda(final);
+      });
+    }
+
+    selects.forEach(el => el.addEventListener("change", atualizar));
+    descontos.forEach(el => el.addEventListener("input", atualizar));
+
+    atualizar();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", iniciar);
+  } else {
+    iniciar();
+  }
+})();
+</script>
+
+<script type="module">
+// ZIX-BUSCA-CODIGO-V1
+import {createClient} from 'https://esm.sh/@supabase/supabase-js@2';
+import {SUPABASE_URL,SUPABASE_ANON_KEY} from './config.js';
+const db=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+document.getElementById('zixBuscarCodigo').onclick=async()=>{
+ const out=document.getElementById('zixBuscaResultado');
+ const code=document.getElementById('zixBuscaCodigo').value.trim().toUpperCase();
+ if(!/^ZIX-[0-9]+$/.test(code)){
+  out.textContent='Informe um código como ZIX-000001.';
+  return;
+ }
+ out.textContent='Pesquisando...';
+ const {data:{user}}=await db.auth.getUser();
+ if(!user){out.textContent='Entre como administrador.';return;}
+ const {data:admin}=await db.from('admins')
+  .select('user_id').eq('user_id',user.id).maybeSingle();
+ if(!admin){out.textContent='Acesso não autorizado.';return;}
+ const {data,error}=await db.from('listings')
+  .select('id,zix_code,title,status,price,user_id,created_at,zix_expires_at')
+  .eq('zix_code',code).maybeSingle();
+ if(error){
+  if(error.message.includes('zix_expires_at')){
+   out.textContent='Código cadastrado, mas o campo de vencimento precisa ser verificado.';
+  }else out.textContent=error.message;
+  return;
+ }
+ if(!data){out.textContent='Anúncio não encontrado.';return;}
+ out.replaceChildren();
+ const pre=document.createElement('pre');
+ pre.style.whiteSpace='pre-wrap';
+ pre.textContent=
+  'Código: '+data.zix_code+'\n'+
+  'Título: '+data.title+'\n'+
+  'Status: '+data.status+'\n'+
+  'Usuário: '+data.user_id+'\n'+
+  'UUID do anúncio: '+data.id+'\n'+
+  'Vencimento: '+(data.zix_expires_at||'Não informado');
+ out.append(pre);
+ const copiar=document.createElement('button');
+ copiar.textContent='Copiar UUID para controlar vencimento';
+ copiar.onclick=()=>{
+  document.getElementById('zixAnuncioId').value=data.id;
+  out.append(document.createTextNode(' UUID preenchido.'));
+ };
+ out.append(copiar);
+};
+</script>
+
+
+<script type="module">
+/* ZIXLIMA-CORRECAO-BONUS-CODIGO */
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const zixDB = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let zixLiberado = false;
+let zixProcessando = false;
+
+document.addEventListener('click', async function(event) {
+  const botao = event.target.closest('button');
+  if (!botao) return;
+
+  if (botao.id !== 'zixAplicarPrazo') return;
+  if (zixLiberado) {
+    zixLiberado = false;
+    return;
+  }
+
+  const campo = document.getElementById('zixAnuncioId');
+  if (!campo) return;
+
+  const codigo = campo.value.trim().toUpperCase();
+  if (!/^ZIX-[0-9]+$/.test(codigo)) return;
+
+  event.preventDefault();
+  event.stopImmediatePropagation();
+
+  if (zixProcessando) return;
+  zixProcessando = true;
+
+  const textoOriginal = botao.textContent;
+  botao.disabled = true;
+  botao.textContent = 'Localizando anúncio...';
+
+  try {
+    const { data: sessao, error: erroSessao } =
+      await zixDB.auth.getUser();
+
+    if (erroSessao || !sessao.user) {
+      throw new Error('Entre novamente como administrador.');
+    }
+
+    const { data, error } = await zixDB
+      .from('listings')
+      .select('id,zix_code')
+      .eq('zix_code', codigo)
+      .maybeSingle();
+
+    if (error) throw error;
+
+    if (!data) {
+      throw new Error(
+        'Anúncio não encontrado ou sem permissão de consulta: ' + codigo
+      );
+    }
+
+    campo.value = data.id;
+    campo.dispatchEvent(new Event('input', { bubbles: true }));
+    campo.dispatchEvent(new Event('change', { bubbles: true }));
+
+    zixLiberado = true;
+    botao.disabled = false;
+    botao.textContent = textoOriginal;
+    botao.click();
+
+  } catch (erro) {
+    alert('Não foi possível aplicar a alteração: ' + erro.message);
+  } finally {
+    zixProcessando = false;
+    zixLiberado = false;
+    botao.disabled = false;
+    botao.textContent = textoOriginal;
+  }
+}, true);
+</script>
+
+<!-- ZIXLIMA-CONSULTA-PRAZO-V2 -->
+<script type="module">
+import {createClient} from 'https://esm.sh/@supabase/supabase-js@2';
+import {SUPABASE_URL,SUPABASE_ANON_KEY} from './config.js';
+
+const db=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const $=id=>document.getElementById(id);
+const campo=$('zixAnuncioId');
+const botao=$('zixAplicarPrazo');
+
+if(campo&&botao){
+ const consultar=document.createElement('button');
+ consultar.type='button';
+ consultar.textContent='Consultar vencimento';
+ consultar.style.background='#1263df';
+
+ const resultado=document.createElement('div');
+ resultado.style.cssText='padding:12px;margin:10px 0;border-radius:8px;background:#eff6ff;white-space:pre-line;overflow-wrap:anywhere';
+ resultado.setAttribute('role','status');
+
+ botao.insertAdjacentElement('afterend',consultar);
+ consultar.insertAdjacentElement('afterend',resultado);
+
+ async function verificar(){
+  resultado.textContent='Consultando Supabase...';
+  try{
+   const {data:{user},error:authError}=await db.auth.getUser();
+   if(authError||!user)throw Error('Entre como administrador.');
+
+   const {data:admin,error:adminError}=await db.from('admins')
+    .select('user_id').eq('user_id',user.id).maybeSingle();
+   if(adminError||!admin)throw Error('Acesso não autorizado.');
+
+   const codigo=campo.value.trim();
+   if(!codigo)throw Error('Informe o código ZIX ou UUID.');
+
+   let query=db.from('listings')
+    .select('id,zix_code,title,status,zix_expires_at');
+
+   if(/^ZIX-[0-9]+$/i.test(codigo)){
+    query=query.eq('zix_code',codigo.toUpperCase());
+   }else{
+    if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(codigo))
+     throw Error('Código inválido.');
+    query=query.eq('id',codigo);
+   }
+
+   const {data,error}=await query.maybeSingle();
+   if(error)throw error;
+   if(!data)throw Error('Anúncio não encontrado.');
+
+   let texto='Anúncio: '+(data.zix_code||data.id)
+    +'\nTítulo: '+data.title
+    +'\nStatus: '+data.status;
+
+   if(data.zix_expires_at){
+    const fim=new Date(data.zix_expires_at);
+    const restante=fim.getTime()-Date.now();
+    const dias=Math.max(0,Math.ceil(restante/86400000));
+    texto+='\nVencimento: '+fim.toLocaleString('pt-BR')
+      +'\nDias restantes: '+dias
+      +'\nSituação do prazo: '+(restante>0?'Dentro do prazo':'Vencido');
+   }else{
+    texto+='\nVencimento: não definido';
+   }
+   resultado.textContent=texto;
+  }catch(e){
+   resultado.textContent='Consulta: '+e.message;
+  }
+ }
+
+ consultar.addEventListener('click',verificar);
+}
+</script>
+
+
+<script type="module" id="zixSenhaAdminScript">
+import {createClient} from 'https://esm.sh/@supabase/supabase-js@2';
+import {SUPABASE_URL,SUPABASE_ANON_KEY} from './config.js';
+
+const dbSenha = createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const campoNova = document.getElementById('zixSenhaAdminNova');
+const campoConfirma = document.getElementById('zixSenhaAdminConfirma');
+const mostrar = document.getElementById('zixSenhaAdminMostrar');
+const salvar = document.getElementById('zixSenhaAdminSalvar');
+const mensagem = document.getElementById('zixSenhaAdminMensagem');
+
+mostrar.addEventListener('change', () => {
+  const tipo = mostrar.checked ? 'text' : 'password';
+  campoNova.type = tipo;
+  campoConfirma.type = tipo;
+});
+
+salvar.addEventListener('click', async () => {
+  mensagem.textContent = '';
+
+  const senha = campoNova.value;
+  const confirmacao = campoConfirma.value;
+
+  if (senha.length < 8) {
+    mensagem.textContent = 'A senha precisa ter pelo menos 8 caracteres.';
+    return;
+  }
+
+  if (senha !== confirmacao) {
+    mensagem.textContent = 'As senhas não coincidem.';
+    return;
+  }
+
+  salvar.disabled = true;
+  mensagem.textContent = 'Verificando sua conta...';
+
+  try {
+    const {data, error: erroUsuario} = await dbSenha.auth.getUser();
+
+    if (erroUsuario || !data.user) {
+      throw new Error('Sessão expirada. Entre novamente na sua conta.');
+    }
+
+    const {error} = await dbSenha.auth.updateUser({password:senha});
+
+    if (error) throw error;
+
+    campoNova.value = '';
+    campoConfirma.value = '';
+    mostrar.checked = false;
+    campoNova.type = 'password';
+    campoConfirma.type = 'password';
+
+    mensagem.style.color = 'green';
+    mensagem.textContent = 'Senha atualizada com sucesso!';
+  } catch (erro) {
+    mensagem.style.color = '#b91c1c';
+    mensagem.textContent = 'Não foi possível alterar a senha: ' + erro.message;
+  } finally {
+    salvar.disabled = false;
+  }
+});
+</script>
+
+<script type="module" id="zixEmailAdminScript">
+import {createClient} from 'https://esm.sh/@supabase/supabase-js@2';
+import {SUPABASE_URL,SUPABASE_ANON_KEY} from './config.js';
+const btn=document.getElementById('zixEmailAdminEnviar');
+const atual=document.getElementById('zixEmailAdminAtual');
+const novo=document.getElementById('zixEmailAdminNovo');
+const confirmar=document.getElementById('zixEmailAdminConfirmar');
+const status=document.getElementById('zixEmailAdminStatus');
+const db=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+async function validarAdmin(){
+ const {data:{user},error}=await db.auth.getUser();
+ if(error||!user)throw new Error('Sessão expirada. Entre novamente como administrador.');
+ const {data:admin,error:erro}=await db.from('admins').select('user_id').eq('user_id',user.id).maybeSingle();
+ if(erro||!admin)throw new Error('Esta conta não possui permissão administrativa.');
+ atual.value=user.email||'';
+ return user;
+}
+const painel=document.getElementById('painel');
+const observer=new MutationObserver(()=>{
+ if(painel.style.display==='block') validarAdmin().catch(e=>{status.textContent=e.message;});
+});
+observer.observe(painel,{attributes:true,attributeFilter:['style']});
+if(painel.style.display==='block')validarAdmin().catch(()=>{});
+btn.addEventListener('click',async()=>{
+ status.style.color='#b91c1c';status.textContent='';
+ const email=novo.value.trim().toLowerCase();
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||email.length>254){status.textContent='Digite um e-mail válido.';return;}
+ if(email!==confirmar.value.trim().toLowerCase()){status.textContent='Os e-mails não coincidem.';return;}
+ btn.disabled=true;
+ try{
+  const user=await validarAdmin();
+  if(email===user.email?.toLowerCase())throw new Error('Este e-mail já está cadastrado.');
+  const {error}=await db.auth.updateUser({email},{emailRedirectTo:'https://zixlima.com.br/admin.html'});
+  if(error)throw error;
+  novo.value='';confirmar.value='';
+  status.style.color='#15803d';
+  status.textContent='Solicitação enviada. Verifique as mensagens de confirmação nos endereços exigidos pelo Supabase.';
+ }catch(e){status.textContent='Falha ao solicitar alteração: '+e.message;}
+ finally{btn.disabled=false;}
+});
+</script>
+
+<script type="module" src="zix-planos-editor-admin.js?v=1"></script>
+
+<script src="./zix-image-optimizer.js?v=20261019" defer></script>
+<script src="admin-brand-editor.js?v=20261021fix1" defer></script>
+<script src="zix-quick-directional.js" defer></script>
+<script id="zix-js-olhinho-token">
+(()=>{const c=document.getElementById('zzToken'),b=document.getElementById('zzTokenEye');if(!c||!b)return;b.addEventListener('click',()=>{const show=c.type==='password';c.type=show?'text':'password';b.textContent=show?'🙈':'👁️';b.setAttribute('aria-label',show?'Ocultar token':'Mostrar token');b.setAttribute('aria-pressed',String(show));b.title=show?'Ocultar token':'Mostrar token';});})();
+</script>
+<script id="zix-numeric-buttons-js">
+(function(){
+ function instalar(){
+  document.querySelectorAll('.zix-brand-grid input[type="number"]').forEach(input=>{
+   if(input.closest('.zix-stepper')) return;
+   const wrap=document.createElement('span');
+   wrap.className='zix-stepper';
+   const menos=document.createElement('button');
+   menos.type='button';menos.textContent='−';
+   menos.setAttribute('aria-label','Diminuir '+(input.id||'valor'));
+   const mais=document.createElement('button');
+   mais.type='button';mais.textContent='+';
+   mais.setAttribute('aria-label','Aumentar '+(input.id||'valor'));
+   input.before(wrap);wrap.append(menos,input,mais);
+   const min=input.min!==''?Number(input.min):-Infinity;
+   const max=input.max!==''?Number(input.max):Infinity;
+   const passo=Number(input.step);
+   const step=Number.isFinite(passo)&&passo>0?passo:1;
+   function limites(){
+    const n=input.value===''?0:Number(input.value);
+    menos.disabled=Number.isFinite(min)&&n<=min;
+    mais.disabled=Number.isFinite(max)&&n>=max;
+   }
+   function mudar(sinal){
+    const atual=Number(input.value);
+    const valor=Number.isFinite(atual)?atual:0;
+    const proximo=Math.max(min,Math.min(max,Number((valor+sinal*step).toFixed(6))));
+    input.value=String(proximo);
+    input.dispatchEvent(new Event('input',{bubbles:true}));
+    input.dispatchEvent(new Event('change',{bubbles:true}));
+    limites();
+   }
+   menos.addEventListener('click',()=>mudar(-1));
+   mais.addEventListener('click',()=>mudar(1));
+   input.addEventListener('input',limites);
+   input.addEventListener('change',limites);
+   // Atualiza o estado após o carregamento de medidas salvas.
+   limites();
+  });
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',instalar);
+ else instalar();
+})();
+</script>
+
+
+
+<script type="module" src="./zix-afiliados-admin.js?v=1345a"></script>
+<script src="./zix-led-schedule.js?v=3" defer></script>
+<script src="./zix-led-admin.js?v=20261021fix1" defer></script>
+<script src="./zix-gallery-engine.js?v=zix20261018galeria2" defer></script>
+<script src="./zix-gallery-admin.js?v=zix20261018galeria1" defer></script>
+<script src="./zix-admin-tabs.js?v=20261025premium2026" defer></script>
+<script type="module" src="./zix-historico.js?v=20261021combinar1"></script>
+
+<script type="module" src="./zix-promo-admin.js?v=2"></script><script type="module" src="./zix-boost-admin.js?v=20261025planos1"></script>
+<script type="module" src="./zix-boost-plans-admin.js?v=20261025planos1"></script>
+<script type="module" src="./zix-boost-services-admin.js?v=20261025servicos2"></script>
+<link rel="stylesheet" href="./zix-ia-admin.css?v=1">
+
+
+<!-- ZIXLIMA IA MEMORIA D1 -->
+<link rel="stylesheet" href="./zix-ia-memoria-admin.css?v=20261029m1">
+<script type="module" src="./zix-ia-memoria-admin.js?v=20261029m1"></script>
+
+
+
+<script src="./vendor/jszip.min.js"></script>
+<script src="./zix-ia-downloads.js?v=20261029-2102"></script>
+
+<script type="module" src="./zix-ia-admin.js?v=20261029-2102"></script>
+
+</body>
+</html>

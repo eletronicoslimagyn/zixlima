@@ -1,0 +1,11 @@
+ZixLima SEO Premium — pacote inicial
+
+No Termux, dentro do repositorio clonado:
+python instalar_seo.py
+git add index.html sitemap.xml curiosidades/index.html
+git commit -m "Adiciona curiosidades SEO"
+git push
+
+Este pacote nao cria 1000 paginas artificiais: inicia com 24 assuntos revisaveis.
+A busca Zix e local, nao e chatbot IA.
+Verifique o resultado e cadastre o sitemap no Google Search Console.
