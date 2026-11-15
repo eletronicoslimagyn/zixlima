@@ -1,0 +1,7 @@
+/* ZixLima: somente visual; sem mudar rotacao ou filtros */
+#zixLedTicker:not([hidden]){padding:19px 8px!important;min-height:76px;border-width:3px!important;border-radius:18px!important;box-shadow:0 0 14px #00e5ffb3,0 0 24px #42ff7880,inset 0 0 18px #0c533d!important}
+#zixLedTicker .zix-frase{font-size:clamp(20px,3.5vw,34px)!important;font-weight:950!important;line-height:1.45!important;letter-spacing:.025em;text-shadow:0 0 7px currentColor,0 0 18px currentColor!important}
+#categories .category .zix-modern-icon{display:block;font-size:clamp(28px,5vw,43px);line-height:1.25;margin:0 auto 5px;filter:drop-shadow(0 3px 2px #0007) drop-shadow(0 0 5px #e6b75c66)}
+header nav a .zix-top-icon,header .actions button .zix-top-icon{display:inline-block;font-size:1.15em;margin-right:6px;filter:drop-shadow(0 2px 2px #0007)}
+@media(max-width:700px){#zixLedTicker:not([hidden]){min-height:68px;padding:15px 5px!important}#zixLedTicker .zix-frase{font-size:clamp(18px,5vw,24px)!important}#categories .category .zix-modern-icon{font-size:30px}header nav a .zix-top-icon{margin-right:3px}}
+@media(prefers-reduced-motion:reduce){#zixLedTicker .zix-track{animation:none!important}}
