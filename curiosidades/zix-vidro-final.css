@@ -1,0 +1,24 @@
+/* ZixLima - vidro premium */
+main .category,
+main .grid .category {
+  background: rgba(245,255,250,.15) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255,255,255,.55) !important;
+  box-shadow: 0 5px 20px rgba(0,45,35,.08) !important;
+}
+.category details,
+.category summary,
+.category .inside {
+  background: transparent !important;
+}
+.category summary {
+  font-size: 1.2rem !important;
+  color: #173d32 !important;
+}
+.category .inside,
+.category .inside p,
+.category .inside a {
+  font-size: 1.05rem !important;
+  line-height: 1.7 !important;
+}
