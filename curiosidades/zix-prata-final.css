@@ -1,0 +1,25 @@
+
+/* Nome ZixLima Curiosidades no topo */
+header .brand,
+header .logo,
+header h1 {
+  font-size:clamp(26px,5vw,42px)!important;
+  font-weight:900!important;
+  color:#111!important;
+  letter-spacing:-1px!important;
+  line-height:1.2!important;
+}
+
+header .brand::after {
+  content:" Curiosidades";
+  color:#08764b;
+  font-weight:900;
+}
+
+header nav {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:14px;
+}
+
