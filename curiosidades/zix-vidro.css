@@ -66,3 +66,30 @@
 .zix-illustrated h2 {
   color:#102e24;
 }
+
+/* Transparencia reforcada */
+.category,
+.category .inside,
+.answer,
+.zix,
+.zix-card,
+.zix-feature,
+.zix-longread,
+.zix-visual-card,
+.zix-illustrated,
+.guides,
+.articles,
+.toolbar,
+.grid > div {
+  background:rgba(255,255,255,.38)!important;
+  background-image:none!important;
+  backdrop-filter:blur(1px)!important;
+  -webkit-backdrop-filter:blur(1px)!important;
+}
+
+.zix-card img,
+.zix-feature img,
+.zix-visual-card img {
+  opacity:1!important;
+}
+
