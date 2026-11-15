@@ -1,8 +1,9 @@
 :root{color-scheme:light}
 body{background:#f5f6f8!important;color:#202124!important}
-header{background:#fff!important;color:#202124!important;border-bottom:2px solid #e2e5e9!important}
-header a{color:#202124!important}
+header{background:#fff!important;color:#202124!important;border-bottom:3px solid #d4af37!important}
+header a{color:#176b43!important}
 main{background:transparent!important}
-.category,.article,.card,details{background:#fff!important;color:#202124!important;border:1px solid #e0e3e8!important}
+.category,.article,.card,details{background:#fff!important;color:#202124!important;border:1px solid #e0e3e8!important;border-radius:14px!important}
 input{background:#fff!important;color:#202124!important;border:1px solid #ccc!important}
 a{color:#176b43}
+button{border-radius:10px}
