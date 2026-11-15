@@ -1,0 +1,80 @@
+/* ZixLima Curiosidades - refino visual */
+
+/* Menu */
+header nav {
+  display:flex!important;
+  align-items:center!important;
+  gap:18px!important;
+  flex-wrap:wrap!important;
+}
+header nav a:first-child {
+  margin-right:auto!important;
+}
+header nav a:not(:first-child) {
+  font-size:15px!important;
+}
+
+/* Letras maiores fora do slogan */
+main {
+  font-size:18px!important;
+  line-height:1.65!important;
+}
+main h2 {
+  font-size:clamp(22px,3vw,29px)!important;
+}
+main p,main li,main details {
+  font-size:17px!important;
+}
+main .category summary {
+  font-size:19px!important;
+}
+main .count {
+  font-size:14px!important;
+}
+main .zix-photo-card h3,
+main .zix-card h3 {
+  font-size:18px!important;
+}
+
+/* Vidro transparente */
+main .category,
+main .category .inside,
+main .zix,
+main .zix-photo-card,
+main .zix-card,
+main .zix-article,
+main details,
+main details summary {
+  background:rgba(255,255,255,.27)!important;
+  backdrop-filter:blur(2px)!important;
+  -webkit-backdrop-filter:blur(2px)!important;
+  color:#17372c!important;
+}
+
+/* Galeria: botoes na mesma altura */
+main .zix-photo-card {
+  display:flex!important;
+  flex-direction:column!important;
+  height:100%!important;
+}
+main .zix-photo-card a:last-child {
+  margin-top:auto!important;
+  align-self:flex-start!important;
+}
+
+/* Fotos sempre nitidas */
+main .zix-photo-card img,
+main .zix-card img {
+  opacity:1!important;
+  filter:none!important;
+}
+
+/* Ajuste para celular */
+@media(max-width:600px) {
+  header nav a:first-child {
+    width:100%!important;
+  }
+  main {
+    font-size:17px!important;
+  }
+}
