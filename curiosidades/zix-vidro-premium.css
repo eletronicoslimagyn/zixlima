@@ -1,0 +1,77 @@
+/* ZixLima - vidro transparente premium */
+
+/* Quadros e paineis */
+body .category,
+body .category .inside,
+body .answer,
+body .zix,
+body .zix-card,
+body .zix-feature,
+body .zix-longread,
+body .zix-visual-card,
+body .zix-illustrated,
+body .guides,
+body .articles,
+body .toolbar,
+body .grid > div,
+body details,
+body article,
+body summary {
+  background: rgba(255,255,255,.35)!important;
+  background-image: none!important;
+  backdrop-filter: blur(2px)!important;
+  -webkit-backdrop-filter: blur(2px)!important;
+}
+
+/* Galeria de tecnologia */
+body .zix-gallery,
+body .zix-photo-grid,
+body .zix-photo-card,
+body .zix-visual {
+  background: rgba(255,255,255,.25)!important;
+  background-image: none!important;
+}
+
+/* Preservar fotografias */
+body .zix-photo-card img,
+body .zix-card img,
+body .zix-feature img,
+body .zix-visual-card img {
+  opacity: 1!important;
+  filter: none!important;
+}
+
+/* Textos legiveis */
+body .category,
+body .answer,
+body .zix-card,
+body details,
+body summary {
+  color: #17332c!important;
+}
+
+/* Bordas de vidro */
+body .category,
+body .zix-card,
+body details,
+body .zix-photo-card {
+  border: 1px solid rgba(255,255,255,.55)!important;
+}
+
+/* Evitar fundos opacos nos conteudos */
+body .zix-card > div,
+body .zix-photo-card > div,
+body .zix-feature > div {
+  background: transparent!important;
+}
+
+/* Celulares */
+@media(max-width:600px){
+  body .category,
+  body .zix-card,
+  body details,
+  body .zix-photo-card {
+    backdrop-filter: blur(1px)!important;
+    -webkit-backdrop-filter: blur(1px)!important;
+  }
+}
