@@ -4,7 +4,7 @@
  'use strict';
  async function iniciar(){
   const titulo=[...document.querySelectorAll('h2')]
-    .find(x=>x.textContent.trim()==='Explore as categorias');
+    .find(x=>['Explore as categorias','Anúncios'].includes(x.textContent.trim()));
   if(!titulo)return;
   const cores={yellow:'#ffe34c',white:'#fff',green:'#64ff88',blue:'#62caff',pink:'#ff77d6'};
   let cfg={};

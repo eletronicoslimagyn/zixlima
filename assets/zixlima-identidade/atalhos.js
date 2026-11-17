@@ -1,0 +1,2 @@
+/* Posiciona os três atalhos imediatamente abaixo do painel de LED existente. */
+(()=>{'use strict';function posicionar(){const atalhos=document.getElementById('empresas-zixlima');const painel=document.getElementById('zixLedTicker');if(atalhos&&painel&&painel.nextElementSibling!==atalhos)painel.after(atalhos);}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',posicionar,{once:true});else posicionar();window.addEventListener('load',posicionar,{once:true});})();

@@ -1,0 +1,110 @@
+/* ZixLima LED orbital — somente nas bordas, nunca sobre o texto.
+   Camada isolada e sem eventos: os atalhos continuam clicaveis. */
+@property --zix-led-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes zix-led-percorrer {
+  to { --zix-led-angle: 360deg; }
+}
+.zix-led-alvo {
+  position: relative !important;
+  isolation: isolate;
+}
+.zix-led-alvo > .zix-led-ponto {
+  display: block !important;
+  position: absolute !important;
+  inset: -1px !important;
+  margin: 0 !important;
+  padding: 3px !important;
+  border: 0 !important;
+  box-sizing: border-box !important;
+  border-radius: inherit !important;
+  pointer-events: none !important;
+  z-index: 5 !important;
+  opacity: 1 !important;
+  background: conic-gradient(
+    from var(--zix-led-angle),
+    transparent 0deg 338deg,
+    rgb(0 236 179 / .13) 343deg,
+    #35e9cc 350deg,
+    #ffffff 354deg,
+    #74fff0 358deg,
+    transparent 360deg
+  ) !important;
+  -webkit-mask: linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  filter: drop-shadow(0 0 4px #13ffcc) drop-shadow(0 0 3px #fff);
+  animation: zix-led-percorrer 3.4s linear infinite;
+  animation-delay: var(--zix-led-atraso,0s);
+}
+/* Com feedback leve na borda, sem substituir as cores originais. */
+#empresas-zixlima a.zix-empresa-card.zix-led-alvo > .zix-led-ponto {
+  background: conic-gradient(from var(--zix-led-angle),transparent 0deg 337deg,#28ff8044 346deg,#42ff8a 351deg,#fff 355deg,#aeffd2 358deg,transparent 360deg) !important;
+}
+.zix-anuncios-title.zix-led-alvo > .zix-led-ponto {
+  background: conic-gradient(from var(--zix-led-angle),transparent 0deg 338deg,#46ff6040 343deg,#50ff76 350deg,#fff 355deg,#baffc2 358deg,transparent 360deg) !important;
+}
+/* Faixa Anuncios independente: separada do painel das empresas. */
+.zix-anuncios-title {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin: 16px auto 13px !important;
+  min-height: 55px !important;
+  padding: 9px 16px !important;
+  box-sizing: border-box !important;
+  border: 2px solid #25fc70 !important;
+  border-radius: 32px !important;
+  background: linear-gradient(180deg,#11431d,#051c13 65%,#0c321c) !important;
+  color: #ecf6ee !important;
+  text-align: center !important;
+  font: 900 clamp(23px,4.6vw,36px)/1.1 system-ui,sans-serif !important;
+  font-style: italic !important;
+  letter-spacing: .1px !important;
+  text-shadow: 0 2px 2px #000,0 0 12px #7aff86 !important;
+  box-shadow: inset 0 1px 5px #91ffaa67,0 3px 12px #07551c4a !important;
+}
+.zix-anuncios-title::before,.zix-anuncios-title::after {
+  content: "📣" !important;
+  display: inline-block !important;
+  font-style: normal !important;
+  font-size: .76em !important;
+  margin: 0 clamp(12px,3vw,24px) !important;
+}
+/* Marca secundária 20% menor que a proposta anterior. */
+#empresas-zixlima #zix-empresas-title {
+  font: italic 950 clamp(21px,5.25vw,35px)/1.03 system-ui,sans-serif !important;
+  margin: 0 auto 10px !important;
+  letter-spacing: -1px !important;
+}
+#empresas-zixlima #zix-empresas-title .zix-titulo-marca,
+#empresas-zixlima #zix-empresas-title strong {display:block!important;}
+#empresas-zixlima #zix-empresas-title .zix-titulo-marca i {
+  font-style: italic; font-weight: 950;
+  background:linear-gradient(180deg,#fff,#aab7b1 48%,#f7fffb 60%,#85948d) !important;
+  background-clip:text!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important;
+}
+#empresas-zixlima #zix-empresas-title .zix-titulo-marca em {
+  font-style: italic;font-weight:950;
+  background:linear-gradient(180deg,#e1ffe9,#45f875 46%,#057f34 90%) !important;
+  background-clip:text!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important;
+}
+#empresas-zixlima #zix-empresas-title strong {
+  font-size:.73em!important;
+  margin-top:1px!important;
+  background:linear-gradient(180deg,#fff,#b3c3bc 47%,#f9fff9 63%,#8fa19a)!important;
+  background-clip:text!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important;
+}
+@media(max-width:700px) {
+  .zix-anuncios-title{min-height:46px!important;margin:13px auto 11px!important;padding:7px 10px!important;border-radius:24px!important;}
+  .zix-anuncios-title::before,.zix-anuncios-title::after{margin:0 9px!important;}
+  .zix-led-alvo > .zix-led-ponto{padding:2.5px!important;}
+}
+@media(prefers-reduced-motion:reduce) {
+  .zix-led-alvo > .zix-led-ponto{animation:none!important;--zix-led-angle:345deg!important;}
+}

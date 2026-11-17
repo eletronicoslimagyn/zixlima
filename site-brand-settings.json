@@ -1,14 +1,14 @@
 {
-  "logoPath": "./assets/zixlima-logo-topo-custom.png",
+  "logoPath": "./assets/zixlima-identidade/escudo.png",
   "sloganPath": "./assets/zixlima-slogan-icone-custom.png",
-  "logoWm": 150,
-  "logoHm": 100,
-  "logoWd": 150,
-  "logoHd": 140,
-  "logoXm": 17,
-  "logoYm": 16,
-  "logoXd": 11,
-  "logoYd": 8,
+  "logoWm": 51,
+  "logoHm": 56,
+  "logoWd": 70,
+  "logoHd": 76,
+  "logoXm": 0,
+  "logoYm": 0,
+  "logoXd": 0,
+  "logoYd": 0,
   "nameSm": 26,
   "nameSd": 87,
   "nameSx": 50,
@@ -55,12 +55,12 @@
         "led": ""
       },
       "logo": {
-        "x": -13,
-        "y": -16,
-        "size": 107,
+        "x": 0,
+        "y": 0,
+        "size": 0,
         "color": "",
-        "widthDelta": 24,
-        "heightDelta": 14
+        "widthDelta": 0,
+        "heightDelta": 0
       },
       "photo": {
         "x": -9,
@@ -88,12 +88,12 @@
         "led": "cycle"
       },
       "logo": {
-        "x": -8,
-        "y": -6,
-        "size": 135,
+        "x": 0,
+        "y": 0,
+        "size": 0,
         "color": "",
-        "widthDelta": 300,
-        "heightDelta": 119
+        "widthDelta": 0,
+        "heightDelta": 0
       },
       "photo": {
         "x": -12,
