@@ -1,0 +1,12 @@
+/* ZIX-ILUSTRACOES-1: escopo restrito a /eletronicos/.
+   Nunca altera o topo, o LED ou o slogan do ZixLima Classificados. */
+.electronics .store-hero-grid{grid-template-columns:minmax(0,1fr)!important;gap:0!important}
+.electronics .store-hero-copy{max-width:790px}
+.electronics .store-service-card{overflow:hidden}
+.electronics .store-service-art{position:relative;width:100%;aspect-ratio:3.2/1;margin:0 0 18px;background:#082b4f;border:2px solid #42ddff;border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px #b5f6ff44,0 0 13px #0dc3ff3e}
+.electronics .store-service-art svg{display:block;width:100%;height:100%;pointer-events:none}
+.electronics .store-service-card:last-child .store-service-art{aspect-ratio:6.8/1}
+.electronics .store-service-card .store-card-top{display:none}
+.electronics .store-service-card:hover .store-service-art{border-color:#ffb94f;box-shadow:0 0 16px #1fd9ff9a}
+.electronics .store-service-card:focus-visible .store-service-art{outline:3px solid #fff;outline-offset:3px}
+@media(max-width:620px){.electronics .store-service-art{aspect-ratio:3.2/1;margin-bottom:15px}.electronics .store-service-card:last-child .store-service-art{aspect-ratio:6.8/1}}
