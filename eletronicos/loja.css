@@ -21,3 +21,36 @@
     line-height: 1.02;
   }
 }
+
+/* ZIX-ELETRONICOS-TIPOGRAFIA-V2 */
+.electronics .store-intro {
+ font-size:11px;
+ line-height:1.7;
+}
+.electronics .section-heading h2 {
+ font-size:clamp(23px,2.3vw,32px);
+}
+.electronics .section-heading>p {
+ font-size:11px;
+}
+.electronics .store-service-card h3 {
+ font-size:16px;
+}
+.electronics .store-service-card>p {
+ font-size:11px;
+}
+@media(max-width:620px){
+ .electronics .store-hero h1 {
+  font-size:clamp(49px,13vw,69px);
+  line-height:1.04;
+ }
+ .electronics .store-hero h1 span {
+  color:#ffae32;
+ }
+ .electronics .store-intro {
+  font-size:11px;
+ }
+ .electronics .section-heading h2 {
+  font-size:24px;
+ }
+}
