@@ -17,7 +17,7 @@
     max-width: 1100px;
   }
   .store-hero h1 {
-    font-size: clamp(78px, 8vw, 114px);
+    font-size: clamp(80px, 10vw, 136px);
     line-height: 1.02;
   }
 }
