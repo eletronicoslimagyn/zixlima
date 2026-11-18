@@ -108,3 +108,75 @@
 @media(prefers-reduced-motion:reduce) {
   .zix-led-alvo > .zix-led-ponto{animation:none!important;--zix-led-angle:345deg!important;}
 }
+
+
+/* AJUSTE-PONTUAL-ZIXLIMA-EMPRESAS-V1 */
+/* Exclusivamente no painel abaixo do letreiro. Desktop e celular. */
+#empresas-zixlima #zix-empresas-title {
+  font-size:clamp(27px,6.825vw,46px)!important; /* 30% sobre tamanho anterior */
+  line-height:1.02!important;
+}
+#empresas-zixlima #zix-empresas-title .zix-empresas-cabecalho {
+  display:flex!important;justify-content:center!important;align-items:center!important;
+  flex-wrap:nowrap!important;gap:clamp(8px,1.4vw,16px)!important;
+  max-width:100%!important;
+}
+/* Neutraliza somente os estilos de texto herdados nos novos contenedores. */
+#empresas-zixlima #zix-empresas-title .zix-empresas-cabecalho,
+#empresas-zixlima #zix-empresas-title .zix-empresas-palavras {
+  background:none!important;background-clip:initial!important;
+  -webkit-background-clip:initial!important;
+  -webkit-text-fill-color:initial!important;filter:none!important;
+}
+#empresas-zixlima #zix-empresas-title .zix-empresas-brasao {
+  display:block!important;flex:0 0 auto!important;
+  width:clamp(62px,7.8vw,100px)!important;height:auto!important;
+  max-height:106px!important;object-fit:contain!important;
+  padding:0!important;margin:0!important;border:0!important;
+  background:transparent!important;box-shadow:none!important;
+  filter:drop-shadow(0 0 5px #02ddff) drop-shadow(0 0 3px #ff9c1f)!important;
+  animation:zix-empresas-brasao-brilho 3s ease-in-out infinite!important;
+}
+#empresas-zixlima #zix-empresas-title .zix-empresas-palavras {
+  display:block!important;min-width:0!important;
+}
+/* Muda SOMENTE 'Lima' para prata como no slogan superior. */
+#empresas-zixlima #zix-empresas-title .zix-titulo-marca em {
+  color:#e4eaf0!important;
+  background:linear-gradient(180deg,#fff 3%,#d9dfe8 29%,#8895a6 50%,#fff 65%,#aab5c1 94%)!important;
+  background-clip:text!important;-webkit-background-clip:text!important;
+  -webkit-text-fill-color:transparent!important;
+}
+/* LED percorre o contorno dos TRES emblemas, sem bloquear cliques. */
+#empresas-zixlima .zix-empresa-emblema {
+  position:relative!important;isolation:isolate!important;overflow:visible!important;
+}
+#empresas-zixlima .zix-empresa-emblema::after {
+  content:""!important;position:absolute!important;inset:-5px!important;
+  padding:3px!important;border-radius:14px!important;
+  box-sizing:border-box!important;pointer-events:none!important;z-index:2!important;
+  background:conic-gradient(from var(--zix-led-angle),transparent 0deg 325deg,
+    #00dfff36 339deg,#03eaff 349deg,#fff 354deg,#ffa21c 358deg,transparent 360deg)!important;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0)!important;
+  -webkit-mask-composite:xor!important;
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0)!important;
+  mask-composite:exclude!important;
+  filter:drop-shadow(0 0 4px #03dfff) drop-shadow(0 0 3px #ffa21c)!important;
+  animation:zix-led-percorrer 2.7s linear infinite!important;
+}
+#empresas-zixlima .zix-empresa-card:nth-child(2) .zix-empresa-emblema::after {animation-delay:-.9s!important;}
+#empresas-zixlima .zix-empresa-card:nth-child(3) .zix-empresa-emblema::after {animation-delay:-1.8s!important;}
+@keyframes zix-empresas-brasao-brilho {
+  0%,100% {filter:drop-shadow(0 0 4px #02ddff) drop-shadow(0 0 2px #ff9c1f)}
+  50% {filter:drop-shadow(0 0 10px #02ddff) drop-shadow(0 0 7px #ff9c1f)}
+}
+@media(max-width:700px){
+  #empresas-zixlima #zix-empresas-title .zix-empresas-brasao {
+    width:clamp(56px,18vw,72px)!important;max-height:79px!important;
+  }
+  #empresas-zixlima #zix-empresas-title .zix-empresas-cabecalho {gap:9px!important;}
+}
+@media(prefers-reduced-motion:reduce){
+  #empresas-zixlima #zix-empresas-title .zix-empresas-brasao{animation:none!important;}
+  #empresas-zixlima .zix-empresa-emblema::after{animation:none!important;}
+}
