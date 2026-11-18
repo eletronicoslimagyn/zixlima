@@ -327,7 +327,88 @@ body.zix-topo-oficial-aprovado header .top > a.brand {
  }
 }
 </style>
-</head><body class="zix-elite-active zix-identidade-padrao zix-topo-oficial-aprovado"><header><a id="zix-banner-superior" href="#inicio" aria-label="ZixLima Classificados - ir ao inicio"><img src="/assets/zixlima-identidade/banner-classificados-oficial.webp" width="1536" height="768" loading="eager" fetchpriority="high" decoding="async" alt="ZixLima Classificados"></a><div class="wrap top"><a class="brand" href="#inicio"><img id="zzCustomBrandLogo" class="zix-escudo-oficial" src="/assets/zixlima-identidade/escudo.png" width="70" height="76" alt="Escudo da ZixLima Eletrônicos"><span class="zix-brasil" aria-hidden="true">🇧🇷</span> <span id="siteBrand">ZixLima</span></a><nav><a href="#inicio">Início</a><a href="#anuncios">Anúncios</a><a href="#meus">Meus anúncios</a><a href="admin.html">Admin</a><a class="zix-empresas-navlink" data-zix-empresas-nav="oficial" href="#empresas-zixlima"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18l-2-5H5L3 8Zm0 0v3c0 3 4 3 4 0 0 3 5 3 5 0 0 3 5 3 5 0 0 3 4 3 4 0V8M5 14v7h14v-7M9 21v-5h6v5"/></svg>ZixLima Empresas</a></nav><div class="zz-controls"><button type="button" id="zzPaletteToggle" title="Cor de fundo" aria-label="Cor de fundo">🎨</button><button type="button" id="zzThemeToggle" title="Modo escuro" aria-label="Modo escuro">🌙</button><div id="zixRelogio" aria-label="Data e hora do Brasil">
+<style id="zix-remocao-branco-superior-20261117">
+/* So a marca antiga duplicada do cabecalho principal, nao os botoes. */
+body.zix-topo-oficial-aprovado header .top > a.brand,
+body.zix-topo-oficial-aprovado header .top > a.brand[hidden] {
+  display:none!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+</style>
+<style id="zix-led-slogan-superior-animado-v1">
+/* APENAS o banner oficial ZixLima Classificados. Nenhum outro seletor do site. */
+@property --zix-angulo-banner {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes zix-luz-slogan-percorrer {
+  to { --zix-angulo-banner: 360deg; }
+}
+@keyframes zix-luz-slogan-volta {
+  to { --zix-angulo-banner: -360deg; }
+}
+body.zix-topo-oficial-aprovado header > a#zix-banner-superior {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: visible !important;
+}
+body.zix-topo-oficial-aprovado header > a#zix-banner-superior > img {
+  border-radius: inherit !important;
+}
+body.zix-topo-oficial-aprovado header > a#zix-banner-superior::before,
+body.zix-topo-oficial-aprovado header > a#zix-banner-superior::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  pointer-events: none !important;
+  box-sizing: border-box !important;
+  z-index: 2 !important;
+  margin: 0 !important;
+  opacity: 1 !important;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0) !important;
+  -webkit-mask-composite: xor !important;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0) !important;
+  mask-composite: exclude !important;
+  will-change: auto;
+}
+/* Pontos de luz correm por toda a borda da arte, sem tampar as letras. */
+body.zix-topo-oficial-aprovado header > a#zix-banner-superior::before {
+  inset: -1px !important;
+  border-radius: inherit !important;
+  padding: clamp(3px, .52vw, 7px) !important;
+  background: conic-gradient(from var(--zix-angulo-banner),
+     transparent 0deg 45deg, #00dfff30 54deg, #00efff 62deg, white 68deg,
+     #ff9c20 73deg, transparent 81deg 213deg, #00cfff30 222deg,
+     #36efff 229deg, white 234deg, #ffae35 239deg, transparent 248deg) !important;
+  filter: drop-shadow(0 0 5px #02dfff) drop-shadow(0 0 5px #ff9d20) !important;
+  animation: zix-luz-slogan-percorrer 3.1s linear infinite !important;
+}
+/* Segunda trilha animada: segue a orbita desenhada em volta do brasao. */
+body.zix-topo-oficial-aprovado header > a#zix-banner-superior::after {
+  left: 27.5% !important;
+  top: 13% !important;
+  width: 45% !important;
+  height: 34% !important;
+  border-radius: 50% !important;
+  padding: clamp(2px, .24vw, 4px) !important;
+  background: conic-gradient(from var(--zix-angulo-banner),
+     transparent 0deg 71deg, #09bffe35 79deg, #09edff 83deg,
+     white 87deg, #ffa52d 91deg, transparent 97deg 248deg,
+     #00b4ff4d 257deg, #fff 262deg, #17ddff 267deg,
+     transparent 275deg) !important;
+  filter: drop-shadow(0 0 5px #07d4ff) drop-shadow(0 0 4px #ff9a20) !important;
+  animation: zix-luz-slogan-volta 4.2s linear infinite !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  body.zix-topo-oficial-aprovado header > a#zix-banner-superior::before,
+  body.zix-topo-oficial-aprovado header > a#zix-banner-superior::after {
+    animation: none !important;
+  }
+}
+</style>
+</head><body class="zix-elite-active zix-identidade-padrao zix-topo-oficial-aprovado"><header><a id="zix-banner-superior" href="#inicio" aria-label="ZixLima Classificados - ir ao inicio"><img src="/assets/zixlima-identidade/banner-classificados-oficial.webp" width="1536" height="768" loading="eager" fetchpriority="high" decoding="async" alt="ZixLima Classificados"></a><div class="wrap top"><a class="brand" href="#inicio" hidden aria-hidden="true" tabindex="-1" style="display:none!important"><img id="zzCustomBrandLogo" class="zix-escudo-oficial" src="/assets/zixlima-identidade/escudo.png" width="70" height="76" alt="Escudo da ZixLima Eletrônicos"><span class="zix-brasil" aria-hidden="true">🇧🇷</span> <span id="siteBrand">ZixLima</span></a><nav><a href="#inicio">Início</a><a href="#anuncios">Anúncios</a><a href="#meus">Meus anúncios</a><a href="admin.html">Admin</a><a class="zix-empresas-navlink" data-zix-empresas-nav="oficial" href="#empresas-zixlima"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18l-2-5H5L3 8Zm0 0v3c0 3 4 3 4 0 0 3 5 3 5 0 0 3 5 3 5 0 0 3 4 3 4 0V8M5 14v7h14v-7M9 21v-5h6v5"/></svg>ZixLima Empresas</a></nav><div class="zz-controls"><button type="button" id="zzPaletteToggle" title="Cor de fundo" aria-label="Cor de fundo">🎨</button><button type="button" id="zzThemeToggle" title="Modo escuro" aria-label="Modo escuro">🌙</button><div id="zixRelogio" aria-label="Data e hora do Brasil">
     <span class="zixFlag">🇧🇷</span>
     <span class="zixClockDisplay">
       <span id="zixData">--/--/----</span>
@@ -777,4 +858,4 @@ document.addEventListener('DOMContentLoaded',()=>{
 <script defer src="./zix-mascote-config.js"></script>
 <script defer src="./zix-mascote.js?v=20261102-mobile-v5"></script>
 <div style="text-align:center" id="acesso-curiosidades"><a href="/curiosidades/" style="display:inline-block;padding:12px 18px;margin:12px;border-radius:12px;background:#123d73;color:#fff;font-weight:700;text-decoration:none">✦ ZixLima Curiosidades</a></div>
-<script defer src="./zix-visual-2026.js?v=1"></script><script data-zix-identidade="oficial" src="/assets/zixlima-identidade/identidade.js?v=20261117" defer></script><script data-zix-atalhos="oficial" src="/assets/zixlima-identidade/atalhos.js?v=20261117" defer></script><script data-zix-pontos-led="oficial" src="/assets/zixlima-identidade/led-pontos.js?v=20261117led1" defer></script></body></html>
+<script defer src="./zix-visual-2026.js?v=1"></script><script data-zix-atalhos="oficial" src="/assets/zixlima-identidade/atalhos.js?v=20261117" defer></script><script data-zix-pontos-led="oficial" src="/assets/zixlima-identidade/led-pontos.js?v=20261117led1" defer></script></body></html>
