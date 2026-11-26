@@ -4,6 +4,10 @@
  const groups=[
   ['⭐ Comece aqui',[
    ['👤 Cadastre-se Aqui','!signup'],['📢 Anuncie Aqui','!post']]],
+  ['🏢 ZixLima Empresas',[
+   ['📚 ZixLima Curiosidades','/curiosidades/'],
+   ['📱 ZixLima Eletrônicos','/eletronicos/'],
+   ['💻 ZixLima Sites','/sites/']]],
   ['🏠 Início e anúncios',[
    ['🏠 Página inicial','#inicio'],['🔎 Buscar anúncios','#searchForm'],['📢 Todos os anúncios','#anuncios'],['🗂️ Meus anúncios','#meus'],['📋 Planos de anúncios','#zixPlanos'],['⭐ Anúncios patrocinados','#zixBoostShowcase']]],
   ['📚 Todas as categorias',[
@@ -33,7 +37,7 @@
  const t=doc.createElement('div');const title=doc.createElement('strong');title.textContent='🇧🇷 ZixLima';const sub=doc.createElement('small');sub.textContent='Índice completo do site';t.append(title,sub);
  const close=doc.createElement('button');close.id='zixIndiceFechar';close.type='button';close.textContent='×';close.setAttribute('aria-label','Fechar índice');header.append(t,close);
  const list=doc.createElement('div');list.className='zixIndiceRolagem';
- for(const [name,entries] of groups){const sec=doc.createElement('details');const summ=doc.createElement('summary');summ.textContent=name;sec.append(summ);
+ for(const [name,entries] of groups){const sec=doc.createElement('details');const summ=doc.createElement('summary');summ.textContent=name;sec.append(summ);if(name==='🏢 ZixLima Empresas')sec.open=true;
   for(const [label,target] of entries){const a=doc.createElement('a');a.textContent=label;a.href=target.startsWith('#')||!target.includes(':')&&!target.startsWith('!')?target:'#';a.dataset.target=target;sec.append(a)}list.append(sec)}
  const note=doc.createElement('div');note.className='zixNota';note.textContent='Todas as categorias e principais funções da ZixLima';list.append(note);aside.append(header,list);
  doc.body.append(overlay,aside);
