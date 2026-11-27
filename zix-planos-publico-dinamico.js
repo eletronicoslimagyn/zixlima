@@ -9,15 +9,25 @@ function applicable(p,settings){
  const global=(p.id!=='boasvindas' && (settings.discount_plan==='todos'||settings.discount_plan===p.id))?Number(settings.discount_percent||0):0;
  return Math.max(0,Math.min(100,Math.max(personal,global)));
 }
+let timer;
 try{
- const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+ const limite = new Promise((_, reject) => {
+   timer = setTimeout(() => reject(
+     new Error('Tempo de consulta excedido')
+   ), 12000);
+ });
+ const {createClient}=await Promise.race([limite, import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm')]);
  const db=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
- const [plansResp,settingsResp]=await Promise.all([
+ const [plansResp,settingsResp]=await Promise.race([limite, Promise.all([
    db.from('zix_plan_catalog').select('id,name,description,price,ad_count,days,discount_percent,promo_start,promo_end,visible,featured,sort_order').eq('visible',true).order('sort_order').order('name'),
    db.from('zix_billing_settings').select('charging_enabled,discount_plan,discount_percent').eq('id',1).maybeSingle()
- ]);
+ ])]);
  if(plansResp.error)throw plansResp.error;
- const settings=settingsResp.error?{}:(settingsResp.data||{});
+ if(settingsResp.error) throw settingsResp.error;
+ if(!settingsResp.data ||
+    typeof settingsResp.data.charging_enabled !== 'boolean')
+    throw new Error('Condições não confirmadas');
+ const settings=settingsResp.data;
  info.textContent=settings.charging_enabled?'Cobrança habilitada. Consulte o suporte para solicitar créditos.':'Anúncios gratuitos sujeitos à aprovação. Os preços abaixo são valores de referência.';
  root.replaceChildren();
  for(const p of plansResp.data||[]){
@@ -35,5 +45,14 @@ try{
  }
  if(!root.children.length)text(root,'p','Nenhum plano disponível neste momento.');
 }catch(e){
- info.textContent='Não foi possível consultar os planos: '+e.message;
+ root.replaceChildren();
+ info.textContent='Planos temporariamente indisponíveis. Consulte nosso suporte ou tente novamente.';
+ const retry = document.createElement('button');
+ retry.type = 'button';
+ retry.className = 'ghost';
+ retry.textContent = 'Tentar novamente';
+ retry.onclick = () => location.reload();
+ root.append(retry);
+ console.warn('ZixLima: consulta dos planos', e);
 }
+finally{ clearTimeout(timer); }

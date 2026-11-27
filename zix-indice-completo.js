@@ -26,7 +26,7 @@
   ['🚀 Divulgação e serviços',[
    ['🚀 Impulsionamentos','boost'],['💎 Planos e valores','#zixPlanos'],['⭐ Destaques patrocinados','#zixBoostShowcase'],['🛍️ Ofertas de afiliados','#zixAffiliateShowcase'],['🧰 Anúncios de serviços','cat:servicos']]],
   ['👤 Minha conta',[
-   ['🔐 Entrar','!login'],['🔑 Recuperar senha','recuperar-senha.html'],['🗂️ Gerenciar meus anúncios','#meus'],['⚙️ Administrador','admin.html']]],
+   ['🔐 Entrar','!login'],['🔑 Recuperar senha','recuperar-senha.html'],['🗂️ Gerenciar meus anúncios','#meus']]],
   ['📞 Suporte e informações',[
    ['💬 Atendimento WhatsApp','!whatsapp'],['✉️ Suporte por e-mail','mailto:suporte@zixlima.com.br'],['📜 Termos de uso','termos-de-uso.html'],['🔒 Política de privacidade','politica-de-privacidade.html']]]
  ];
