@@ -1,0 +1,131 @@
+/* ZixLima ADMIN — navegação por abas, sem alterar IDs, formulários ou API. */
+(()=>{
+  'use strict';
+  const defs=[
+    ['inicio','⌂','Início','Resumo e acesso'],
+    ['anuncios','▤','Anúncios','Moderação, categorias e histórico'],
+    ['marca','◈','Personalizar Classificados','Banner, textos e contatos'],
+    ['financeiro','▣','Comercial','Afiliados, planos, créditos e impulsionamentos'],
+    ['perfil','⚙','Conta e manutenção','Segurança, backup e áreas anteriores'],
+    ['ia','✦','ZixLima IA','Assistente exclusivo de programação']
+  ];
+  function init(){
+    const painel=document.getElementById('painel');
+    if(!painel||document.getElementById('zixAdminTabs'))return;
+    const cards=[...painel.children];
+    const inicio=cards.find(n=>n.classList?.contains('card') && n.querySelector('h2')?.textContent.trim()==='Administração');
+    const afil=document.getElementById('zixAfiliadosAdmin');
+    const email=document.getElementById('zixEmailAdminCard');
+    const perfil=document.getElementById('zzixbrPerfil');
+    const marca=document.getElementById('zzixbrConfig');
+    const plano=document.getElementById('zixPlanEditorCard');
+    const financeiro=document.getElementById('zixFinanceiro');
+    const backup=cards.find(n=>n.classList?.contains('card') && n.querySelector('h2')?.textContent.trim()==='Backup do código');
+    const moderation=[...document.querySelectorAll('main > .card')].find(n=>n.querySelector('h2')?.textContent.trim()==='Moderação de anúncios');
+    if(!inicio||!afil||!email||!perfil||!marca||!plano||!financeiro||!backup||!moderation){
+      console.warn('ZixLima: abas não ativadas; estrutura do ADMIN diferente do esperado.');return;
+    }
+    // Conjunto de créditos e prazos permanece no lugar original, sem alterar os handlers.
+    const finChildren=[...painel.children].slice(cards.indexOf(financeiro)+1);
+    // Mover controles GitHub/JSON para Backup preservando os mesmos elementos e ouvintes.
+    const connectionHeading=[...marca.querySelectorAll('h3')].find(e=>e.textContent.includes('Conexão GitHub'));
+    if(connectionHeading && !document.getElementById('zixGitHubBackupSection')){
+      const section=document.createElement('section');section.id='zixGitHubBackupSection';
+      section.style.cssText='padding:15px;margin:14px 0;border:1px solid #c9d8eb;border-radius:12px';
+      const items=[];let n=connectionHeading;
+      while(n && n.parentNode===connectionHeading.parentNode){
+        const next=n.nextElementSibling;items.push(n);
+        if(n.id==='zzMensagem' || (n.tagName==='P' && n.textContent.includes('backup inclui apenas')))break;
+        n=next;
+      }
+      for(const e of items)section.appendChild(e);
+      const title=backup.querySelector('h2');
+      title?.insertAdjacentElement('afterend',section);
+      const save=document.createElement('button');save.type='button';
+      save.textContent='💾 Salvar configurações no GitHub';save.className='ok';
+      const result=document.createElement('p');
+      result.id='zixBackupGithubResultado';
+      result.setAttribute('role','status');
+      result.setAttribute('aria-live','polite');
+      result.style.cssText='white-space:pre-wrap;overflow-wrap:anywhere;font-weight:600;margin:12px 0';
+      const originalResult=document.getElementById('zzMarcaMensagem');
+      if(originalResult){
+        const showResult=()=>{
+          result.textContent=originalResult.textContent||'';
+          result.style.color=originalResult.style.color||'';
+        };
+        new MutationObserver(showResult).observe(originalResult,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['style']});
+      }
+      save.addEventListener('click',()=>{
+        result.style.color='';
+        result.textContent='Solicitando envio ao GitHub...';
+        const originalButton=document.getElementById('zzSalvarMarcaGithub');
+        if(!originalButton){result.textContent='Erro: botão original de publicação não encontrado.';return;}
+        originalButton.click();
+      });
+      section.append(save,result);
+    }
+    const boostPanel=document.createElement('section');boostPanel.id='zixBoostAdminPanel';boostPanel.className='card';painel.appendChild(boostPanel);
+    const editor=document.createElement('section');editor.id='zpAdminEditor';editor.className='card';painel.appendChild(editor);
+    const previous=document.createElement('details');previous.id='zpLegacyBrand';
+    const summary=document.createElement('summary');summary.textContent='Configurações antigas (compatibilidade)';previous.append(summary);
+    const legacyStart=[...marca.children].find(n=>n.tagName==='H3'&&n.textContent.includes('Editor visual'));
+    if(legacyStart){let n=legacyStart;while(n){const next=n.nextElementSibling;previous.append(n);n=next;}marca.append(previous);}
+    const contactSave=document.createElement('button');contactSave.type='button';contactSave.textContent='Salvar contatos (token da aba Conta e manutenção)';contactSave.className='ok';
+    contactSave.onclick=()=>{const btn=document.getElementById('zzPublicar');if(btn)btn.click();};
+    const contactMsg=document.createElement('p');contactMsg.setAttribute('role','status');const oldMsg=document.getElementById('zzMensagem');if(oldMsg)new MutationObserver(()=>{contactMsg.textContent=oldMsg.textContent}).observe(oldMsg,{childList:true,subtree:true,characterData:true});
+    marca.insertBefore(contactSave,previous.parentNode===marca?previous:null);marca.insertBefore(contactMsg,previous.parentNode===marca?previous:null);
+    const mascot=document.createElement('section');mascot.className='card';mascot.id='zpAdminMascot';
+    const mh=document.createElement('h2');mh.textContent='Mascote Zix';const ml=document.createElement('a');ml.href='./mascote-admin.html';ml.textContent='Configurar mensagens e orientações';mascot.append(mh,ml);painel.append(mascot);
+    const groups={
+      inicio:[inicio], anuncios:[moderation], marca:[editor,mascot,marca],
+      financeiro:[afil,plano,financeiro,...finChildren,boostPanel],
+      perfil:[email,perfil,backup,document.getElementById('zixCuriosidadesAdmin')],
+      ia:[document.getElementById('zixIaAdmin')]
+    };
+    // IA e moderação preservadas; nenhum formulário antigo é excluído.
+    for(const key of Object.keys(groups))groups[key]=[...new Set(groups[key].filter(Boolean))];
+    const owned=new Set();for(const key of ['inicio','anuncios','marca','perfil','ia','financeiro'])groups[key]=groups[key].filter(n=>{if(owned.has(n))return false;owned.add(n);return true;});
+    // A moderação foi originalmente colocada fora de #painel. Movê-la para dentro
+    // restringe sua visibilidade à sessão autenticada e mantém seus IDs intactos.
+    painel.appendChild(moderation);
+    const nav=document.createElement('nav');nav.id='zixAdminTabs';nav.className='zix-admin-tabs';
+    nav.setAttribute('aria-label','Áreas do painel administrativo');
+    const note=document.createElement('p'); note.id='zixAdminTabsHint';note.className='zix-admin-tab-hint';
+    note.setAttribute('aria-live','polite');
+    const buttons=new Map();
+    for(const [key,icon,name,subtitle] of defs){
+      const b=document.createElement('button');b.type='button';
+      b.className='zix-admin-tab';b.dataset.tab=key;
+      b.innerHTML='<span aria-hidden="true">'+icon+'</span><span>'+name+'</span>';
+      b.setAttribute('aria-pressed','false');b.title=subtitle;
+      b.addEventListener('click',()=>activate(key,true));nav.append(b);buttons.set(key,b);
+    }
+    // Inserir navegação antes dos cards: sem recriar formulários nem remover listeners.
+    painel.insertBefore(note,inicio);
+    painel.insertBefore(nav,note);
+    const all=[...new Set(Object.values(groups).flat())];
+    for(const elem of all){elem.classList.add('zix-admin-tab-content');}
+    function activate(key,userAction=false){
+      if(!groups[key])key=({afiliados:'financeiro',planos:'financeiro',impulsionamentos:'financeiro',backup:'perfil',curiosidades:'perfil'})[key]||'inicio';
+      for(const [group,nodes] of Object.entries(groups)){
+        for(const node of nodes){node.classList.toggle('zix-admin-tab-current',group===key);}
+      }
+      for(const [tab,b] of buttons){
+        const on=tab===key;b.classList.toggle('zix-admin-tab-selected',on);
+        b.setAttribute('aria-pressed',String(on));
+        if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');
+      }
+      /* Conversor APK substitui o carregamento da antiga IA. */
+      note.textContent=defs.find(d=>d[0]===key)[3]+'. As configurações continuam sendo salvas pelos botões originais.';
+      try{sessionStorage.setItem('zix-admin-active-tab',key);}catch(e){}
+      if(userAction){nav.scrollIntoView({block:'start',behavior:'smooth'});}
+    }
+    let initial='inicio';
+    try{initial=sessionStorage.getItem('zix-admin-active-tab')||'inicio';}catch(e){}
+    activate(initial);
+    document.body.classList.add('zix-admin-tabs-ready');
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
+  else init();
+})();

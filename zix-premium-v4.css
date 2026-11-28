@@ -1,0 +1,13 @@
+/* Home only: compact cards, mascot and brand controls. */
+body.zix-premium-home #zixm-root{right:16px;bottom:72px;--zixm-bottom:72px!important;z-index:1001}
+body.zix-premium-home #zixm-root .zixm-launch{width:48px;height:48px;filter:none;box-shadow:none;background:transparent;border:0}
+body.zix-premium-home #zixm-root .zixm-launch img{width:44px;height:44px;animation:none!important;filter:none}
+body.zix-premium-home #zixm-root .zixm-label{display:none!important}
+body.zix-premium-home #zixm-root .zixm-panel{bottom:56px;max-height:calc(100dvh - 150px);width:min(360px,calc(100vw - 32px));border-radius:12px;box-shadow:0 5px 24px #0003}
+body.zix-premium-home #zzixbrWhats{width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;bottom:16px!important;right:16px!important;background:#08783e!important;border:none!important;box-shadow:none!important;filter:none!important;animation:none!important;transform:none!important}
+body.zix-premium-home #zzixbrWhats svg{width:26px!important;height:26px!important;filter:none!important}
+body.zix-premium-home #zzixbrWhats::before,body.zix-premium-home #zzixbrWhats::after{content:none!important;display:none!important}
+#listing .cardbody{display:flex;flex-direction:column}#listing .cardbody h3{order:-2}#listing .cardbody .price{order:-1}#listing .cardbody .status{display:none}#listing .chip{align-self:flex-start;line-height:1.3}#listing .card{box-shadow:0 2px 6px #00152c08}
+body.zix-premium-home .hero{background-image:var(--zp-custom-banner,url('./assets/zixlima-identidade/premium-banner-v3.webp'))}
+body.zix-premium-home .hero:before{background:linear-gradient(90deg,#071e41 0%,#071e41 35%,#071e41d9 48%,transparent 87%)}
+@media(max-width:650px){body.zix-premium-home #zixm-root .zixm-panel{height:min(500px,calc(100dvh - 155px));min-height:180px}body.zix-premium-home .hero:before{background:linear-gradient(90deg,#071e41ee,#071e4180)}}

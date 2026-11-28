@@ -4,6 +4,16 @@ const $=id=>document.getElementById(id);
 const cats=[['carros','🚗','Carros'],['motos','🏍️','Motos'],['caminhoes','🚚','Caminhões'],['pecas','🔧','Peças e acessórios'],['eletronicos','📱','Eletrônicos'],['imoveis','🏠','Imóveis'],['alugueis','🏘️','Aluguéis'],['casa','🛋️','Casa e móveis'],['servicos','🧰','Serviços'],['outros','📦','Outros']];
 const label=Object.fromEntries(cats.map(x=>[x[0],x[2]]));
 const icon=Object.fromEntries(cats.map(x=>[x[0],x[1]]));
+// Existing listing.category remains the authoritative category. No DB writes or migration.
+const zpAliases={
+ 'Casas':['casa','sobrado'], 'Apartamentos':['apartamento','apto'], 'Terrenos e lotes':['terreno','lote'], 'Imóveis comerciais':['sala comercial','galpão','loja comercial'], 'Chácaras e fazendas':['chácara','fazenda','sítio'],
+ 'Celulares e smartphones':['celular','smartphone','iphone','galaxy'], 'Acessórios para celulares':['carregador','cabo usb','capa de celular','película'], 'TV e vídeo':['televisão','smart tv','televisor'], 'Áudio e som':['caixa de som','soundbar','fone de ouvido','alto falante'], 'Câmeras e drones':['câmera','drone'], 'Relógios inteligentes':['smartwatch','relógio inteligente'], 'Notebooks':['notebook','laptop','macbook'], 'Computadores':['computador','desktop'], 'Monitores':['monitor'], 'Periféricos':['teclado','mouse','webcam'], 'Redes e roteadores':['roteador','switch de rede'], 'Hardware':['placa mãe','processador','placa de vídeo','memória ram','ssd'], 'Games e consoles':['playstation','xbox','nintendo','console'], 'Impressoras':['impressora'],
+ 'Móveis':['sofá','mesa de jantar','guarda roupa','cômoda','cadeira','armário','cama'], 'Eletrodomésticos':['geladeira','fogão','microondas','máquina de lavar','freezer'], 'Decoração':['quadro decorativo','tapete','vaso decorativo'], 'Jardinagem':['cortador de grama','jardinagem'], 'Iluminação':['luminária','lustre'], 'Assistência técnica':['assistência técnica','conserto de celular','conserto de computador'], 'Reformas e manutenção':['reforma','pintor','eletricista','encanador'], 'Transporte e frete':['frete','mudança'], 'Serviços digitais':['criação de site','desenvolvimento web'], 'Vagas de emprego':['vaga de emprego','contrata se'], 'Estágios':['estágio'], 'Bicicletas':['bicicleta'], 'Perfumes':['perfume','colônia'], 'Roupas':['vestido','camiseta','calça'], 'Calçados':['sapato','tênis','sandália'], 'Ferramentas':['furadeira','parafusadeira','serra elétrica'], 'Livros e revistas':['livro','revista'], 'Instrumentos musicais':['violão','guitarra','piano'], 'Acessórios para pets':['coleira','cama para cachorro'], 'Alimentos para pets':['ração'], 'Brinquedos':['brinquedo','boneca'], 'Pneus e rodas':['pneu','roda de liga'], 'Som automotivo':['som automotivo'], 'Barcos e náutica':['barco','lancha'], 'Ônibus e vans':['ônibus','micro ônibus','van'], 'Temporada':['temporada']
+};
+const zpNorm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+function zpTerms(sub){return [...new Set([sub,...(zpAliases[sub]||[])])].map(v=>v.replace(/[^\p{L}\p{N}\s-]/gu,'').trim()).filter(Boolean);}
+function zpAdCategory(x){const original=label[x.category]||'Outros';const choices=grupos.flatMap(g=>g[3]).filter(([key])=>key===x.category).map(([,name])=>name);const explicit=String(x.description||'').match(/^SUBCATEGORIA:\s*([^\r\n]+)/im)?.[1]?.trim();if(explicit&&choices.includes(explicit))return original+' · '+explicit;const title=zpNorm(x.title);const found=choices.filter(sub=>(zpAliases[sub]||[]).some(term=>title.includes(zpNorm(term))));return found.length===1?original+' · '+found[0]:original;}
+
 const money=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const priceText=x=>
   x.category==='servicos' && Number(x.price)===0
@@ -213,7 +223,7 @@ function card(x,isMine=false){
   if(url){const img=el('img','cover');img.src=url;img.alt='Foto do anúncio';img.loading='lazy';c.append(img)}
   else c.append(el('div','placeholder',icon[x.category]||'📦'));
   const body=el('div','cardbody');
-  body.append(el('p','status','Código: '+(x.zix_code||x.id)),el('div','price',priceText(x)),el('h3','',x.title),el('p','muted',`${x.city} - ${x.state}`),el('span','chip',label[x.category]||'Outros'));
+  body.append(el('p','status','Código: '+(x.zix_code||x.id)),el('div','price',priceText(x)),el('h3','',x.title),el('p','muted',`${x.city} - ${x.state}`),el('span','chip',zpAdCategory(x)));
   if(isMine){
     const expired=x.zix_expires_at&&new Date(x.zix_expires_at).getTime()<=Date.now();
     body.append(el('p','status',expired?'Prazo vencido':x.status==='approved'?'Publicado':x.status==='pending'?'Aguardando aprovação':'Rejeitado'));
@@ -225,12 +235,12 @@ function card(x,isMine=false){
     const aviso=el('p','zix-edit-aviso','Ao editar, volta para aprovação.');
     body.append(aviso,del,edit);
   }
-  if(zixIsPublished(x))body.append(zixShareControls(x));
+  if(isMine&&zixIsPublished(x))body.append(zixShareControls(x));
   else if(isMine)body.append(el('p','zix-share-pending','🔒 Link disponível após aprovação e enquanto o anúncio estiver ativo.'));
   c.append(body);c.onclick=()=>showDetail(x);return c;
 }
 
-async function load(append=false){const area=$('listing');if(!append){page=0;area.replaceChildren()}if(!db){msg('Conexão com Supabase indisponível. Verifique a internet e o arquivo config.js.');area.append(el('div','empty','Não foi possível carregar os anúncios.'));return}try{let q=db.from('listings').select('*').eq('status','approved').or('zix_expires_at.is.null,zix_expires_at.gt.'+new Date().toISOString());const term=$('term').value.trim().replace(/[%_,()]/g,''),city=$('city').value.trim().replace(/[%_,()]/g,'');if(term)q=q.ilike('title',`%${term}%`);if(city)q=q.ilike('city',`%${city}%`);if(cat)q=q.eq('category',cat);if(zpMin.value!==''&&Number.isFinite(Number(zpMin.value)))q=q.gte('price',Number(zpMin.value));if(zpMax.value!==''&&Number.isFinite(Number(zpMax.value)))q=q.lte('price',Number(zpMax.value));if(zpSub){const sf=zpSub.replace(/[%_,()]/g,'');q=q.or('title.ilike.%'+sf+'%,description.ilike.%SUBCATEGORIA: '+sf+'%');}if(cat==='alugueis'&&$('rentalKindFilter')?.value)q=q.ilike('description','TIPO DE ALUGUEL: '+$('rentalKindFilter').value+'%');const sort=$('sort').value;q=q.order(sort==='new'?'created_at':'price',{ascending:sort==='low'}).range(page*PAGE,page*PAGE+PAGE);const {data,error}=await q;if(error)throw error;msg('');more=data.length>PAGE;data.slice(0,PAGE).filter((x,i,arr)=>arr.findIndex(y=>y.id===x.id)===i).forEach(x=>area.append(card(x)));if(!area.children.length)area.append(el('div','empty','Nenhum anúncio aprovado encontrado.'));$('moreBtn').hidden=!more}catch(e){msg('Erro ao carregar anúncios: '+e.message);$('moreBtn').hidden=true}}
+async function load(append=false){const area=$('listing');if(!append){page=0;area.replaceChildren()}if(!db){msg('Conexão com Supabase indisponível. Verifique a internet e o arquivo config.js.');area.append(el('div','empty','Não foi possível carregar os anúncios.'));return}try{let q=db.from('listings').select('*').eq('status','approved').or('zix_expires_at.is.null,zix_expires_at.gt.'+new Date().toISOString());const term=$('term').value.trim().replace(/[%_,()]/g,''),city=$('city').value.trim().replace(/[%_,()]/g,'');if(term)q=q.ilike('title',`%${term}%`);if(city)q=q.ilike('city',`%${city}%`);if(cat)q=q.eq('category',cat);if(zpMin.value!==''&&Number.isFinite(Number(zpMin.value)))q=q.gte('price',Number(zpMin.value));if(zpMax.value!==''&&Number.isFinite(Number(zpMax.value)))q=q.lte('price',Number(zpMax.value));if(zpSub){const sf=zpSub.replace(/[%_,().]/g,'');const terms=zpTerms(zpSub);const legacy=terms.map(v=>'title.ilike.%'+v+'%').join(',');q=q.or('description.ilike.%SUBCATEGORIA: '+sf+'%'+(legacy?',and(description.not.ilike.%SUBCATEGORIA:%,or('+legacy+'))':''));}if(cat==='alugueis'&&$('rentalKindFilter')?.value)q=q.ilike('description','TIPO DE ALUGUEL: '+$('rentalKindFilter').value+'%');const sort=$('sort').value;q=q.order(sort==='new'?'created_at':'price',{ascending:sort==='low'}).range(page*PAGE,page*PAGE+PAGE);const {data,error}=await q;if(error)throw error;msg('');more=data.length>PAGE;data.slice(0,PAGE).filter((x,i,arr)=>arr.findIndex(y=>y.id===x.id)===i).forEach(x=>area.append(card(x)));if(!area.children.length)area.append(el('div','empty','Nenhum anúncio aprovado encontrado.'));$('moreBtn').hidden=!more}catch(e){msg('Erro ao carregar anúncios: '+e.message);$('moreBtn').hidden=true}}
 async function mine(){const area=$('myListing');area.replaceChildren();$('mineHint').textContent=user?'Seus anúncios e seus respectivos status.':'Entre na sua conta para gerenciar seus anúncios.';if(!user||!db)return;const {data,error}=await db.from('listings').select('*').eq('user_id',user.id).order('created_at',{ascending:false});if(error){$('mineHint').textContent=error.message;return}(data||[]).forEach(x=>area.append(card(x,true)))}
 function authUI(){ $('loginBtn').textContent=user?'Sair':'Entrar';mine() }
 $('categories').replaceChildren(...cats.map(([key,emoji,name])=>{const b=el('button','category');b.type='button';b.append(el('b','',emoji),document.createTextNode(name));b.onclick=()=>{zpSub='';cat=cat===key?'':key;document.querySelectorAll('.category').forEach(n=>n.classList.remove('active'));if(cat)b.classList.add('active');$('rentalFilter').hidden=cat!=='alugueis';$('rentalKindFilter').value='';load();$('anuncios').scrollIntoView({behavior:'smooth'})};return b}));
@@ -242,7 +252,7 @@ zpRoot.innerHTML='<div id="zpQuick"></div><section id="zpMenu" hidden><h2>Todas 
 $('categories').before(zpRoot);
 const zpQuick=$('zpQuick'),zpMenu=$('zpMenu'),zpGrid=$('zpMenuGrid');
 function zpSelect(base,sub='',name='Todos os anúncios',btn=null){
- cat=base;zpSub=sub;
+ cat=base;zpSub=sub;const side=$('zpFilterCategory');if(side)side.value=base;
  document.querySelectorAll('#zpCategories button[aria-pressed]').forEach(x=>x.setAttribute('aria-pressed',String(x===btn)));
  $('rentalFilter').hidden=base!=='alugueis';$('rentalKindFilter').value='';
  $('zpFilterStatus').textContent=base?'Categoria: '+name:'';
@@ -257,7 +267,7 @@ for(const [name,base,icon,items] of grupos){
  for(const [key,sub] of items){const b=zpButton(sub,null,()=>zpSelect(key,['Carros','Motos','Caminhões','Peças e acessórios','Aluguéis'].includes(sub)?'':sub,sub,b));b.setAttribute('aria-pressed','false');sec.append(b);}
  zpGrid.append(sec);
 }
-for(const [name,base,icon] of grupos.slice(0,6)){
+for(const [name,base,icon] of grupos.filter(g=>['Veículos','Imóveis','Celulares e eletrônicos','Casa e jardim','Serviços','Empregos','Pets','Informática e games','Outros produtos'].includes(g[0])).sort((x,y)=>['Veículos','Imóveis','Celulares e eletrônicos','Casa e jardim','Serviços','Empregos','Pets','Informática e games','Outros produtos'].indexOf(x[0])-['Veículos','Imóveis','Celulares e eletrônicos','Casa e jardim','Serviços','Empregos','Pets','Informática e games','Outros produtos'].indexOf(y[0]))){
  const b=zpButton(name,icon,()=>{zpMenu.hidden=false;$('zpAll').setAttribute('aria-expanded','true');const heading=[...zpGrid.querySelectorAll('h3')].find(x=>x.textContent===name);heading?.scrollIntoView({block:'nearest'});});zpQuick.append(b);
 }
 const zpAll=zpButton('Todas as categorias','▦',()=>{zpMenu.hidden=!zpMenu.hidden;zpAll.setAttribute('aria-expanded',String(!zpMenu.hidden));});zpAll.id='zpAll';zpAll.setAttribute('aria-expanded','false');zpAll.setAttribute('aria-controls','zpMenu');zpQuick.append(zpAll);
@@ -269,8 +279,18 @@ $('postCategory').addEventListener('change',zpSyncSub);$('postForm').addEventLis
 // Filtros recolhidos por padrão, sem duplicar a busca de cidade.
 const zpFilters=el('details');zpFilters.id='zpPriceFilters';
 zpFilters.innerHTML='<summary>Filtros de preço</summary><div><label>Preço mínimo (R$)<input type="number" min="0" step="0.01" id="zpMinPrice" placeholder="0"></label><label>Preço máximo (R$)<input type="number" min="0" step="0.01" id="zpMaxPrice" placeholder="Sem limite"></label><button type="button" id="zpApplyPrice">Aplicar</button><button type="button" id="zpClearPrice">Limpar</button></div><p id="zpPriceError" role="status"></p>';
-zpRoot.after(zpFilters);
+$('zpSidebarControls').append(zpFilters);
 const zpMin=$('zpMinPrice'),zpMax=$('zpMaxPrice');
+const zpCity=el('input');zpCity.id='zpFilterCity';zpCity.placeholder='Todas as cidades';zpCity.setAttribute('aria-label','Filtrar por cidade');zpCity.value=$('city').value;
+const zpCityLabel=el('label','zpField','Localização');zpCityLabel.append(zpCity);
+const zpCatSelect=el('select');zpCatSelect.id='zpFilterCategory';zpCatSelect.setAttribute('aria-label','Categoria');zpCatSelect.add(new Option('Todas as categorias',''));for(const [k,,n] of cats)zpCatSelect.add(new Option(n,k));
+const zpCatLabel=el('label','zpField','Categoria');zpCatLabel.append(zpCatSelect);
+$('zpSidebarControls').prepend(zpCityLabel,zpCatLabel);
+zpCity.addEventListener('input',()=>{$('city').value=zpCity.value});$('city').addEventListener('input',()=>{zpCity.value=$('city').value});
+zpCatSelect.onchange=()=>zpSelect(zpCatSelect.value,'',zpCatSelect.selectedOptions[0].textContent);
+$('zpClearAll').onclick=()=>{zpMin.value='';zpMax.value='';$('term').value='';$('city').value='';zpCity.value='';zpCatSelect.value='';$('zpPriceError').textContent='';zpSelect('');};
+zpFilters.open=true;
+
 $('zpApplyPrice').onclick=()=>{if(!zpMin.checkValidity()||!zpMax.checkValidity()||(zpMin.value!==''&&zpMax.value!==''&&Number(zpMin.value)>Number(zpMax.value))){$('zpPriceError').textContent='Confira os valores mínimo e máximo.';return;}$('zpPriceError').textContent='';$('searchForm').requestSubmit();};
 $('zpClearPrice').onclick=()=>{zpMin.value='';zpMax.value='';$('zpPriceError').textContent='';$('searchForm').requestSubmit();};
 
